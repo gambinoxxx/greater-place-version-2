@@ -18,7 +18,7 @@ This roadmap governs implementation order. Read `docs/ai-workflow-rules.md`, `do
 - `@mui/material-nextjs` 9.4.0 for Next.js App Router integration
 - Prisma 5.22.0
 - Neon serverless Postgres client
-- Firebase 12.7.0 with role still TBD
+- Firebase 12.7.0 with role still TBD (resolved in Phase 10: not used, removed; Clerk handles authentication)
 - ImageKit packages: `@imagekit/nodejs` and `@imagekit/javascript`
 - nextjs-progressbar
 - react-multi-carousel
@@ -140,18 +140,35 @@ Maintain the approved dark → light → dark section rhythm. Every CTA must be 
 ## Phase 9 — Images
 
 - `lib/imagekit.js`: server SDK singleton using `@imagekit/nodejs` (lazy; the only reader of the private key) and `createUploadAuth()`
-- `GET /api/imagekit-auth`: returns `{ data: { token, expire, signature, publicKey }, error: null }` (503 while unconfigured). **Not authenticated yet: Phase 10/11 must make it admin-only before any ImageKit key is set in a deployed environment**
+- `GET /api/imagekit-auth`: returns `{ data: { token, expire, signature, publicKey }, error: null }` (503 while unconfigured). Admin-only since Phase 10: `proxy.js` gates it (401/403 JSON)
 - `components/useImageUpload.js`: reusable client upload hook (button or dropzone UIs; progress, cancel, validation) for the Phase 11 Post Editor and Media Library
 - `lib/image-url.js` and `components/ImageKitImage.jsx`: responsive, auto-format rendering of stored URLs, used by every card, the homepage team tile, the blog cover, and Markdown body images
 - Store ImageKit URLs, not image binaries: the existing image fields are unchanged (no migration)
 - Replace gradient placeholders incrementally when approved photos/assets are available (still open: no real assets exist yet)
 - Not done: a real upload against a live ImageKit account (no credentials yet); `/admin/**` UI (Phase 11)
 
-## Phase 10 — Auth / Firebase
+## Phase 10 — Auth (Clerk)
 
-Blocked until the Firebase role is explicitly confirmed: Auth, Firestore, Storage, or a defined combination.
+- Firebase removed: `firebase` had been installed in Phase 0 with its role TBD and was never imported, so removal was clean (its 78-package tree left the lockfile). The decision is Clerk, not Firebase
+- `@clerk/nextjs` added. It requires `react` / `react-dom` 19.2.3 or newer (Clerk 7 excludes 19.2.0–19.2.2), so both were bumped to 19.2.8 within the existing `^19.2.0` range (lockfile only)
+- `proxy.js` (Next 16's renamed `middleware.js`) gates `/admin/**`, `/api/admin/**` (reserved for Phase 11), and `/api/imagekit-auth` (closing the Phase 9 gap). It runs on no other path, so the public site never touches Clerk
+- Access needs Clerk sign-in AND an email allowlist: the account's verified primary email must exactly match an entry of `ADMIN_ALLOWED_EMAILS`. Pages send signed-out visitors to `/sign-in` and signed-in-but-not-allowlisted ones to `/not-authorized`; APIs answer 401/403 JSON; missing Clerk keys or an empty allowlist answer 503 (fails closed)
+- `lib/admin-access.js` (pure allowlist logic) and `lib/admin-auth.js` (`getAdminSession()`, a server-side re-check for Phase 11 pages, Route Handlers, and Server Actions)
+- `/sign-in/[[...sign-in]]`: Clerk `<SignIn />` restyled through `lib/clerk-appearance.js` (built from the Tailwind brand tokens); signing in returns to `/admin`, signing out returns to `/`; `/not-authorized` (outside `/admin`) with a sign-out button
+- `<ClerkProvider>` wraps the root layout only when both Clerk keys are set, so the site and `next build` still work with no Clerk configuration
+- No `/admin` page exists until Phase 11, so a successful sign-in currently lands on a 404 at `/admin`
 
-## Phase 11 — QA
+## Phase 11 — Admin CMS
+
+Depends on Phase 9 (ImageKit) and Phase 10 (Clerk + allowlist).
+
+- `/admin`: dashboard
+- `/admin/posts`: list, create, edit, and delete, backed by the Prisma `Post` model (cover images through `components/useImageUpload.js`)
+- `/admin/media`: ImageKit-backed media library
+- Everything is protected by Phase 10's `proxy.js`; Route Handlers and Server Actions also re-check with `getAdminSession()` and keep admin APIs under `/api/admin/**`
+- Mockups also exist for `/admin/contact`, `/admin/events`, and `/admin/programs`; whether they belong in this phase is decided in the Phase 11 prompt
+
+## Phase 12 — QA
 
 - Production build passes
 - No broken internal links
@@ -163,11 +180,11 @@ Blocked until the Firebase role is explicitly confirmed: Auth, Firestore, Storag
 
 ## Open decisions
 
-1. Firebase role
-2. Donate / Partner / Volunteer destinations
-3. Newsletter scope
-4. Neon migration connection strategy / `directUrl`
-5. Prisma Neon driver-adapter strategy, to be revisited before `lib/prisma.js` if needed
-6. Authentication for `/api/imagekit-auth` (currently open to anyone who can reach it): add the admin check in Phase 10/11 before any `IMAGEKIT_*` key is set in a deployed environment
+1. Donate / Partner / Volunteer destinations
+2. Newsletter scope
+3. Neon migration connection strategy / `directUrl`
+4. Prisma Neon driver-adapter strategy, to be revisited before `lib/prisma.js` if needed
+5. Admin email allowlist: configured through `ADMIN_ALLOWED_EMAILS` (comma-separated, exact match on the verified primary email); the owner supplies the real addresses
+6. Clerk dashboard hardening (owner action): use a development instance locally; consider disabling open sign-up, since `/admin` access is decided by the allowlist and not by having a Clerk account
 
 Next.js version is no longer an open decision for this V2 restart: the project baseline is Next.js 16.3.3 / React 19.2.0.

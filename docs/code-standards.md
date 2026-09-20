@@ -68,20 +68,23 @@
 - Keep server credentials and signing logic server-side: only `lib/imagekit.js` reads `IMAGEKIT_PRIVATE_KEY`, and it is never imported from a client component. Delivery helpers that need no secret live in `lib/image-url.js`.
 - Store only ImageKit file IDs/URLs in Postgres. The convention is the delivered `url` returned by an upload.
 - Render stored image URLs with `components/ImageKitImage.jsx` (pass a `sizes` hint), not a raw `<img>`. Gate with `isImageUrl()` and show a placeholder otherwise. Do not use ImageKit for the site's own design assets.
-- Upload from the browser with `components/useImageUpload.js`; do not write a second upload path. Any route that hands out an upload signature must be admin-only once auth exists.
+- Upload from the browser with `components/useImageUpload.js`; do not write a second upload path. Any route that hands out an upload signature must be admin-only (`/api/imagekit-auth` is listed in `proxy.js`'s matcher).
 - The SDK's `getAuthenticationParameters` treats `expire` as an absolute Unix time (its JSDoc says "seconds from now"); keep passing an absolute time.
 
-## Firebase
+## Authentication (Clerk)
 
-- Firebase is intentionally unscoped until its exact role is confirmed.
-- Do not assume Firebase Auth, Firestore, or Storage responsibilities.
-- Do not add auth/user models to Prisma based only on the existence of Firebase dependencies.
+- Clerk authenticates; the email allowlist (`ADMIN_ALLOWED_EMAILS`, evaluated in `lib/admin-access.js`) authorizes. Being signed in is never enough for admin access.
+- `proxy.js` is Next 16's `proxy` (the deprecated `middleware.js`). It runs only on the protected paths in its matcher; never make it match the public site.
+- New admin pages, Route Handlers, and Server Actions re-check with `getAdminSession()` (`lib/admin-auth.js`) and keep admin APIs under `/api/admin/**` so the matcher covers them. Return JSON 401/403 from APIs, never redirects.
+- Fail closed: missing keys, an empty allowlist, or a failed user lookup deny.
+- Do not add auth or user models to Prisma; Clerk owns identity. Firebase is not used.
+- Set the Clerk keys before `next build` (the publishable key is inlined). Never hardcode keys or allowlist addresses.
 
 ## Components
 
 Shared components should be reusable and props-driven.
 
-`components/` must not directly query Prisma or Firebase.
+`components/` must not directly query Prisma. Clerk server APIs (`auth()`, `currentUser()`) belong in `proxy.js` and `lib/admin-auth.js`, not in shared components.
 
 Keep route-specific data and composition in the route.
 

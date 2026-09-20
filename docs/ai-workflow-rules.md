@@ -59,7 +59,7 @@ Prisma is the structured content source of truth. Do not introduce a second cont
 Secrets must never be committed. Use .env.local for local secrets and .env.example for documented variable names and safe placeholders. Never place API keys, database credentials, private tokens, or service-account secrets directly in source files.
 
 ## 13. Authentication
-Firebase/authentication remains a later implementation area until its exact role is confirmed. Do not invent authentication requirements or prematurely couple unrelated pages to unresolved auth architecture.
+Authentication is Clerk, and admin authorization is an email allowlist (`ADMIN_ALLOWED_EMAILS`); see `architecture.md`. Firebase is not used. Do not add another auth provider, Prisma user/auth models, or a second way into `/admin` without an explicit architectural decision, and do not couple public pages to authentication.
 
 ## 14. Next.js Rules
 Use App Router conventions. Prefer Server Components by default, Client Components only when interactivity/browser APIs require them, route handlers for server-side API behavior, and clear server/client boundaries. Keep client boundaries as small as practical.
@@ -117,3 +117,18 @@ At the end of an implementation unit, report:
 - next logical implementation unit
 
 Do not claim completion for work that was not actually implemented or verified.
+
+## 24. Security-Sensitive Files
+An authorization mistake in these places is a real security bug, not a style nit. Treat them as protected: change them only when the task is specifically about access control, and re-run the access checks below afterwards.
+
+- `proxy.js` (the gate in front of `/admin/**`, `/api/admin/**`, and `/api/imagekit-auth`)
+- `lib/admin-access.js` and `lib/admin-auth.js` (allowlist decision and server-side re-check)
+- everything under `app/admin/**` and `app/api/admin/**` (Phase 11)
+- `app/api/imagekit-auth/route.js` and `lib/imagekit.js` (upload signing and the ImageKit private key)
+- `.env*` files and anything that reads `CLERK_SECRET_KEY`, `IMAGEKIT_PRIVATE_KEY`, or `ADMIN_ALLOWED_EMAILS`
+
+Rules:
+- Never widen the matcher's exclusions, remove `/api/imagekit-auth` from it, or add a code path that lets a request skip the allowlist. Fail closed: missing config, an empty allowlist, or a failed lookup must deny, never admit.
+- Every new admin page, Route Handler, or Server Action re-checks with `getAdminSession()`; do not rely on `proxy.js` alone.
+- Never return or log secrets, session tokens, the allowlist, or a user's email in responses or server logs (log a coarse error class only).
+- Any change here needs a test for each of: signed out, signed in but not on the allowlist, and on the allowlist, plus the unconfigured case.

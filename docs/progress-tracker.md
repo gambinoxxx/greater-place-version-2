@@ -5,6 +5,7 @@ change.
 
 ## Current Phase
 
+- Phase 10 — Auth (Clerk): built and verified with fake keys and logic tests; REAL sign-in is not verified yet (needs Clerk development keys in `.env`).
 - Phase 9 — Images (ImageKit): complete.
 - Phase 8 — Our Story & Team: complete.
 - Phase 7 — Contact: complete.
@@ -17,9 +18,9 @@ change.
 
 ## Current Goal
 
-- Phase 10 — Auth. The recent phase prompts describe Phases 10–11 as Clerk auth and an Admin CMS (Phase 11's Media Library consumes the Phase 9 upload hook), while `docs/implementation-roadmap.md` still lists Phase 10 as Auth / Firebase and Phase 11 as QA. Reconcile the roadmap before starting.
-- Phase 10/11 must-do from Phase 9: make `GET /api/imagekit-auth` admin-only (it is currently open to anyone). Do not set `IMAGEKIT_PRIVATE_KEY` in any deployed environment before that.
-- Alongside: add real content to Neon (events, team, and real blog posts to replace the placeholders), set `WHATSAPP_NUMBER` and `CONTACT_EMAIL`, and (locally only, until auth exists) create an ImageKit account and fill `IMAGEKIT_PUBLIC_KEY` / `IMAGEKIT_PRIVATE_KEY` / `IMAGEKIT_URL_ENDPOINT`. `/our-story` and the homepage team section stay empty until `TeamMember` rows exist.
+- Finish Phase 10 verification: add a Clerk DEVELOPMENT instance's `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` and `CLERK_SECRET_KEY` plus `ADMIN_ALLOWED_EMAILS` to `.env` (locally), then run the real end-to-end check (sign in with an allowlisted throwaway test user, a signed-in user who is not on the list, sign out, the sign-in page's appearance). The owner approved creating and then deleting throwaway `+clerk_test` users in that dev instance.
+- Then Phase 11 — Admin CMS (`/admin` dashboard, `/admin/posts`, `/admin/media`; mockups exist in `docs/design-references/`). Sign-in currently lands on a 404 at `/admin` because no admin page exists yet.
+- Alongside: add real content to Neon (events, team, and real blog posts to replace the placeholders), set `WHATSAPP_NUMBER` and `CONTACT_EMAIL`, and (locally) create an ImageKit account and fill the `IMAGEKIT_*` variables. `/our-story` and the homepage team section stay empty until `TeamMember` rows exist.
 
 ## Completed
 
@@ -93,19 +94,27 @@ change.
 - Phase 9 verification — production build in headless Chrome against a local fake ImageKit (an HTTPS upload host mapped over `upload.imagekit.io` that validates the HMAC signature, expiry, and token reuse, plus an image host that logs requested transformations), fake keys, and a temporary Neon schema on the direct endpoint (dropped; the real tables stayed at Program 3, Class 4, Event 0, Post 4, TeamMember 0, ContactSubmission 0; the 15 fresh pooled connections report the default `search_path`). Results: 39 URL-gating checks (lookalike hosts, userinfo trick, `..` traversal, pre-transformed URLs); 19 auth-route checks (signature equals an independently computed HMAC, `expire` about ten minutes ahead, fresh token every call, no-store, 405s, private key absent from all client build files and the server SDK not bundled into client code, 503 with no config leakage when unset); 169 rendering checks across `/programs`, `/classes`, `/events`, `/`, `/blog`, `/blog/[slug]`, `/our-story` at 1280 and 390px plus a 2x-DPR phone (the browser requested transformed URLs, chose wider candidates at 2x, images fill their boxes, no overflow, no console errors); 51 upload checks (real file input, synthetic drop, validation, 400/500/network/auth failures, cancel, unmount, double call, a throttled 8 MB upload with steady progress). A real upload to a real ImageKit account has NOT been performed. `npm run build` passes.
 - Phase 9, bugs found by testing and fixed: the network-error check used `error.constructor.name`, which the production minifier mangles (it only failed in the built app), so it now uses `instanceof ImageKitUploadNetworkError`.
 
+- Phase 10, Firebase removed: `firebase` (installed in Phase 0, role TBD) was imported nowhere in code, only listed in `package.json` and mentioned in docs, so `npm uninstall firebase` was clean (78 packages left the lockfile, none left in `node_modules`). The decision is Clerk.
+- Phase 10, dependencies (owner-approved): `@clerk/nextjs` 7.9.4 added (8 packages: `@clerk/backend`, `@clerk/react`, `@clerk/shared`, `@tanstack/query-core`, `glob-to-regexp`, `js-cookie`, `server-only`). Every current Clerk release requires `react ~19.2.3+` (it excludes 19.2.0–19.2.2), so `react` and `react-dom` were bumped 19.2.0 to 19.2.8 with the `package.json` ranges left at `^19.2.0` (lockfile only; nothing else in the lockfile moved). Note: `npm update` had first jumped to React 19.3.0 (allowed by the caret range); that was reverted to 19.2.8. The only audit finding is still the old `postcss` advisory.
+- Phase 10, the gate: `proxy.js` at the repo root (Next 16 renamed `middleware.js` to `proxy.js`; the old name is deprecated per the bundled Next docs) with matcher `/admin/:path*`, `/api/admin/:path*` (reserved for Phase 11), and `/api/imagekit-auth` (owner-approved; closes the Phase 9 gap). It runs on no other path. Admitted only with Clerk configured, a non-empty allowlist, a Clerk session, and a verified primary email exactly on `ADMIN_ALLOWED_EMAILS`. Pages: signed out to `/sign-in`, not allowlisted to `/not-authorized`. APIs: JSON 401 or 403, never a redirect. Missing keys or an empty allowlist: 503 (fails closed). `Cache-Control: private, no-store` on protected responses.
+- Phase 10, allowlist and helpers: `lib/admin-access.js` (pure: `parseAllowlist`, `isClerkConfigured`, `pickVerifiedPrimaryEmail`, `decideAdminAccess`; no wildcards or domain rules; malformed entries dropped) and `lib/admin-auth.js` (`getAdminSession()`, a server-side re-check for Phase 11). The email is read from Clerk's Backend API on each protected request because the session token does not carry it.
+- Phase 10, UI: `<ClerkProvider signInUrl="/sign-in" signInFallbackRedirectUrl="/admin" afterSignOutUrl="/">` wraps the root layout only when both Clerk keys are set (so the site and `next build` work with none). `app/sign-in/[[...sign-in]]/page.js` renders Clerk's `<SignIn />` themed by `lib/clerk-appearance.js` (colours from the Tailwind brand tokens; dark card, Fraunces heading, red primary button, square corners, sign-up link hidden). `app/not-authorized/page.js` (outside `/admin`) plus `components/AdminSignOutButton.jsx`. `.env.example` gained `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`, `CLERK_SECRET_KEY`, `ADMIN_ALLOWED_EMAILS`. No `/admin` page, no Prisma change, no ImageKit logic change (only the route's comment).
+- Phase 10, docs: `implementation-roadmap.md` (Phase 10 rewritten as Auth (Clerk), Phase 11 Admin CMS inserted, QA renumbered to Phase 12, open decisions updated), `architecture.md` (auth section), `project-overview.md` (stack and Admin CMS scope), `ai-workflow-rules.md` (rule 13 rewritten, new rule 24 listing security-sensitive files), `code-standards.md` (Firebase section replaced by Authentication (Clerk)).
+- Phase 10 verification — production build and `next start`, WITHOUT real Clerk keys: 52 allowlist logic checks (including a 2,000-case fuzz that nothing outside the list is ever admitted); unconfigured (no keys): build passes with no warnings, 60 checks (public routes untouched with no Clerk script or cookie, `/admin` and admin APIs answer 503, 15 URL-variant and 7 spoofed-header bypass attempts including `x-middleware-subrequest`, `/sign-in` and `/not-authorized` render safely); configured with obviously FAKE but well-formed keys (nonexistent instance): build passes and static pages stay static, 45 checks (signed-out pages get Clerk's handshake redirect, admin APIs get JSON 401, forged, unsigned, expired, and wrong-key JWTs and garbage cookies are all rejected, bypass variants and spoofed headers still gated, no secret or allowlist address in any response); `getAdminSession()` fail-closed branches (no keys, empty or garbage allowlist) and the throw when called outside the matcher. Scratch route deleted; `npm run build` passes.
+- Phase 10 NOT verified: a real Clerk sign-in (no keys yet); the sign-in page's real appearance (Clerk's form only renders once `clerk-js` loads from a real instance); the sign-in to `/admin` redirect; the allowlisted / not-allowlisted outcome with real accounts; sign-out to `/`; the Backend API email lookup; `getAdminSession()` on an allowed request.
+
 ## In Progress
 
 - Nothing.
 
 ## Next Up
 
-- Phase 10 — auth (the roadmap says Firebase; the owner's prompts say Clerk): must also protect `/api/imagekit-auth`. An admin surface for reading `ContactSubmission` rows and managing `TeamMember` belongs here or later.
-- Phase 11 — Admin CMS or QA (see the roadmap mismatch under Current Goal). The Media Library and Post Editor consume `useImageUpload`.
+- Phase 10 real-key verification (see Current Goal), then Phase 11 — Admin CMS.
+- Phase 12 — QA (renumbered from the old Phase 11).
 - Replace the gradient placeholders with real photography as approved assets arrive (the rendering pipeline is ready).
 
 ## Open Questions
 
-- Firebase role (Auth / Firestore / Storage / combination). Blocks Phase 10.
 - Neon `directUrl`: the initial migration applied without one. Revisit only if pooled-connection migration problems appear.
 - Prisma Neon driver-adapter strategy — revisit before `lib/prisma.js`.
 - Confirm the minimal field sets for `Program`, `Class`, `Event`, `TeamMember`, and `ContactSubmission` (only `Post` was specified in the docs; the others are proposals recorded in `architecture.md`).
@@ -163,15 +172,23 @@ change.
 - `TeamMember.bio` is stored but the mockup shows no bio on `/our-story`, so only the homepage displays it. Decide whether a bio belongs on this page.
 - The mockup's group photo, hero, quote, and history photos are placeholders until Phase 9 assets exist; the mockup's warm gradient on the Donate band was not used.
 
-- SECURITY: `GET /api/imagekit-auth` is not authenticated. Anyone who can reach it can obtain a signature and upload files to the project's ImageKit account. It is inert only while `IMAGEKIT_PUBLIC_KEY` / `IMAGEKIT_PRIVATE_KEY` are unset (it answers 503). Add the admin check (Clerk, Phase 10/11, 401/403 for everyone else) before setting any ImageKit key in a deployed environment. There is a `TODO(Phase 10/11)` comment in the route, a note in `architecture.md`, and an item in the roadmap's open decisions.
 - No real ImageKit account or credentials exist yet, so a real upload has never been run; only the fake-ImageKit tests above. Once keys exist (locally), do one real upload and confirm the file lands, the returned `url` renders through `ImageKitImage` (check the delivered format and that the `?tr=` transformations resolve), and that the signature is accepted.
 - ImageKit dashboard settings the code cannot enforce: allowed file types, maximum file size, and an upload folder policy (a signature cannot restrict them; the hook's checks are convenience only). No folder taxonomy was invented; callers pass `folder` (for example `/posts`).
-- Phase 11 mockups `admin-post-editor.html` and `admin-media.html` do not exist in `docs/design-references/`, so the "labelled dropzone" versus "plain upload button" shapes were inferred from the prompt. The hook is UI-agnostic, but confirm the real shapes when those mockups arrive.
+- The admin mockups (dashboard, posts, post editor, media, plus contact, events, programs) now exist in `docs/design-references/`; the Phase 9 upload hook's "labelled dropzone" versus "plain upload button" shapes should be checked against `admin-post-editor.html` and `admin-media.html` in Phase 11. `admin-login.html` still does NOT exist.
 - Stored value convention: the delivered `url` (the only form the `isImageUrl` guard and `ImageKitImage` accept). No `fileId` column exists. A Media Library can list and delete through the server SDK, but "which records use this image" needs the URL search or a future column; decide when the Media Library is designed.
 - `alt` text: `ImageKitImage` supports it, but every call site still renders decorative images with `alt=""` because no model has an alt or caption field (the blog cover caption gap from Phase 6 applies). Decide whether images need alt text and where it is stored.
 - Images are lazy-loaded (`loading="lazy"`), except the `/blog/[slug]` cover (`eager`). The first card image on a page is not marked high priority; revisit when real hero photography exists.
 - `ImageKitImage` and `lib/image-url.js` read the server-side `IMAGEKIT_URL_ENDPOINT`, so a future client component that imports them would see it as unset and render plain URLs. Keep them on the server, or add a `NEXT_PUBLIC_` mirror if that changes.
 - The homepage's Phase 3 inline team tile still lacks a long-unbroken-name guard (`overflow-wrap`); see the Phase 8 item.
+
+- `docs/design-references/admin-login.html` does not exist, so the sign-in page was styled from the prompt's description (dark background, Fraunces mark, red primary button, square corners) through Clerk's `appearance` API, with no pixel reference. The real rendering (Clerk's built-in "Secured by Clerk" footer, the development-mode banner, the Google and email/password layout) has not been seen because Clerk's form only renders with a real instance, so which parts of a mockup the `appearance` API cannot reach is still to be determined once it is seen. Compare with the mockup if one is supplied.
+- Owner setup in the Clerk dashboard: use a DEVELOPMENT instance locally; consider disabling open sign-up (the proxy already blocks non-allowlisted accounts from `/admin`, but strays could still create Clerk accounts); confirm the sign-in strategies you want (Google, email and password). Put the real `ADMIN_ALLOWED_EMAILS` (comma-separated) in the environment; nothing is hardcoded.
+- When Clerk is configured its `clerk-js` script loads (async) on EVERY page, public ones included (measured: local JS unchanged at 968 KB, plus one third-party script). The prompt asked for `<ClerkProvider>` in the root layout, so that was followed; scoping the provider to admin and sign-in layouts (a route group) in Phase 11 would keep public visitors off Clerk entirely.
+- The publishable key is inlined at build time (`NEXT_PUBLIC_`), so both Clerk keys must be set before `next build`; adding them after a build leaves the layout without the provider.
+- Each protected request costs one Clerk Backend API call to read the user's verified primary email (no session-token claim carries it). Fine for a small admin team; a custom session claim or a short cache is an option if latency matters. A failed lookup denies access.
+- Only the verified PRIMARY email counts, and matching is exact and case-insensitive (no domain or wildcard rules, no subaddress normalisation: `name+tag@x.org` is a different address from `name@x.org`). Confirm that is the intended policy.
+- Sign-in lands on `/admin`, which is a 404 until Phase 11 builds the dashboard.
+- Clerk's own error text still says "Your middleware or proxy file exists at ./middleware" in one message; it works with `proxy.js`.
 
 ## Architecture Decisions
 
@@ -226,6 +243,15 @@ change.
 - Do not rely on `error.constructor.name` for SDK errors: the production build minifies class names. Use `instanceof` with the classes the SDK exports.
 - Test technique: to test browser uploads without an account, map `upload.imagekit.io` to a local HTTPS server with Chrome flags (`--host-resolver-rules=MAP upload.imagekit.io 127.0.0.1:8443 --ignore-certificate-errors`) and have that server verify the HMAC signature, expiry, and token reuse. Remember that the CDP `Runtime.evaluate` helper awaits promises (`awaitPromise`), so a test that must act mid-upload has to fire the upload without returning its promise.
 
+- Authentication is Clerk and authorization is an email allowlist (`ADMIN_ALLOWED_EMAILS`); being signed in to Clerk never admits anyone (Clerk sign-up is open by default). Firebase is not used and was removed.
+- Next 16: the gate is `proxy.js` (`middleware.js` is deprecated and renamed). `clerkMiddleware()` throws on every request when its keys are missing, so `proxy.js` (a) only matches protected paths and (b) returns 503 itself when Clerk is unconfigured instead of calling Clerk. Public routes, `/sign-in`, and `/not-authorized` never run it.
+- `<ClerkProvider>` is rendered only when both keys exist: unconditionally it would throw during the production build and start Clerk's keyless mode (an external provisioning call) in `next dev`.
+- The allowlist decision is a pure function (`lib/admin-access.js`) shared by the proxy and `getAdminSession()`, and is tested without Clerk. It fails closed at every step (unconfigured, empty list, unknown email, failed lookup).
+- Clerk's `auth()` throws on routes the proxy does not cover, so `getAdminSession()` can never silently admit a request on an uncovered route.
+- `/not-authorized` is outside `/admin` on purpose (a page under `/admin` would redirect to itself), and it shows no allowlist details.
+- Testing technique without a Clerk account: well-formed but nonexistent-instance keys (`pk_test_` plus the base64 of `<host>$`) let the whole configured code path (build, static prerender, handshake redirects, 401s, forged-token rejection) be exercised; real sign-in still needs a real dev instance. Beware `echo "====..."` in zsh (it is treated as a command).
+- `npm update` follows caret ranges across minors (`^19.2.0` allowed React 19.3.0): pin exact versions when a specific patch is intended.
+
 ## Session Notes
 
 - Phase 1 and Phase 2 work: 2026-09-19. Phase 3 work: 2026-09-20. Nothing from Phases 1–3 has been committed yet — review and commit (`app/` move and `app/page.js`, `lib/*`, `components/*`, `prisma/schema.prisma` and `prisma/migrations/`, config and doc edits).
@@ -254,3 +280,7 @@ change.
 - Phase 9 work: 2026-09-20. Nothing from Phases 1–9 has been committed yet. `package.json` is unchanged in Phase 9 (still only the Phase 6 `react-markdown` addition).
 - The Phase 9 prompt suggested the packages `imagekit` and `imagekitio-next`; both are deprecated, and the project's docs (and `package.json`) already specify `@imagekit/nodejs` and `@imagekit/javascript`. The prompt also referred to `docs/design-reference/` (the folder is `docs/design-references/`) and to admin mockups that do not exist.
 - The temporary `/zz-upload-test` route used to drive the hook in a browser was deleted before the final build; no `/admin/**` route exists.
+- Phase 10 work: 2026-09-20. Nothing from Phases 1–10 has been committed yet. `package.json` changed in Phase 10 exactly as intended: `firebase` removed, `@clerk/nextjs` added, and the lockfile pins React and React DOM 19.2.8 (ranges unchanged).
+- The Phase 10 prompt said `middleware.js`; Next 16 renamed it `proxy.js`, so `proxy.js` was used (see Architecture Decisions). It also said "Phases 0–7 are complete" (Phases 0–9 are), referred to `docs/design-reference/` (the folder is `docs/design-references/`), and named `admin-login.html`, which does not exist (the seven other admin mockups arrived during this phase).
+- The owner asked for real-key testing; `.env` had none of the three Clerk variables when checked (names, prefixes, and counts only were checked; no value was ever printed). The owner's dev server on port 3000 was left alone; the `next build` output directory is shared with it.
+- Temporary scratch route `/api/zz-p10` (used to exercise `getAdminSession()`) was deleted before the final build; no `/admin` page exists.

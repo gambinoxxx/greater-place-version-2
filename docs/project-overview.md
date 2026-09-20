@@ -17,6 +17,7 @@ Working creative line: “Where movement becomes opportunity.”
 - Use photography and editorial composition to communicate movement, people, culture, and transformation.
 - Support structured content rather than hard-coded page content.
 - Provide a foundation for enrollment, contact, authentication, and administrative workflows.
+- Give the team a protected admin area (Admin CMS, Phase 11) to manage blog posts and the ImageKit media library without touching code.
 
 ## 3. Primary Audience
 - Young people and prospective participants.
@@ -71,7 +72,7 @@ Avoid generic startup layouts, excessive rounded cards, template gradients, unne
 - Tailwind CSS 3.3.2
 - Prisma 5.22.0
 - PostgreSQL / Neon
-- Firebase 12.7.0 — role TBD
+- Clerk (`@clerk/nextjs`) — authentication for the admin area (Firebase was removed in Phase 10)
 - ImageKit via @imagekit/nodejs and @imagekit/javascript
 
 ## 8. Application Structure
@@ -99,7 +100,9 @@ Initial models:
 Image binaries belong in ImageKit. The database stores the relevant ImageKit identifier and/or URL.
 
 ## 10. Authentication
-Authentication and role-based administration are planned, but the exact Firebase role is unresolved. Do not implement the final authentication architecture until that role is confirmed.
+Authentication is Clerk. The admin area (`/admin/**`, plus `/api/admin/**` and the ImageKit upload-signing route) is open only to signed-in users whose verified primary email is on an owner-controlled allowlist (`ADMIN_ALLOWED_EMAILS`); the public site needs no sign-in. Firebase is not used.
+
+The Admin CMS (Phase 11) is the product surface behind that gate: a dashboard, blog post management (create, edit, delete `Post` records), and an ImageKit-backed media library. See `architecture.md` for how the gate works.
 
 ## 11. Fonts
 - Fraunces — display/headings

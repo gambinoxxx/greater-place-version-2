@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Contact</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --black:#0A0D12; --navy:#101826; --navy-deep:#0B121C; --ivory:#F3F5F8; --white:#FFFFFF;
+  --dim:rgba(243,245,248,.55); --dimmer:rgba(243,245,248,.38); --hair:rgba(243,245,248,.14);
+  --c-red:#E5484D; --c-red-deep:#C23238; --c-green:#3FBF6F; --c-blue:#5B9BD5;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Manrope',sans-serif;background:var(--black);color:var(--ivory);font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased;}
+h1,h2,h3,.serif{font-family:'Fraunces',serif;font-weight:400;}
+a{color:inherit;text-decoration:none;}
+::-webkit-scrollbar{width:8px;} ::-webkit-scrollbar-thumb{background:rgba(243,245,248,.18);}
+
+.admin-shell{display:flex;min-height:100vh;}
+.sidebar{width:260px;flex-shrink:0;background:var(--navy-deep);border-right:1px solid var(--hair);display:flex;flex-direction:column;padding:28px 0;position:fixed;top:0;bottom:0;}
+.sidebar-brand{padding:0 28px 24px;border-bottom:1px solid var(--hair);margin-bottom:18px;}
+.sidebar-brand .role{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--dimmer);margin-top:4px;}
+.sidebar-nav{display:flex;flex-direction:column;gap:2px;padding:0 16px;flex-grow:1;}
+.sidebar-nav a{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:6px;color:var(--dim);font-size:13.5px;font-weight:600;}
+.sidebar-nav a svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.8;flex-shrink:0;}
+.sidebar-nav a.active{background:rgba(243,245,248,.07);color:var(--ivory);font-weight:700;}
+.sidebar-nav a .badge{margin-left:auto;background:var(--c-red);color:#fff;font-size:10px;font-weight:800;padding:1px 6px;border-radius:8px;}
+.sidebar-user{padding:16px 28px 0;margin:0 16px;border-top:1px solid var(--hair);display:flex;align-items:center;gap:10px;}
+.sidebar-user .avatar{width:32px;height:32px;border-radius:50%;flex-shrink:0;background:linear-gradient(140deg,#2a5a86,#5fa8dd 55%,#0B121C);}
+.sidebar-user .name{font-size:12.5px;font-weight:700;}
+.sidebar-user .logout{font-size:11px;color:var(--dimmer);}
+
+.main{margin-left:260px;flex-grow:1;display:flex;flex-direction:column;min-width:0;}
+.topbar{height:76px;flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:0 36px;border-bottom:1px solid var(--hair);}
+.topbar h1{font-size:22px;}
+.content{flex-grow:1;padding:28px 36px;max-width:920px;}
+
+.segmented{display:flex;gap:6px;padding:3px;background:rgba(243,245,248,.04);border-radius:5px;width:fit-content;margin-bottom:20px;}
+.segmented span{padding:6px 14px;border-radius:3px;font-size:11.5px;font-weight:700;color:var(--dim);}
+.segmented span.active{background:var(--ivory);color:var(--navy-deep);}
+
+.msg-list{display:flex;flex-direction:column;gap:10px;}
+.msg-card{position:relative;border:1px solid var(--hair);border-radius:8px;padding:18px 20px 18px 24px;background:rgba(243,245,248,.02);}
+.msg-card.unread{background:rgba(243,245,248,.045);border-color:rgba(243,245,248,.22);}
+.msg-card.unread::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:8px 0 0 8px;background:var(--c-red);}
+.msg-top{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-bottom:8px;}
+.msg-who{display:flex;align-items:baseline;gap:10px;min-width:0;}
+.msg-name{font-size:14px;font-weight:700;white-space:nowrap;}
+.msg-email{font-size:12px;color:var(--dimmer);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.msg-time{font-size:11.5px;color:var(--dimmer);flex-shrink:0;}
+.msg-body{font-size:13px;color:var(--dim);line-height:1.6;margin-bottom:14px;}
+.msg-actions{display:flex;gap:8px;}
+.msg-btn{font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;padding:7px 14px;border-radius:4px;border:1px solid var(--hair);background:transparent;color:var(--dim);cursor:pointer;font-family:inherit;}
+.msg-btn.primary{border-color:transparent;background:rgba(63,191,111,.15);color:var(--c-green);}
+.unread-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--c-red);margin-right:8px;flex-shrink:0;}
+</style>
+</head>
+<body>
+
+<div class="admin-shell">
+  <div class="sidebar">
+    <div class="sidebar-brand">
+      <div class="serif" style="font-size:14px;letter-spacing:.16em;">GREATER PLACE</div>
+      <div class="role">Admin</div>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="admin-dashboard.html">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
+        Dashboard
+      </a>
+      <a href="admin-posts.html">
+        <svg viewBox="0 0 24 24"><path d="M6 3h9l5 5v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M14 3v5h5"/><path d="M8 13h8M8 17h5"/></svg>
+        Blog Posts
+      </a>
+      <a href="admin-media.html">
+        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="15" rx="1.5"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="M21 15l-5.5-5.5L4 20"/></svg>
+        Media Library
+      </a>
+      <a href="admin-events.html">
+        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="1.5"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>
+        Events
+      </a>
+      <a href="admin-programs.html">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        Programs &amp; Classes
+      </a>
+      <a href="admin-contact.html" class="active">
+        <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="1.5"/><path d="M3.5 6.5l8.5 6.5 8.5-6.5"/></svg>
+        <span style="flex-grow:1;">Contact</span>
+        <span class="badge">3</span>
+      </a>
+    </nav>
+    <div class="sidebar-user">
+      <div class="avatar"></div>
+      <div>
+        <div class="name">Founder Name</div>
+        <div class="logout">Log out</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="topbar">
+      <h1 class="serif">Contact</h1>
+    </div>
+
+    <div class="content">
+      <div class="segmented">
+        <span class="active">All (8)</span>
+        <span>Unread (3)</span>
+      </div>
+
+      <div class="msg-list">
+        <div class="msg-card unread">
+          <div class="msg-top">
+            <div class="msg-who">
+              <span class="msg-name"><span class="unread-dot"></span>Aisha Bello</span>
+              <span class="msg-email">aisha.bello@gmail.com</span>
+            </div>
+            <span class="msg-time">2 hours ago</span>
+          </div>
+          <p class="msg-body">Hi, is there a class for my daughter, she's 9 and loves to dance but has never done anything formal before. What would you recommend for her age group?</p>
+          <div class="msg-actions">
+            <button class="msg-btn primary">Mark as Read</button>
+          </div>
+        </div>
+
+        <div class="msg-card unread">
+          <div class="msg-top">
+            <div class="msg-who">
+              <span class="msg-name"><span class="unread-dot"></span>Marcus Thompson</span>
+              <span class="msg-email">marcus.t@outlook.com</span>
+            </div>
+            <span class="msg-time">6 hours ago</span>
+          </div>
+          <p class="msg-body">We'd like to bring a group of about 20 people from our church to the Winter Showcase. Is there a group rate, and how far ahead should we reserve seats?</p>
+          <div class="msg-actions">
+            <button class="msg-btn primary">Mark as Read</button>
+          </div>
+        </div>
+
+        <div class="msg-card unread">
+          <div class="msg-top">
+            <div class="msg-who">
+              <span class="msg-name"><span class="unread-dot"></span>Grace Okafor</span>
+              <span class="msg-email">grace.okafor@yahoo.com</span>
+            </div>
+            <span class="msg-time">1 day ago</span>
+          </div>
+          <p class="msg-body">Interested in volunteering as a rehearsal chaperone this season. Who should I speak to about getting involved?</p>
+          <div class="msg-actions">
+            <button class="msg-btn primary">Mark as Read</button>
+          </div>
+        </div>
+
+        <div class="msg-card">
+          <div class="msg-top">
+            <div class="msg-who">
+              <span class="msg-name">David Chen</span>
+              <span class="msg-email">d.chen@proton.me</span>
+            </div>
+            <span class="msg-time">3 days ago</span>
+          </div>
+          <p class="msg-body">Just wanted to say the Ogene performance at the community open day was incredible. Do you have any upcoming events open to the public?</p>
+          <div class="msg-actions">
+            <button class="msg-btn">Mark as Unread</button>
+          </div>
+        </div>
+
+        <div class="msg-card">
+          <div class="msg-top">
+            <div class="msg-who">
+              <span class="msg-name">Funmi Adeyemi</span>
+              <span class="msg-email">funmi.a@gmail.com</span>
+            </div>
+            <span class="msg-time">5 days ago</span>
+          </div>
+          <p class="msg-body">My son is 14 and has done some hip-hop before — would Discover or Develop be the right starting point for him?</p>
+          <div class="msg-actions">
+            <button class="msg-btn">Mark as Unread</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

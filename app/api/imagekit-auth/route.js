@@ -7,10 +7,11 @@ export const dynamic = 'force-dynamic'
 // Signs a short-lived (10 minute) parameter set that lets the browser upload one file straight to
 // ImageKit (see components/useImageUpload.js).
 //
-// TODO(Phase 10/11): THIS ROUTE IS NOT AUTHENTICATED. Anyone who can reach it can obtain a signature
-// and upload to the project's ImageKit account. Before ImageKit credentials are set in any deployed
-// environment, add an admin check here (Clerk) and return 401/403 for everyone else. Until then the
-// route is safe only because it answers 503 while IMAGEKIT_PUBLIC_KEY / IMAGEKIT_PRIVATE_KEY are unset.
+// ADMIN-ONLY: proxy.js (Phase 10) lists this path in its matcher, so only a signed-in Clerk user whose
+// verified email is on ADMIN_ALLOWED_EMAILS reaches this handler (401/403 JSON otherwise, 503 while
+// Clerk or the allowlist is unconfigured). Keep this path in that matcher: a signature lets the holder
+// upload to the project's ImageKit account. Phase 11 may also re-check with getAdminSession()
+// (lib/admin-auth.js) for defence in depth.
 export async function GET() {
   try {
     const auth = createUploadAuth()

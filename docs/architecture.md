@@ -19,15 +19,16 @@ Greater Place is an editorial performing-arts, ministry, and youth-development n
 - Carousel: react-multi-carousel is installed but not used for the homepage Events carousel; see "Homepage data flow" below
 - ORM: Prisma 5.22.0
 - Database: Neon serverless PostgreSQL via @neondatabase/serverless
-- Firebase: role intentionally TBD (Auth / Firestore / Storage / combination); do not make assumptions
+- Authentication: Clerk (`@clerk/nextjs`) for the admin area, plus an email allowlist for authorization (see "Authentication and server writes"). Firebase was removed in Phase 10
 - Images: @imagekit/nodejs for server-side operations and @imagekit/javascript for client-side operations
 - Diagnostics: debug
 
 ## System boundaries
 
 - `app/`: routes, layouts, loading/error/not-found files, and Route Handlers
-- `components/`: reusable shared components; props-driven; no direct Prisma/Firebase access
-- `lib/`: server helpers, Prisma singleton, ImageKit helpers, validation and other focused utilities
+- `components/`: reusable shared components; props-driven; no direct Prisma access (the only Clerk use is the small `AdminSignOutButton`)
+- `lib/`: server helpers, Prisma singleton, ImageKit helpers, admin access/auth helpers, validation and other focused utilities
+- `proxy.js` (repo root): the request gate in front of `/admin/**` and admin APIs (security-sensitive; see "Authentication and server writes")
 - `prisma/`: Prisma schema and migrations
 - `public/`: static assets that are not stored in ImageKit
 - `.env`: local server-side environment variables; never commit secrets
@@ -177,7 +178,7 @@ Upload flow: the browser calls `GET /api/imagekit-auth`, then `upload()` from `@
 
 - Route response: `200 { data: { token, expire, signature, publicKey }, error: null }`; `503 { data: null, error: { message } }` while the public or private key is unset; `500` with a generic message (only the error class name is logged); other methods 405. It is `force-dynamic` and sends `Cache-Control: no-store`, because a static GET would be built once and every token would be identical.
 - `signature` is HMAC-SHA1 of `token + expire` with the private key (checked independently in tests), and `expire` must be an **absolute Unix time in seconds** under one hour ahead (ten minutes is used). The SDK's JSDoc for `getAuthenticationParameters` says "seconds from now", but the implementation signs the value it is given, so a relative value produces an already-expired (1970) timestamp. `createUploadAuth()` passes an absolute time.
-- **Security follow-up (Phase 10/11): this route is not authenticated.** Anyone who can reach it can obtain a signature and upload to the project's ImageKit account. Before any `IMAGEKIT_*` key is set in a deployed environment, add an admin check (Clerk) and return 401/403 to everyone else; `useImageUpload` already maps 401/403 to "You do not have permission to upload images." Until then the route is safe only because it answers 503 while the keys are unset. A signature cannot restrict file type, size, or folder, so set allowed formats and a maximum size in the ImageKit dashboard too.
+- **Access control:** a signature lets its holder upload to the project's ImageKit account, so since Phase 10 this route is listed in `proxy.js`'s matcher and only an allowlisted admin reaches it (401/403 JSON otherwise; `useImageUpload` maps both to "You do not have permission to upload images."). Keep the path in that matcher. A signature cannot restrict file type, size, or folder, so also set allowed formats and a maximum size in the ImageKit dashboard.
 
 `useImageUpload({ folder, tags })` returns `{ upload, abort, reset, status, progress, error, result, uploading }` and has no markup, so any UI can drive it: `upload(file)` from a file input's `onChange` (an "Upload Image" button, the Media Library) or from a drop handler (the Post Editor's cover dropzone). `upload()` resolves to `{ url, fileId, filePath, name, width, height, size, fileType, thumbnailUrl }` or `null` (it never throws; read `error`). `status` is `idle | uploading | success | error`; `progress` is 0–100. Store `result.url` in the model's image field. One upload runs at a time per hook instance (a second call in the same tick is ignored); use one instance per file for parallel uploads. Cancelling (`abort()`) or unmounting mid-upload returns to `idle` without an error. `validateImageFile`, `IMAGE_UPLOAD_ACCEPT`, `IMAGE_UPLOAD_TYPES`, and `IMAGE_UPLOAD_MAX_BYTES` (JPEG, PNG, WebP, GIF, AVIF; 10 MB; SVG is refused on purpose) are exported for dropzone filters. These checks are fast feedback, not security.
 
@@ -189,9 +190,17 @@ Verification: everything above was tested against a local fake ImageKit (an HTTP
 
 ## Authentication and server writes
 
-Public pages are public. Any future authenticated/admin write must be performed server-side with boundary validation and explicit authorization.
+Public pages are public. Any authenticated/admin write must be performed server-side with boundary validation and explicit authorization.
 
-Firebase's role is still an open architecture decision. Phase 10 is blocked until that role is explicitly confirmed.
+Authentication (Phase 10): Clerk proves who someone is; an email allowlist decides whether they may enter the admin area. Being signed in to Clerk is never enough on its own, because Clerk sign-up is open unless the Clerk dashboard says otherwise. Firebase was never used and was removed.
+
+- Gate: `proxy.js` runs only for `/admin/:path*`, `/api/admin/:path*` (reserved for Phase 11), and `/api/imagekit-auth`. The public site, `/sign-in`, and `/not-authorized` never run it: `clerkMiddleware()` throws on every request when its keys are missing, so it must not run site-wide. Next 16 renamed `middleware.js` to `proxy.js` (the old name is deprecated and behaves the same); Clerk does not care which name is used.
+- Decision: `lib/admin-access.js` is pure logic (no Clerk or Next imports). A request is admitted only when Clerk is configured (both keys), the allowlist is not empty, a Clerk session exists, and the account's **verified primary** email, lowercased, exactly equals an entry of `ADMIN_ALLOWED_EMAILS`. The variable is a comma-separated list; entries are trimmed and lowercased, entries that are not full addresses are dropped, and there are no wildcards or domain rules. The address comes from Clerk's Backend API on each protected request (the session token does not carry it); a failed lookup denies.
+- Outcomes: pages send signed-out visitors to `/sign-in` (returning to the requested page) and signed-in-but-not-allowlisted ones to `/not-authorized`; APIs answer `401 { data: null, error: { message } }` or `403`, never a redirect; missing Clerk keys or an empty allowlist answer `503` for both (the system fails closed, never open). Protected responses carry `Cache-Control: private, no-store`.
+- Defence in depth: `lib/admin-auth.js` exports `getAdminSession()` (`{ ok: true, userId, email }` or `{ ok: false, reason }`) for Phase 11 pages, Route Handlers, and Server Actions to re-verify next to the data they touch. Clerk's `auth()` only works on routes the matcher covers and throws elsewhere, so a route outside the matcher cannot use it by accident.
+- Sign-in: `app/sign-in/[[...sign-in]]/page.js` renders Clerk's `<SignIn />`, themed by `lib/clerk-appearance.js` from the Tailwind brand tokens (the sign-up link is hidden: access is by allowlist, not by creating an account). Signing in returns to `/admin`; signing out returns to `/` (props on `<ClerkProvider>`). `/not-authorized` lives outside `/admin` on purpose (a page under `/admin` would be gated and redirect to itself) and offers `components/AdminSignOutButton.jsx`.
+- Configuration: `<ClerkProvider>` wraps the root layout only when both keys are set, so the site and `next build` work with none of the Clerk variables. The publishable key is inlined at build time, so set both keys before `next build`. When Clerk is configured its script loads (async) on every page, public ones included; scoping the provider to the admin and sign-in layouts is an option for Phase 11.
+- Owner setup: use a Clerk development instance locally, put the keys and `ADMIN_ALLOWED_EMAILS` in the environment, and consider disabling open sign-up in the Clerk dashboard.
 
 ## Route and component conventions
 
@@ -209,7 +218,9 @@ The Prisma CLI reads `.env`, so `DATABASE_URL` belongs in `.env`. Keep `.env` ig
 
 `CONTACT_EMAIL` (a single email address) is read on the server by `lib/contact.js` for the `/contact` mailto link and is documented in `.env.example`.
 
-`IMAGEKIT_PUBLIC_KEY`, `IMAGEKIT_PRIVATE_KEY`, and `IMAGEKIT_URL_ENDPOINT` are read on the server (`lib/imagekit.js`, `lib/image-url.js`) and documented in `.env.example`. Real values are the owner's to supply; never set the private key in a deployed environment before `/api/imagekit-auth` requires an admin.
+`IMAGEKIT_PUBLIC_KEY`, `IMAGEKIT_PRIVATE_KEY`, and `IMAGEKIT_URL_ENDPOINT` are read on the server (`lib/imagekit.js`, `lib/image-url.js`) and documented in `.env.example`. Real values are the owner's to supply.
+
+`NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` and `CLERK_SECRET_KEY` (Clerk) and `ADMIN_ALLOWED_EMAILS` (the admin allowlist) are read by `proxy.js`, `lib/admin-access.js`, and Clerk itself, and are documented in `.env.example`. Set the Clerk keys before `next build`.
 
 Migration connectivity may require a separate direct Neon URL (`directUrl`) depending on the final Neon connection strategy. Do not invent or hardcode credentials.
 

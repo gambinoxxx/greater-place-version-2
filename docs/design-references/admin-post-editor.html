@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Edit Post</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --black:#0A0D12; --navy:#101826; --navy-deep:#0B121C; --ivory:#F3F5F8; --white:#FFFFFF;
+  --dim:rgba(243,245,248,.55); --dimmer:rgba(243,245,248,.38); --hair:rgba(243,245,248,.14);
+  --c-red:#E5484D; --c-red-deep:#C23238; --c-green:#3FBF6F; --c-purple:#A78BFA; --c-gold:#D9A441; --c-teal:#4FD1C5; --c-blue:#5B9BD5;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Manrope',sans-serif;background:var(--black);color:var(--ivory);font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased;}
+h1,h2,h3,.serif{font-family:'Fraunces',serif;font-weight:400;}
+a{color:inherit;text-decoration:none;}
+::-webkit-scrollbar{width:8px;} ::-webkit-scrollbar-thumb{background:rgba(243,245,248,.18);}
+
+.admin-shell{display:flex;min-height:100vh;}
+.sidebar{width:260px;flex-shrink:0;background:var(--navy-deep);border-right:1px solid var(--hair);display:flex;flex-direction:column;padding:28px 0;position:fixed;top:0;bottom:0;}
+.sidebar-brand{padding:0 28px 24px;border-bottom:1px solid var(--hair);margin-bottom:18px;}
+.sidebar-brand .role{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--dimmer);margin-top:4px;}
+.sidebar-nav{display:flex;flex-direction:column;gap:2px;padding:0 16px;flex-grow:1;}
+.sidebar-nav a{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:6px;color:var(--dim);font-size:13.5px;font-weight:600;}
+.sidebar-nav a svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.8;flex-shrink:0;}
+.sidebar-nav a.active{background:rgba(243,245,248,.07);color:var(--ivory);font-weight:700;}
+.sidebar-nav a .badge{margin-left:auto;background:var(--c-red);color:#fff;font-size:10px;font-weight:800;padding:1px 6px;border-radius:8px;}
+.sidebar-user{padding:16px 28px 0;margin:0 16px;border-top:1px solid var(--hair);display:flex;align-items:center;gap:10px;}
+.sidebar-user .avatar{width:32px;height:32px;border-radius:50%;flex-shrink:0;background:linear-gradient(140deg,#2a5a86,#5fa8dd 55%,#0B121C);}
+.sidebar-user .name{font-size:12.5px;font-weight:700;}
+.sidebar-user .logout{font-size:11px;color:var(--dimmer);}
+
+.main{margin-left:260px;flex-grow:1;display:flex;flex-direction:column;min-width:0;}
+.topbar{height:76px;flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:0 36px;border-bottom:1px solid var(--hair);}
+.topbar-left{display:flex;align-items:center;gap:14px;}
+.back-btn{width:32px;height:32px;border:1px solid var(--hair);border-radius:6px;display:flex;align-items:center;justify-content:center;color:var(--dim);}
+.back-btn svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2.2;}
+.topbar h1{font-size:20px;}
+.topbar-actions{display:flex;align-items:center;gap:10px;}
+
+.btn{font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;padding:10px 18px;border-radius:4px;border:none;cursor:pointer;font-family:inherit;}
+.btn-red{background:var(--c-red);color:#fff;}
+.btn-outline{background:transparent;border:1px solid rgba(243,245,248,.4);color:var(--ivory);}
+
+.content{flex-grow:1;padding:30px 36px;}
+.editor-grid{display:grid;grid-template-columns:1fr 320px;gap:26px;align-items:start;}
+
+.field-label{display:block;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--dimmer);margin:22px 0 8px;}
+.field-label:first-of-type{margin-top:0;}
+.title-input{width:100%;background:transparent;border:none;font-family:'Fraunces',serif;font-size:30px;color:var(--ivory);padding:0 0 14px;border-bottom:1px solid var(--hair);}
+.slug-row{display:flex;align-items:center;gap:6px;margin-top:12px;font-size:12.5px;color:var(--dim);}
+.slug-row code{font-family:'JetBrains Mono',monospace;color:var(--ivory);background:rgba(243,245,248,.05);padding:3px 8px;border-radius:3px;}
+.slug-row svg{width:12px;height:12px;stroke:rgba(243,245,248,.4);fill:none;stroke-width:2;}
+
+textarea{font-family:inherit;color:var(--ivory);}
+textarea::placeholder{color:var(--dimmer);}
+.excerpt-input{width:100%;background:rgba(243,245,248,.03);border:1px solid var(--hair);border-radius:6px;padding:12px 14px;font-size:13px;line-height:1.6;resize:none;}
+
+.md-editor{border:1px solid var(--hair);border-radius:6px;overflow:hidden;}
+.md-toolbar{display:flex;align-items:center;gap:4px;padding:8px 10px;background:rgba(243,245,248,.04);border-bottom:1px solid var(--hair);}
+.md-toolbar button{height:28px;padding:0 8px;border:none;background:transparent;color:var(--ivory);font-size:13px;border-radius:4px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:inherit;}
+.md-toolbar button svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.8;}
+.md-toolbar .sep{width:1px;height:18px;background:var(--hair);margin:0 4px;}
+.md-toolbar .spacer{flex-grow:1;}
+.md-toolbar .fmt-label{font-size:10.5px;color:var(--dimmer);padding-right:4px;}
+.md-body{width:100%;background:var(--navy-deep);border:none;padding:18px 20px;font-size:13px;font-family:'JetBrains Mono',monospace;line-height:1.8;resize:none;}
+
+.dropzone{border:1.5px dashed rgba(243,245,248,.25);border-radius:8px;padding:34px;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;}
+.dropzone .icon{width:42px;height:42px;border-radius:8px;background:rgba(243,245,248,.06);display:flex;align-items:center;justify-content:center;}
+.dropzone .icon svg{width:20px;height:20px;stroke:rgba(243,245,248,.6);fill:none;stroke-width:1.8;}
+.dropzone .primary{font-size:13px;font-weight:600;}
+.dropzone .primary span{color:var(--c-blue);text-decoration:underline;}
+.dropzone .hint{font-size:11.5px;color:var(--dimmer);}
+
+.side-panel{display:flex;flex-direction:column;gap:16px;}
+.side-card{background:rgba(243,245,248,.03);border:1px solid var(--hair);border-radius:8px;padding:18px;}
+.side-card .label{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--dimmer);margin-bottom:12px;}
+.status-toggle{display:flex;gap:6px;padding:3px;background:rgba(243,245,248,.05);border-radius:5px;margin-bottom:14px;}
+.status-toggle span{flex:1;text-align:center;padding:7px 0;border-radius:3px;font-size:11.5px;font-weight:700;color:rgba(243,245,248,.5);}
+.status-toggle span.on{background:rgba(63,191,111,.18);color:var(--c-green);}
+.side-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-top:1px solid rgba(243,245,248,.1);font-size:12.5px;}
+.side-row .v{font-weight:600;}
+.tag-picker{display:flex;flex-wrap:wrap;gap:7px;}
+.tag-picker span{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding:6px 12px;border-radius:4px;background:rgba(243,245,248,.06);color:rgba(243,245,248,.6);cursor:pointer;}
+.tag-picker span.selected{background:var(--c-purple);color:#0B121C;box-shadow:0 0 0 2px var(--c-purple),0 0 0 4px rgba(167,139,250,.3);}
+.author-pick{display:flex;align-items:center;gap:10px;padding:9px 12px;border:1px solid var(--hair);border-radius:6px;}
+.author-pick .avatar{width:26px;height:26px;border-radius:50%;flex-shrink:0;background:linear-gradient(140deg,#2a5a86,#5fa8dd 55%,#0B121C);}
+.author-pick span{flex-grow:1;font-size:12.5px;font-weight:600;}
+.author-pick svg{width:13px;height:13px;stroke:rgba(243,245,248,.5);fill:none;stroke-width:2.2;}
+</style>
+</head>
+<body>
+
+<div class="admin-shell">
+  <div class="sidebar">
+    <div class="sidebar-brand">
+      <div class="serif" style="font-size:14px;letter-spacing:.16em;">GREATER PLACE</div>
+      <div class="role">Admin</div>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="admin-dashboard.html">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
+        Dashboard
+      </a>
+      <a href="admin-posts.html" class="active">
+        <svg viewBox="0 0 24 24"><path d="M6 3h9l5 5v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M14 3v5h5"/><path d="M8 13h8M8 17h5"/></svg>
+        Blog Posts
+      </a>
+      <a href="admin-media.html">
+        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="15" rx="1.5"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="M21 15l-5.5-5.5L4 20"/></svg>
+        Media Library
+      </a>
+      <a href="admin-events.html">
+        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="1.5"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>
+        Events
+      </a>
+      <a href="admin-programs.html">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        Programs &amp; Classes
+      </a>
+      <a href="admin-contact.html">
+        <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="1.5"/><path d="M3.5 6.5l8.5 6.5 8.5-6.5"/></svg>
+        Contact <span class="badge">3</span>
+      </a>
+    </nav>
+    <div class="sidebar-user">
+      <div class="avatar"></div>
+      <div>
+        <div class="name">Founder Name</div>
+        <div class="logout">Log out</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-left">
+        <a href="admin-posts.html" class="back-btn"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></a>
+        <h1 class="serif">Edit Post</h1>
+      </div>
+      <div class="topbar-actions">
+        <button class="btn btn-outline">Save Draft</button>
+        <button class="btn btn-red">Publish</button>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="editor-grid">
+
+        <div>
+          <input class="title-input" value="Why We Chose Ogene As Our Signature Piece">
+          <div class="slug-row">
+            <span>/blog/</span>
+            <code>why-we-chose-ogene-as-our-signature-piece</code>
+            <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>
+          </div>
+
+          <label class="field-label">Excerpt</label>
+          <textarea class="excerpt-input" rows="2">Rooted in Igbo musical tradition, Ogene brings percussive rhythm and call-and-response into the Greater Place repertoire — here's the story behind our most requested performance.</textarea>
+
+          <label class="field-label">Body (Markdown)</label>
+          <div class="md-editor">
+            <div class="md-toolbar">
+              <button style="font-weight:800;">B</button>
+              <button style="font-style:italic;">I</button>
+              <span class="sep"></span>
+              <button style="font-weight:700;font-size:12px;">H2</button>
+              <button><svg viewBox="0 0 24 24"><path d="M7 8h10M7 12h6M7 16h10"/><path d="M4 4v16"/></svg></button>
+              <span class="sep"></span>
+              <button><svg viewBox="0 0 24 24"><path d="M9.5 14.5l5-5"/><path d="M11 7l1.3-1.3a3 3 0 1 1 4.3 4.3L15 11"/><path d="M13 17l-1.3 1.3a3 3 0 1 1-4.3-4.3L9 13"/></svg></button>
+              <button><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="15" rx="1.5"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="M21 15l-5.5-5.5L4 20"/></svg></button>
+              <span class="spacer"></span>
+              <span class="fmt-label">Markdown</span>
+            </div>
+            <textarea class="md-body" rows="14">Every company has one piece that becomes its signature — the work people ask for by name, the one that ends up on the poster before it even opens. For Greater Place, that piece is Ogene.
+
+## Why it fits who we are
+
+Greater Place was never meant to be a company that performs one style. Our dancers come from gospel choirs, hip-hop cyphers, ballet intensives and church dance ministries — and Ogene is the rare piece flexible enough to hold all of that at once.
+
+> "The first time we ran it full-out, nobody wanted to stop. That's when I knew this was the one."
+> — Founder Name, Founder &amp; Artistic Director
+
+## What it's taught us
+
+Ogene has become more than a performance piece — it's become a teaching tool for the Discover and Develop stages of the Pathway.</textarea>
+          </div>
+
+          <label class="field-label">Cover Image</label>
+          <div class="dropzone">
+            <div class="icon"><svg viewBox="0 0 24 24"><path d="M12 16V4M12 4l-4 4M12 4l4 4"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg></div>
+            <div class="primary">Drag &amp; drop an image, or <span>browse files</span></div>
+            <div class="hint">Recommended 1600×900 · JPG or PNG, up to 5MB</div>
+          </div>
+        </div>
+
+        <div class="side-panel">
+          <div class="side-card">
+            <div class="label">Publish</div>
+            <div class="status-toggle">
+              <span>Draft</span>
+              <span class="on">Published</span>
+            </div>
+            <div class="side-row"><span>Publish date</span><span class="v">Sep 10, 2026</span></div>
+          </div>
+
+          <div class="side-card">
+            <div class="label">Category</div>
+            <div class="tag-picker">
+              <span class="selected">Culture</span>
+              <span>Community</span>
+              <span>Pathway</span>
+              <span>Wellness</span>
+              <span>Events</span>
+              <span>Stories</span>
+            </div>
+          </div>
+
+          <div class="side-card">
+            <div class="label">Author</div>
+            <div class="author-pick">
+              <div class="avatar"></div>
+              <span>Founder Name</span>
+              <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
