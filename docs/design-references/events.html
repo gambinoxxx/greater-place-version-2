@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Events — Greater Place</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --black:#0A0D12;
+  --navy:#101826;
+  --navy-deep:#0B121C;
+  --ivory:#F3F5F8;
+  --white:#FFFFFF;
+  --dim:rgba(243,245,248,.55);
+  --dimmer:rgba(243,245,248,.38);
+  --hair:rgba(243,245,248,.14);
+  --c-red:#E5484D;
+  --c-red-deep:#C23238;
+  --c-green:#3FBF6F;
+  --c-purple:#A78BFA;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Manrope',sans-serif;
+  background:var(--black);
+  color:var(--ivory);
+  font-size:15px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4,.serif{font-family:'Fraunces',serif;font-weight:400;}
+a{color:inherit;text-decoration:none;}
+.wrap{max-width:1360px;margin:0 auto;padding:0 40px;}
+@media(max-width:800px){.wrap{padding:0 20px;}}
+
+/* photo placeholders */
+.ph{position:relative;overflow:hidden;background:#101826;display:block;}
+.ph::after{content:"";position:absolute;inset:0;opacity:.5;mix-blend-mode:overlay;
+  background-image:radial-gradient(circle at 30% 22%,rgba(243,245,248,.4),transparent 46%),
+                   radial-gradient(circle at 74% 76%,rgba(0,0,0,.6),transparent 55%);}
+.ph-tag{position:absolute;left:14px;bottom:12px;z-index:2;font-size:10px;letter-spacing:.04em;
+  font-style:italic;color:rgba(255,255,255,.62);}
+.p1{background:linear-gradient(140deg,#2a5a86,#5fa8dd 55%,#0B121C);}
+.p2{background:linear-gradient(155deg,#173650,#0d1620 62%,#0A0D12);}
+.p3{background:linear-gradient(130deg,#3d5b78,#152431 58%,#0A0D12);}
+.p5{background:linear-gradient(120deg,#4f86c6,#173650 58%,#080D12);}
+.p6{background:linear-gradient(165deg,#26445f,#4f86c6 50%,#0A0D12);}
+.p7{background:linear-gradient(150deg,#3a3a3a,#171717 60%,#0A0D12);}
+
+/* nav */
+header{position:fixed;top:0;left:0;right:0;z-index:300;padding:16px 0;
+  background:rgba(10,13,18,.93);backdrop-filter:blur(12px);border-bottom:1px solid var(--hair);}
+header .wrap{display:flex;align-items:center;justify-content:space-between;gap:24px;}
+.logo{font-family:'Fraunces',serif;font-size:15px;letter-spacing:.18em;font-weight:500;}
+.navmid{display:flex;gap:26px;}
+.navmid a{font-size:12px;letter-spacing:.09em;text-transform:uppercase;font-weight:600;color:var(--dim);transition:.2s;}
+.navmid a:hover{color:var(--ivory);}
+.navmid a.on{color:var(--white);}
+.navright{display:flex;align-items:center;gap:18px;}
+.pill{background:var(--white);color:var(--navy-deep);font-size:11.5px;letter-spacing:.1em;
+  text-transform:uppercase;font-weight:700;padding:8px 16px;transition:.2s;}
+.pill:hover{background:transparent;color:var(--ivory);box-shadow:inset 0 0 0 1px rgba(243,245,248,.5);}
+.icn{width:16px;height:16px;stroke:var(--dim);fill:none;stroke-width:1.6;}
+@media(max-width:1050px){.navmid{display:none;}}
+
+.btn{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;padding:13px 24px;transition:.2s;
+  display:inline-flex;align-items:center;gap:8px;border:none;cursor:pointer;font-family:inherit;}
+.btn-red{background:var(--c-red);color:#fff;}
+.btn-red:hover{background:var(--c-red-deep);}
+.btn-line{border:1px solid rgba(243,245,248,.45);color:var(--ivory);background:transparent;}
+.btn-line:hover{background:rgba(243,245,248,.1);}
+.btn-sm{padding:9px 16px;font-size:10.5px;}
+
+section{padding:88px 0;}
+@media(max-width:800px){section{padding:52px 0;}}
+
+.sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:20px;
+  border-top:1px solid var(--hair);padding-top:14px;margin-bottom:34px;flex-wrap:wrap;}
+.sec-label{font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:var(--dim);}
+
+/* ===== HERO ===== */
+.phero{
+  padding-top:158px;padding-bottom:56px;position:relative;
+  background:linear-gradient(165deg,#152233 0%,#0d1620 55%,#0A0D12 100%);
+}
+.phero::before{content:"";position:absolute;inset:0;opacity:.4;mix-blend-mode:soft-light;
+  background-image:radial-gradient(circle at 18% 25%,rgba(243,245,248,.4),transparent 42%),
+  radial-gradient(circle at 85% 65%,rgba(94,150,214,.5),transparent 48%);}
+.phero .wrap{position:relative;z-index:2;}
+.phero .eyebrow{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);font-weight:700;margin-bottom:16px;}
+.phero h1{font-size:clamp(38px,5.6vw,66px);line-height:1.05;letter-spacing:-.01em;max-width:760px;}
+.phero p{max-width:520px;font-size:16px;color:rgba(243,245,248,.8);margin-top:18px;}
+.phero .promo-btns{display:flex;gap:10px;margin-top:28px;flex-wrap:wrap;}
+
+/* ===== EVENT ROWS (full-width, more detail than the homepage teaser) ===== */
+.erow{display:grid;grid-template-columns:280px 1fr auto;gap:36px;align-items:center;
+  padding:34px 0;border-top:1px solid var(--hair);}
+.erow:last-child{border-bottom:1px solid var(--hair);}
+@media(max-width:900px){.erow{grid-template-columns:1fr;gap:18px;}}
+.erow .ph{aspect-ratio:4/3;position:relative;}
+.erow .chip{position:absolute;top:12px;left:12px;z-index:2;background:rgba(10,13,18,.75);
+  padding:8px 12px;font-size:12px;font-weight:700;letter-spacing:.04em;}
+.erow .chip small{display:block;font-size:10px;font-weight:600;letter-spacing:.08em;color:var(--dim);margin-top:2px;}
+.erow .einfo .tag{display:inline-block;font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;
+  padding:5px 11px;background:var(--c-red);color:#fff;margin-bottom:12px;}
+.erow h3{font-size:24px;margin-bottom:6px;}
+.erow .venue{font-size:13px;color:var(--dim);margin-bottom:10px;}
+.erow p{font-size:13.5px;color:var(--dimmer);max-width:460px;}
+.erow .ebtns{display:flex;flex-direction:column;gap:8px;min-width:150px;}
+@media(max-width:900px){.erow .ebtns{flex-direction:row;}}
+
+/* ===== REPERTORY-STYLE PAST HIGHLIGHTS ===== */
+.repertory{position:relative;padding:120px 0;overflow:hidden;background:var(--navy-deep);}
+.repertory .ph{position:absolute;inset:0;opacity:.28;}
+.repertory-scrim{position:absolute;inset:0;background:linear-gradient(90deg,rgba(11,18,28,.97) 0%,rgba(11,18,28,.75) 55%,rgba(11,18,28,.94) 100%);}
+.repertory .wrap{position:relative;z-index:2;}
+.repertory-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:70px;flex-wrap:wrap;gap:20px;}
+.repertory-mark{text-align:right;font-family:'Fraunces',serif;font-size:13px;letter-spacing:.1em;line-height:1.6;color:rgba(243,245,248,.35);}
+.repertory-list .serif{font-size:clamp(24px,4vw,42px);font-style:italic;line-height:1.5;color:rgba(243,245,248,.72);}
+
+/* ===== CTA BAND ===== */
+.cta-band{background:radial-gradient(circle at 30% 30%,#1c3348,#0A0D12 70%);text-align:center;}
+.cta-band h2{font-size:clamp(26px,3.4vw,40px);max-width:600px;margin:0 auto 16px;}
+.cta-band p{color:var(--dim);max-width:460px;margin:0 auto 30px;}
+.cta-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+
+/* footer */
+footer{background:#06080B;padding:64px 0 26px;border-top:1px solid var(--hair);}
+.ftop{display:grid;grid-template-columns:1.3fr 1fr 1fr 1.4fr;gap:40px;padding-bottom:44px;}
+@media(max-width:900px){.ftop{grid-template-columns:1fr 1fr;row-gap:32px;}}
+.fbrand .serif{font-size:16px;letter-spacing:.16em;margin-bottom:12px;}
+.fbrand p{font-size:12.5px;color:var(--dimmer);max-width:250px;}
+footer h5{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--dimmer);margin-bottom:14px;}
+footer ul{list-style:none;}
+footer li{margin-bottom:9px;font-size:13px;color:var(--dim);}
+footer li a:hover{color:var(--ivory);}
+.signup{display:flex;border:1px solid var(--hair);margin-top:4px;}
+.signup input{flex:1;background:transparent;border:0;padding:12px 14px;color:var(--ivory);font-family:inherit;font-size:13px;}
+.signup input:focus{outline:2px solid var(--white);outline-offset:-2px;}
+.signup button{background:var(--white);color:var(--navy-deep);border:0;padding:0 20px;font-size:11px;
+  letter-spacing:.12em;text-transform:uppercase;font-weight:700;cursor:pointer;font-family:inherit;}
+.fbot{display:flex;justify-content:space-between;padding-top:22px;border-top:1px solid var(--hair);
+  font-size:11px;color:var(--dimmer);flex-wrap:wrap;gap:8px;}
+
+a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--white);outline-offset:3px;}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease;}
+.reveal.in{opacity:1;transform:none;}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="logo">GREATER PLACE</div>
+    <nav class="navmid">
+      <a href="greater-place-ailey-pattern.html">Home</a>
+      <a href="our-story.html">Our Story</a>
+      <a href="programs.html">Programs</a>
+      <a class="on" href="events.html">Events</a>
+      <a href="blog.html">Blog</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="navright">
+      <a class="pill" href="contact.html">Get Involved</a>
+      <svg class="icn" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5L21 21"/></svg>
+      <svg class="icn" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="phero">
+  <div class="wrap">
+    <div class="eyebrow">Performances</div>
+    <h1 class="serif">See the work on stage.</h1>
+    <p>From intimate community showcases to the Annual Gala — every performance is a chance to see what a season of training builds.</p>
+    <div class="promo-btns">
+      <a class="btn btn-red" href="https://wa.me/15550100192?text=Hi%20Greater%20Place!%20I%27d%20like%20to%20RSVP%20for%20an%20upcoming%20event.">RSVP via WhatsApp</a>
+      <a class="btn btn-line" href="#upcoming">See Upcoming Events</a>
+    </div>
+  </div>
+</div>
+
+<!-- UPCOMING EVENTS -->
+<section id="upcoming" class="reveal">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-label">Upcoming</span></div>
+
+    <div class="erow" id="winter-showcase">
+      <div class="ph p2"><span class="chip">JAN 18<small>7:00PM</small></span></div>
+      <div class="einfo">
+        <span class="tag">Showcase</span>
+        <h3 class="serif">Winter Showcase</h3>
+        <div class="venue">Community Hall, Main Stage</div>
+        <p>Our flagship winter performance featuring the full company across every Pathway stage, including an extended staging of Ogene.</p>
+      </div>
+      <div class="ebtns">
+        <a class="btn btn-red btn-sm" href="https://wa.me/15550100192?text=Hi%20Greater%20Place!%20I%27d%20like%20to%20RSVP%20for%20the%20Winter%20Showcase%20on%20Jan%2018.">RSVP</a>
+        <a class="btn btn-line btn-sm" href="blog-post.html">Read More</a>
+      </div>
+    </div>
+
+    <div class="erow" id="mid-year-performance">
+      <div class="ph p5"><span class="chip">JUN 14<small>7:00PM</small></span></div>
+      <div class="einfo">
+        <span class="tag">Performance</span>
+        <h3 class="serif">Mid-Year Performance</h3>
+        <div class="venue">Partner Church, Sanctuary Hall</div>
+        <p>A worship-focused evening blending liturgical dance and praise movement, hosted at one of our partner churches.</p>
+      </div>
+      <div class="ebtns">
+        <a class="btn btn-red btn-sm" href="https://wa.me/15550100192?text=Hi%20Greater%20Place!%20I%27d%20like%20to%20RSVP%20for%20the%20Mid-Year%20Performance%20on%20Jun%2014.">RSVP</a>
+        <a class="btn btn-line btn-sm" href="contact.html">Ask a Question</a>
+      </div>
+    </div>
+
+    <div class="erow" id="annual-gala">
+      <div class="ph p6"><span class="chip">DEC 06<small>6:30PM</small></span></div>
+      <div class="einfo">
+        <span class="tag">Gala</span>
+        <h3 class="serif">Annual Gala</h3>
+        <div class="venue">Main Auditorium</div>
+        <p>Our biggest night of the year — a fundraising gala combining performance, storytelling and a look back at the season, supporting next year's Pathway.</p>
+      </div>
+      <div class="ebtns">
+        <a class="btn btn-red btn-sm" href="https://wa.me/15550100192?text=Hi%20Greater%20Place!%20I%27d%20like%20to%20RSVP%20for%20the%20Annual%20Gala%20on%20Dec%206.">RSVP</a>
+        <a class="btn btn-line btn-sm" href="greater-place-ailey-pattern.html#support">Support the Gala</a>
+      </div>
+    </div>
+
+    <div class="erow" id="ogene-night">
+      <div class="ph p3"><span class="chip">MAR 22<small>5:00PM</small></span></div>
+      <div class="einfo">
+        <span class="tag">Community</span>
+        <h3 class="serif">Ogene Night</h3>
+        <div class="venue">Community Hall, Courtyard</div>
+        <p>A free community evening built entirely around Ogene — live percussion, an open dance circle, and a short performance from the company.</p>
+      </div>
+      <div class="ebtns">
+        <a class="btn btn-red btn-sm" href="https://wa.me/15550100192?text=Hi%20Greater%20Place!%20I%27d%20like%20to%20RSVP%20for%20Ogene%20Night%20on%20Mar%2022.">RSVP</a>
+        <a class="btn btn-line btn-sm" href="blog-post.html">Read More</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PAST HIGHLIGHTS -->
+<section class="repertory reveal">
+  <div class="ph p7"></div>
+  <div class="repertory-scrim"></div>
+  <div class="wrap">
+    <div class="repertory-top">
+      <span class="bleed-label" style="margin:0;font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:var(--dim);border-top:1px solid var(--hair);padding-top:14px;display:inline-block;">Past Highlights</span>
+      <div class="repertory-mark">GREATER PLACE<br>PERFORMING ARTS</div>
+    </div>
+    <div class="repertory-list">
+      <div class="serif">Summer Showcase — 2025</div>
+      <div class="serif">Founders' Night — 2025</div>
+      <div class="serif">Winter Showcase — 2024</div>
+      <div class="serif">First Community Ogene Night — 2024</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-band reveal">
+  <div class="wrap">
+    <h2 class="serif">Want to bring a group?</h2>
+    <p>We can hold seats for churches, schools and community groups — just reach out ahead of the date.</p>
+    <div class="cta-btns">
+      <a class="btn btn-red" href="https://wa.me/15550100192?text=Hi%20Greater%20Place!%20I%27d%20like%20to%20bring%20a%20group%20to%20an%20upcoming%20event.">Chat on WhatsApp</a>
+      <a class="btn btn-line" href="contact.html">Contact Us</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="ftop">
+      <div class="fbrand">
+        <div class="serif">GREATER PLACE</div>
+        <p>Performing arts, ministry and youth development for young people ages 8–33.</p>
+      </div>
+      <div>
+        <h5>Program</h5>
+        <ul>
+          <li><a href="our-story.html">Our Story</a></li>
+          <li><a href="training.html">Training</a></li>
+          <li><a href="programs.html">What We Develop</a></li>
+          <li><a href="blog.html">Blog</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Organisation</h5>
+        <ul>
+          <li><a href="greater-place-ailey-pattern.html#people">Team</a></li>
+          <li><a href="events.html">Events</a></li>
+          <li><a href="greater-place-ailey-pattern.html#support">Support Us</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Stay Connected</h5>
+        <div class="signup">
+          <input type="email" placeholder="Email address" aria-label="Email address">
+          <button type="button">Sign up</button>
+        </div>
+        <ul style="margin-top:18px;display:flex;gap:18px;">
+          <li><a href="#">Instagram</a></li><li><a href="#">YouTube</a></li><li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="fbot">
+      <span>© 2027 Greater Place</span>
+      <span>Events — Upcoming performances &amp; past highlights</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

@@ -28,6 +28,10 @@ Recommended Tailwind semantic mappings:
 
 Semantic names are preferred over arbitrary color names.
 
+Implementation notes:
+- Tailwind scans `app/`, `components/`, and `lib/`. Class names must appear as complete strings (no `bg-${x}` interpolation). The shared accent-name → class map lives in `lib/accents.js`.
+- Opacity modifiers must be on Tailwind v3's scale (0, 5, 10, 20, 25, 30, 40, 50, 60, 70, 75, 80, 90, 95, 100). Off-scale values such as `/15` or `/85` silently generate no CSS.
+
 ## 3. Typography
 Register project fonts through next/font/google:
 - Fraunces
@@ -75,6 +79,15 @@ Consider hover, focus-visible, active, disabled, validation/error, and loading s
 
 ## 13. Dark Editorial Sections
 The core site is dark, but selected sections may use ivory/light surfaces for rhythm. These are page-level composition decisions, not a global theme switch.
+
+### Page atmosphere (scroll-driven dark → light → dark)
+The homepage background is one page-wide "atmosphere", not per-section backgrounds. `components/PageAtmosphere.jsx` (mounted once in `app/page.js`) maps the viewport's centre line onto a value `--atmos-t` (0 = dark, 1 = light) that eases across about 70% of a viewport of scrolling around each dark/light boundary. `app/globals.css` turns it into the `<body>` background (`brand-black` ↔ `brand-ivory`) and into the text colours below.
+- Sections do not set their own background or text colour. `data-theme="dark|light"` on a `<section>` only declares where the atmosphere should be dark or light (and `SiteHeader` follows `html[data-atmosphere]`, which flips at `t = 0.5`).
+- Content colour must follow the atmosphere, otherwise it is unreadable mid-transition. Use the semantic utilities: `text-atmos` (set on `<main>`), `text-atmos-muted`, `border-atmos-line`, `bg-atmos-tint`, or `currentColor`. Do not use `text-brand-black` / `text-brand-ivory` (or their opacity variants) for content that lives inside an atmosphere page; self-contained surfaces (`EventCard`, `ProgramCard`, the footer) keep their own dark colours.
+- Do not put `transition` / `transition-colors` on wrappers around content: the text colour flips at `t = 0.5`, and a colour transition would cross-fade it through mid-gray. `RevealOnScroll` therefore transitions only `opacity` and `transform`.
+- `solidWhite` buttons are for dark surfaces only; keep them in sections that stay on the dark atmosphere, or inside dark surfaces such as the footer.
+- Without JavaScript (or on pages that do not mount `PageAtmosphere`) the page keeps the dark theme background. With `prefers-reduced-motion`, the atmosphere switches at the boundary instead of easing.
+- Verified contrast at the flip point is about 3.2:1 for small muted text and higher elsewhere; outside the transition it is 7:1 or better.
 
 ## 14. Avoid
 Do not use Tailwind for arbitrary decorative gradients, excessive shadows, generic rounded dashboard cards, inconsistent one-off colors, duplicate component systems, or unexplained large spacing values.

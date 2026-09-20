@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Story — Greater Place</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --black:#0A0D12;
+  --navy:#101826;
+  --navy-deep:#0B121C;
+  --ivory:#F3F5F8;
+  --white:#FFFFFF;
+  --dim:rgba(243,245,248,.55);
+  --dimmer:rgba(243,245,248,.38);
+  --hair:rgba(243,245,248,.14);
+  --c-red:#E5484D;
+  --c-red-deep:#C23238;
+  --c-green:#3FBF6F;
+  --c-purple:#A78BFA;
+  --c-gold:#D9A441;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Manrope',sans-serif;
+  background:var(--black);
+  color:var(--ivory);
+  font-size:15px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4,.serif{font-family:'Fraunces',serif;font-weight:400;}
+a{color:inherit;text-decoration:none;}
+img{display:block;}
+.wrap{max-width:1360px;margin:0 auto;padding:0 40px;}
+@media(max-width:800px){.wrap{padding:0 20px;}}
+
+/* photo placeholders */
+.ph{position:relative;overflow:hidden;background:#101826;display:block;}
+.ph::after{content:"";position:absolute;inset:0;opacity:.5;mix-blend-mode:overlay;
+  background-image:radial-gradient(circle at 30% 22%,rgba(243,245,248,.4),transparent 46%),
+                   radial-gradient(circle at 74% 76%,rgba(0,0,0,.6),transparent 55%);}
+.ph-tag{position:absolute;left:14px;bottom:12px;z-index:2;font-size:10px;letter-spacing:.04em;
+  font-style:italic;color:rgba(255,255,255,.62);}
+.p1{background:linear-gradient(140deg,#2a5a86,#5fa8dd 55%,#0B121C);}
+.p2{background:linear-gradient(155deg,#173650,#0d1620 62%,#0A0D12);}
+.p3{background:linear-gradient(130deg,#3d5b78,#152431 58%,#0A0D12);}
+.p4{background:linear-gradient(145deg,#1c3348,#0e1721 60%,#0A0D12);}
+.p5{background:linear-gradient(120deg,#4f86c6,#173650 58%,#080D12);}
+.p6{background:linear-gradient(165deg,#26445f,#4f86c6 50%,#0A0D12);}
+.p7{background:linear-gradient(150deg,#3a3a3a,#171717 60%,#0A0D12);}
+
+/* nav */
+header{position:fixed;top:0;left:0;right:0;z-index:300;padding:16px 0;transition:.3s;
+  background:rgba(10,13,18,.93);backdrop-filter:blur(12px);border-bottom:1px solid var(--hair);}
+header .wrap{display:flex;align-items:center;justify-content:space-between;gap:24px;}
+.logo{font-family:'Fraunces',serif;font-size:15px;letter-spacing:.18em;font-weight:500;}
+.navmid{display:flex;gap:28px;}
+.navmid a{font-size:12px;letter-spacing:.09em;text-transform:uppercase;font-weight:600;color:var(--dim);transition:.2s;}
+.navmid a:hover{color:var(--ivory);}
+.navmid a.on{color:var(--white);}
+.navright{display:flex;align-items:center;gap:18px;}
+.pill{background:var(--white);color:var(--navy-deep);font-size:11.5px;letter-spacing:.1em;
+  text-transform:uppercase;font-weight:700;padding:8px 16px;transition:.2s;}
+.pill:hover{background:transparent;color:var(--ivory);box-shadow:inset 0 0 0 1px rgba(243,245,248,.5);}
+.icn{width:16px;height:16px;stroke:var(--dim);fill:none;stroke-width:1.6;}
+@media(max-width:1000px){.navmid{display:none;}}
+
+/* buttons */
+.btn{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;padding:13px 24px;transition:.2s;display:inline-block;}
+.btn-red{background:var(--c-red);color:#fff;}
+.btn-red:hover{background:var(--c-red-deep);}
+.btn-line{border:1px solid rgba(243,245,248,.45);color:var(--ivory);}
+.btn-line:hover{background:rgba(243,245,248,.1);}
+
+section{padding:96px 0;}
+@media(max-width:800px){section{padding:64px 0;}}
+
+/* ===== 1. HERO — full-bleed, "OUR STORY" label, single dot ===== */
+.hero{position:relative;height:82vh;min-height:520px;display:flex;align-items:flex-end;overflow:hidden;}
+.hero .ph{position:absolute;inset:0;}
+.hero-scrim{position:absolute;inset:0;background:linear-gradient(0deg,rgba(10,13,18,.85) 0%,rgba(10,13,18,.05) 55%);}
+.hero-inner{position:relative;z-index:2;width:100%;padding:0 40px 40px;display:flex;justify-content:space-between;align-items:flex-end;}
+@media(max-width:800px){.hero-inner{padding:0 20px 32px;}}
+.hero-label{font-family:'Fraunces',serif;font-size:clamp(28px,4vw,44px);letter-spacing:.04em;}
+.hero-dot{width:8px;height:8px;border-radius:50%;background:var(--white);flex-shrink:0;margin-bottom:8px;}
+
+/* ===== 2. INTRO PARAGRAPH ===== */
+.intro{padding:80px 0 40px;}
+.intro .mark{width:22px;height:3px;background:var(--c-red);margin-bottom:22px;}
+.intro p{max-width:720px;font-size:17px;color:var(--dim);line-height:1.7;}
+
+/* ===== 3. QUOTE BLOCK (full-bleed photo + big italic quote) ===== */
+.quote-block{position:relative;min-height:82vh;display:flex;align-items:flex-end;overflow:hidden;}
+.quote-block .ph{position:absolute;inset:0;}
+.quote-scrim{position:absolute;inset:0;background:linear-gradient(0deg,rgba(10,13,18,.94) 0%,rgba(10,13,18,.1) 50%);}
+.quote-inner{position:relative;z-index:2;width:100%;padding:0 40px 56px;}
+@media(max-width:800px){.quote-inner{padding:0 20px 40px;}}
+.quote-block blockquote{font-family:'Fraunces',serif;font-style:italic;font-size:clamp(24px,3.6vw,42px);
+  line-height:1.28;max-width:640px;}
+.quote-block .who{margin-top:18px;font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--dimmer);}
+
+/* ===== 4. FOUNDER / PEOPLE STRIP ===== */
+.people-head{margin-bottom:36px;}
+.people-head .sec-label{font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:var(--dim);
+  border-top:1px solid var(--hair);padding-top:14px;display:block;margin-bottom:20px;}
+.people-head p{max-width:640px;color:var(--dim);font-size:15.5px;}
+.people-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:36px;}
+@media(max-width:800px){.people-strip{grid-template-columns:1fr 1fr;}}
+.pcard .ph{aspect-ratio:4/5;margin-bottom:10px;}
+.pcard h4{font-size:15.5px;}
+.pcard .role{font-size:12px;color:var(--dimmer);margin-top:2px;}
+
+/* ===== 5. MISSION BANDS ===== */
+.bands{display:grid;grid-template-columns:repeat(4,1fr);}
+.band{min-height:220px;display:flex;align-items:flex-end;padding:26px;position:relative;overflow:hidden;}
+.band span{font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:rgba(10,13,18,.85);}
+.band.b1{background:var(--c-red);}
+.band.b2{background:var(--c-gold);}
+.band.b3{background:var(--c-green);}
+.band.b4{background:var(--c-purple);}
+@media(max-width:800px){.bands{grid-template-columns:1fr 1fr;}}
+
+/* ===== 6. LEADERSHIP ===== */
+.lead-grid{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:start;}
+@media(max-width:800px){.lead-grid{grid-template-columns:1fr;gap:36px;}}
+.lead-grid h2{font-size:clamp(28px,3.6vw,42px);margin-bottom:18px;}
+.lead-grid p{color:var(--dim);max-width:420px;}
+.lead-list div{display:flex;justify-content:space-between;padding:18px 0;border-top:1px solid var(--hair);gap:20px;}
+.lead-list div:last-child{border-bottom:1px solid var(--hair);}
+.lead-list .name{font-family:'Fraunces',serif;font-size:18px;}
+.lead-list .title{font-size:12.5px;color:var(--dimmer);text-align:right;}
+
+/* ===== 7. GROUP PHOTO ===== */
+.group-photo .ph{aspect-ratio:16/8;}
+.group-cap{margin-top:18px;font-size:13.5px;color:var(--dim);max-width:600px;}
+
+/* ===== 8. HISTORY ===== */
+.hist-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
+@media(max-width:800px){.hist-grid{grid-template-columns:1fr;gap:30px;}}
+.hist-grid h2{font-size:clamp(26px,3.4vw,38px);margin-bottom:16px;}
+.hist-grid p{color:var(--dim);max-width:440px;margin-bottom:20px;}
+.hist-photo .ph{aspect-ratio:5/4;}
+
+/* ===== 9. IMPACT / DONATE CTA ===== */
+.impact{position:relative;min-height:70vh;display:flex;align-items:center;overflow:hidden;
+  background:radial-gradient(circle at 65% 45%,#e8703a 0%,#b8442f 32%,#2a1420 62%,#0A0D12 100%);}
+.impact::before{content:"";position:absolute;inset:0;opacity:.5;mix-blend-mode:soft-light;
+  background-image:radial-gradient(circle at 60% 40%,rgba(255,255,255,.5),transparent 45%);}
+.impact .wrap{position:relative;z-index:2;}
+.impact h2{font-size:clamp(30px,4.6vw,58px);line-height:1.14;max-width:760px;color:var(--white);}
+.impact .btn{margin-top:32px;}
+
+/* footer */
+footer{background:#06080B;padding:64px 0 26px;border-top:1px solid var(--hair);}
+.ftop{display:grid;grid-template-columns:1.3fr 1fr 1fr 1.4fr;gap:40px;padding-bottom:44px;}
+@media(max-width:900px){.ftop{grid-template-columns:1fr 1fr;row-gap:32px;}}
+.fbrand .serif{font-size:16px;letter-spacing:.16em;margin-bottom:12px;}
+.fbrand p{font-size:12.5px;color:var(--dimmer);max-width:250px;}
+footer h5{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--dimmer);margin-bottom:14px;}
+footer ul{list-style:none;}
+footer li{margin-bottom:9px;font-size:13px;color:var(--dim);}
+footer li a:hover{color:var(--ivory);}
+.signup{display:flex;border:1px solid var(--hair);margin-top:4px;}
+.signup input{flex:1;background:transparent;border:0;padding:12px 14px;color:var(--ivory);font-family:inherit;font-size:13px;}
+.signup input:focus{outline:2px solid var(--white);outline-offset:-2px;}
+.signup button{background:var(--white);color:var(--navy-deep);border:0;padding:0 20px;font-size:11px;
+  letter-spacing:.12em;text-transform:uppercase;font-weight:700;cursor:pointer;font-family:inherit;}
+.fbot{display:flex;justify-content:space-between;padding-top:22px;border-top:1px solid var(--hair);
+  font-size:11px;color:var(--dimmer);flex-wrap:wrap;gap:8px;}
+
+a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--white);outline-offset:3px;}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease;}
+.reveal.in{opacity:1;transform:none;}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="logo">GREATER PLACE</div>
+    <nav class="navmid">
+      <a href="greater-place-ailey-pattern.html">Home</a>
+      <a class="on" href="our-story.html">Our Story</a>
+      <a href="programs.html">Programs</a>
+      <a href="events.html">Events</a>
+      <a href="blog.html">Blog</a>
+      <a href="greater-place-ailey-pattern.html#support">Support</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="navright">
+      <a class="pill" href="greater-place-ailey-pattern.html#support">Get Involved</a>
+      <svg class="icn" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5L21 21"/></svg>
+      <svg class="icn" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </div>
+  </div>
+</header>
+
+<!-- 1. HERO -->
+<div class="hero">
+  <div class="ph p1"><span class="ph-tag">Dancer mid-leap, lightning pose, dramatic light</span></div>
+  <div class="hero-scrim"></div>
+  <div class="hero-inner">
+    <div class="hero-label serif">Our Story</div>
+    <div class="hero-dot"></div>
+  </div>
+</div>
+
+<!-- 2. INTRO PARAGRAPH -->
+<section class="intro reveal">
+  <div class="wrap">
+    <div class="mark"></div>
+    <p>Greater Place began with a simple conviction: that dance could do more than entertain — it could help a young person discover confidence, character and purpose. From a handful of dancers meeting after school, Greater Place has grown into a programme that shares performing arts, mentorship and faith back to the community that shaped it, reaching young people ages 8 to 33 across training, performance and leadership.</p>
+  </div>
+</section>
+
+<!-- 3. QUOTE BLOCK -->
+<div class="quote-block reveal">
+  <div class="ph p6"><span class="ph-tag">Dancer, arms raised, silhouette</span></div>
+  <div class="quote-scrim"></div>
+  <div class="quote-inner">
+    <blockquote class="serif">"Dance is for everybody. We believe every young person carries a story worth telling — and a stage worth standing on."</blockquote>
+    <div class="who">Founder Name — Founder &amp; Director</div>
+  </div>
+</div>
+
+<!-- 4. FOUNDER / PEOPLE STRIP -->
+<section class="reveal">
+  <div class="wrap">
+    <div class="people-head">
+      <span class="sec-label">Our Founder</span>
+      <p>Greater Place was founded on the belief that every young person deserves a place to grow — in skill, in character and in faith. That vision now runs through every instructor, mentor and volunteer who leads a class.</p>
+    </div>
+    <div class="people-strip">
+      <div class="pcard"><div class="ph p1"></div><h4 class="serif">Founder Name</h4><div class="role">Founder &amp; Director</div></div>
+      <div class="pcard"><div class="ph p2"></div><h4 class="serif">Programme Lead</h4><div class="role">Programme Director</div></div>
+      <div class="pcard"><div class="ph p3"></div><h4 class="serif">Instructor Name</h4><div class="role">Lead Instructor</div></div>
+      <div class="pcard"><div class="ph p4"></div><h4 class="serif">Volunteer Name</h4><div class="role">Mentor &amp; Volunteer</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. MISSION BANDS -->
+<section class="reveal" style="padding:0;">
+  <div class="bands">
+    <div class="band b1"><span>Performing Arts</span></div>
+    <div class="band b2"><span>Faith &amp; Character</span></div>
+    <div class="band b3"><span>Leadership</span></div>
+    <div class="band b4"><span>Wellness</span></div>
+  </div>
+</section>
+
+<!-- 6. LEADERSHIP -->
+<section class="reveal">
+  <div class="wrap lead-grid">
+    <div>
+      <span class="sec-label" style="display:block;margin-bottom:20px;">Our Leadership</span>
+      <h2 class="serif">Guided by people who show up for young people, week after week.</h2>
+      <p>Greater Place is led by a small team of instructors, mentors and board members who each bring years of experience in dance, ministry and youth development.</p>
+    </div>
+    <div class="lead-list">
+      <div><span class="name serif">Founder Name</span><span class="title">Founder &amp; Director</span></div>
+      <div><span class="name serif">Programme Lead</span><span class="title">Programme Director</span></div>
+      <div><span class="name serif">Board Chair Name</span><span class="title">Board Chair</span></div>
+      <div><span class="name serif">Board Member Name</span><span class="title">Board of Directors</span></div>
+      <div><span class="name serif">Instructor Name</span><span class="title">Lead Instructor</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 7. GROUP PHOTO -->
+<section class="reveal">
+  <div class="wrap group-photo">
+    <div class="ph p5" style="aspect-ratio:16/8;"><span class="ph-tag">Full company &amp; staff group photo</span></div>
+    <div class="group-cap">Meet the people of Greater Place — from instructors and mentors to volunteers and board members, all working toward the same goal.</div>
+  </div>
+</section>
+
+<!-- 8. HISTORY -->
+<section class="reveal">
+  <div class="wrap hist-grid">
+    <div>
+      <span class="sec-label" style="display:block;margin-bottom:20px;">Our History</span>
+      <h2 class="serif">A programme that grew from a single after-school class.</h2>
+      <p>What started as informal rehearsals in a church hall has grown into a structured pathway serving young people across the community — still rooted in the same values it started with.</p>
+      <a class="btn btn-line" href="#">Read Our Full History</a>
+    </div>
+    <div class="hist-photo"><div class="ph p3"><span class="ph-tag">Archival photo, early rehearsals</span></div></div>
+  </div>
+</section>
+
+<!-- 9. IMPACT / DONATE CTA -->
+<div class="impact reveal">
+  <div class="wrap">
+    <h2 class="serif">Every gift to Greater Place helps a young person discover their greater place.</h2>
+    <a class="btn btn-red" href="greater-place-ailey-pattern.html#support">Donate</a>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="ftop">
+      <div class="fbrand">
+        <div class="serif">GREATER PLACE</div>
+        <p>Performing arts, ministry and youth development for young people ages 8–33.</p>
+      </div>
+      <div>
+        <h5>Program</h5>
+        <ul>
+          <li><a href="our-story.html">Our Story</a></li>
+          <li><a href="greater-place-ailey-pattern.html#training">Training</a></li>
+          <li><a href="programs.html">What We Develop</a></li>
+          <li><a href="blog.html">Blog</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Organisation</h5>
+        <ul>
+          <li><a href="greater-place-ailey-pattern.html#people">Team</a></li>
+          <li><a href="events.html">Events</a></li>
+          <li><a href="greater-place-ailey-pattern.html#support">Support Us</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Stay Connected</h5>
+        <div class="signup">
+          <input type="email" placeholder="Email address" aria-label="Email address">
+          <button type="button">Sign up</button>
+        </div>
+        <ul style="margin-top:18px;display:flex;gap:18px;">
+          <li><a href="#">Instagram</a></li><li><a href="#">YouTube</a></li><li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="fbot">
+      <span>© 2027 Greater Place</span>
+      <span>Our Story — modeled on Ailey's About page structure</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

@@ -39,6 +39,22 @@ Accents:
 
 Do not introduce additional brand colors casually.
 
+### Assigned meanings (category colors)
+Accent colors carry a fixed meaning. `components/CategoryTag.jsx` is the single place that maps a category to its accent; do not hardcode this mapping elsewhere.
+
+| Category | Accent |
+|---|---|
+| Events | Red |
+| Community | Green |
+| Culture | Purple |
+| Pathway / Training | Gold |
+| Wellness | Teal |
+| Stories | Stories Blue |
+
+Applied on the inner routes: Pathway / Training sections use gold, Culture and Classes use purple. Programs (Faith & Character, Leadership, Wellness), the `/our-story` focus-area tiles (Performing Arts, Faith & Character, Leadership, Wellness), the blog teaser, and the FAQ deliberately have no accent, because they do not map to a category in this table. Do not invent a mapping for them; per-stage colors from the mockups are not used either.
+
+Accent colors are used as fills and rules, not as body-text color on light surfaces (green, gold, and teal do not have enough contrast on ivory). Dark text (`brand-black`) on an accent fill passes contrast for all six.
+
 ## 5. Borders and Radius
 Default border radius is 0. Use sharp editorial geometry for cards, buttons, sections, image frames, and containers. Circular shapes are appropriate for semantic circular elements such as avatars, icon controls, and status indicators.
 
@@ -74,6 +90,8 @@ The pattern can vary between sections while the typography remains coherent.
 Cards are useful for structured content such as programs, events, stories, and classes, but should not dominate the page. Prefer image, category/metadata, editorial title, concise description, and clear action.
 
 Use borders and spacing rather than heavy shadows.
+
+`EventCard` has a vertical `card` layout (carousels, grids) and a horizontal `row` layout (the `/events` list, image beside text from `md`), with an optional description and a configurable secondary action. `ProgramCard` accepts `expanded`, `ctaLabel`, and a node `badge`. `PostCard` is the blog post card (category tag over the image, serif title, excerpt, `Author · Date · N min read`), with a wide `featured` layout for the newest post. Blog category filters are pill links built from `CATEGORY_NAMES` in `CategoryTag`; the active pill is filled ivory.
 
 ## 11. Imagery
 Preferred subject matter:
@@ -113,8 +131,21 @@ Tailwind owns page composition, spacing, grid/flex layouts, responsive utility s
 
 Avoid two competing styling systems for the same responsibility.
 
+### Button variants
+Buttons are MUI `Button` theme variants defined in `lib/theme.js` (`components.MuiButton.variants`); there is no hand-rolled `Button` wrapper. Use them as `<Button variant="...">`. They are square (`borderRadius: 0`), uppercase Manrope, and read colors from the theme palette.
+
+| `variant` | Treatment | Use |
+|---|---|---|
+| `solidRed` | `error.main` fill, white text, hover `error.dark` | Primary CTA |
+| `outline` | 1px `currentColor` border, inherited text color, subtle `currentColor` tint on hover | Secondary action; adapts to dark and light sections |
+| `solidWhite` | `primary.main` (white) fill, `brand-black` text, hover ivory | CTA on dark surfaces or photography (invisible on ivory) |
+
+`size="small"` is supported. For link buttons pass `href`; the theme sets `MuiButtonBase.defaultProps.LinkComponent` to `next/link`, so internal links navigate client-side. Do not pass `component={Link}` from a Server Component (functions cannot cross the Server→Client boundary).
+
 ## 16. Theme Rule
-The project remains dark-only at the global theme level until a real light palette is designed. Do not add a theme toggle simply because next-themes exists. Light/ivory sections are allowed as intentional editorial sections.
+The project remains dark-only at the global theme level until a real light palette is designed. Do not add a theme toggle simply because next-themes exists. Light/ivory sections are allowed as intentional editorial sections. On the homepage the dark → light → dark change is a scroll-driven page atmosphere (see `docs/tailwind-conversion-notes.md` §13), not a theme toggle.
+
+`app/layout.js` renders `<CssBaseline enableColorScheme />`, which declares `color-scheme: dark` on `<html>` from the theme's palette mode. Keep it: without it, browser-level dark forcing (Chrome's Auto Dark Mode flag, some extensions) treats the page as light and darkens the ivory/white sections, which hides the dark → light → dark rhythm and the header inversion.
 
 ## 17. Do Not
 - copy Ailey or another site's design directly

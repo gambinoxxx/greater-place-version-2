@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Training — The Greater Place Pathway</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --black:#0A0D12;
+  --navy:#101826;
+  --navy-deep:#0B121C;
+  --ivory:#F3F5F8;
+  --white:#FFFFFF;
+  --dim:rgba(243,245,248,.55);
+  --dimmer:rgba(243,245,248,.38);
+  --hair:rgba(243,245,248,.14);
+  --c-red:#E5484D;
+  --c-red-deep:#C23238;
+  --c-green:#3FBF6F;
+  --c-purple:#A78BFA;
+  --c-gold:#D9A441;
+  --c-teal:#4FD1C5;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Manrope',sans-serif;
+  background:var(--black);
+  color:var(--ivory);
+  font-size:15px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4,.serif{font-family:'Fraunces',serif;font-weight:400;}
+a{color:inherit;text-decoration:none;}
+.wrap{max-width:1360px;margin:0 auto;padding:0 40px;}
+@media(max-width:800px){.wrap{padding:0 20px;}}
+
+/* photo placeholders */
+.ph{position:relative;overflow:hidden;background:#101826;display:block;}
+.ph::after{content:"";position:absolute;inset:0;opacity:.5;mix-blend-mode:overlay;
+  background-image:radial-gradient(circle at 30% 22%,rgba(243,245,248,.4),transparent 46%),
+                   radial-gradient(circle at 74% 76%,rgba(0,0,0,.6),transparent 55%);}
+.ph-tag{position:absolute;left:14px;bottom:12px;z-index:2;font-size:10px;letter-spacing:.04em;
+  font-style:italic;color:rgba(255,255,255,.62);}
+.p1{background:linear-gradient(140deg,#2a5a86,#5fa8dd 55%,#0B121C);}
+.p2{background:linear-gradient(155deg,#173650,#0d1620 62%,#0A0D12);}
+.p3{background:linear-gradient(130deg,#3d5b78,#152431 58%,#0A0D12);}
+.p4{background:linear-gradient(145deg,#1c3348,#0e1721 60%,#0A0D12);}
+.p5{background:linear-gradient(120deg,#4f86c6,#173650 58%,#080D12);}
+
+/* nav */
+header{position:fixed;top:0;left:0;right:0;z-index:300;padding:16px 0;
+  background:rgba(10,13,18,.93);backdrop-filter:blur(12px);border-bottom:1px solid var(--hair);}
+header .wrap{display:flex;align-items:center;justify-content:space-between;gap:24px;}
+.logo{font-family:'Fraunces',serif;font-size:15px;letter-spacing:.18em;font-weight:500;}
+.navmid{display:flex;gap:26px;}
+.navmid a{font-size:12px;letter-spacing:.09em;text-transform:uppercase;font-weight:600;color:var(--dim);transition:.2s;}
+.navmid a:hover{color:var(--ivory);}
+.navmid a.on{color:var(--white);}
+.navright{display:flex;align-items:center;gap:18px;}
+.pill{background:var(--white);color:var(--navy-deep);font-size:11.5px;letter-spacing:.1em;
+  text-transform:uppercase;font-weight:700;padding:8px 16px;transition:.2s;}
+.pill:hover{background:transparent;color:var(--ivory);box-shadow:inset 0 0 0 1px rgba(243,245,248,.5);}
+.icn{width:16px;height:16px;stroke:var(--dim);fill:none;stroke-width:1.6;}
+@media(max-width:1050px){.navmid{display:none;}}
+
+.btn{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;padding:13px 24px;transition:.2s;
+  display:inline-flex;align-items:center;gap:8px;border:none;cursor:pointer;font-family:inherit;}
+.btn-red{background:var(--c-red);color:#fff;}
+.btn-red:hover{background:var(--c-red-deep);}
+.btn-line{border:1px solid rgba(243,245,248,.45);color:var(--ivory);background:transparent;}
+.btn-line:hover{background:rgba(243,245,248,.1);}
+
+section{padding:88px 0;}
+@media(max-width:800px){section{padding:52px 0;}}
+
+.sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:20px;
+  border-top:1px solid var(--hair);padding-top:14px;margin-bottom:34px;flex-wrap:wrap;}
+.sec-label{font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:var(--dim);}
+
+/* ===== BREADCRUMB ===== */
+.crumb{padding-top:150px;padding-bottom:0;}
+.crumb .wrap{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--dimmer);}
+.crumb a:hover{color:var(--ivory);}
+
+/* ===== HERO ===== */
+.thero{padding-top:26px;padding-bottom:0;}
+.thero .eyebrow{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);font-weight:700;margin-bottom:16px;}
+.thero h1{font-size:clamp(36px,5.6vw,62px);line-height:1.05;letter-spacing:-.01em;max-width:780px;}
+.thero p{max-width:540px;font-size:16px;color:rgba(243,245,248,.8);margin-top:18px;}
+.thero .promo-btns{display:flex;gap:10px;margin-top:28px;flex-wrap:wrap;}
+.hero-photo{margin-top:44px;}
+.hero-photo .ph{aspect-ratio:21/9;}
+@media(max-width:800px){.hero-photo .ph{aspect-ratio:4/3;}}
+
+/* ===== STAGE DETAIL — alternating rows like programs.html ===== */
+.stage-num{font-family:'Fraunces',serif;font-style:italic;font-size:13px;color:var(--dimmer);letter-spacing:.06em;margin-bottom:10px;display:block;}
+.pdetail{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;}
+.pdetail:not(:last-child){margin-bottom:96px;}
+.pdetail.rev{direction:rtl;}
+.pdetail.rev>*{direction:ltr;}
+@media(max-width:900px){.pdetail{grid-template-columns:1fr;gap:28px;direction:ltr;}.pdetail:not(:last-child){margin-bottom:56px;}}
+.pdetail .ph{aspect-ratio:5/4;}
+.pdetail .pd-tag{display:inline-block;font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;
+  padding:6px 12px;margin-bottom:18px;color:#0B121C;}
+.pdetail .pd-tag.red{background:var(--c-red);color:#fff;}
+.pdetail .pd-tag.gold{background:var(--c-gold);}
+.pdetail .pd-tag.green{background:var(--c-green);}
+.pdetail .pd-tag.purple{background:var(--c-purple);}
+.pdetail h3{font-size:clamp(24px,3vw,34px);line-height:1.15;margin-bottom:16px;}
+.pdetail p{color:var(--dim);font-size:15px;margin-bottom:18px;}
+.pdetail ul{list-style:none;margin-bottom:22px;}
+.pdetail li{font-size:13.5px;color:rgba(243,245,248,.75);padding-left:18px;position:relative;margin-bottom:8px;}
+.pdetail li::before{content:"—";position:absolute;left:0;color:var(--dimmer);}
+.pdetail .meta-row{display:flex;gap:24px;margin-bottom:20px;flex-wrap:wrap;}
+.pdetail .meta-row div span{display:block;}
+.pdetail .meta-row .l{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--dimmer);}
+.pdetail .meta-row .v{font-family:'Fraunces',serif;font-size:17px;margin-top:4px;}
+
+/* ===== PROGRESS BAR (visual pathway map) ===== */
+.pathmap{border-top:1px solid var(--hair);}
+.pathmap-row{display:flex;flex-wrap:wrap;}
+.pathmap-row div{flex:1;min-width:150px;padding:24px 22px;border-right:1px solid var(--hair);border-bottom:1px solid var(--hair);position:relative;}
+.pathmap-row div:last-child{border-right:none;}
+.pathmap-row .n{display:block;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--dimmer);}
+.pathmap-row .t{display:block;font-family:'Fraunces',serif;font-size:22px;margin-top:8px;}
+.pathmap-row .s{display:block;font-size:12px;color:var(--dim);margin-top:4px;}
+.pathmap-row a{position:absolute;right:22px;bottom:20px;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--white);}
+.pathmap-row a:hover{opacity:.7;}
+@media(max-width:800px){.pathmap-row div{flex:1 1 50%;}}
+
+/* ===== QUOTE ===== */
+.tquote{border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);}
+.tquote blockquote{font-family:'Fraunces',serif;font-style:italic;font-size:clamp(22px,3vw,32px);line-height:1.4;max-width:760px;}
+.tquote .who{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--dimmer);margin-top:20px;}
+
+/* ===== FAQ ===== */
+.faq{max-width:760px;}
+.faq details{border-top:1px solid var(--hair);padding:22px 0;}
+.faq details:last-child{border-bottom:1px solid var(--hair);}
+.faq summary{cursor:pointer;font-family:'Fraunces',serif;font-size:18px;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:20px;}
+.faq summary::-webkit-details-marker{display:none;}
+.faq summary::after{content:"+";font-size:22px;color:var(--dimmer);transition:.2s;flex-shrink:0;}
+.faq details[open] summary::after{content:"–";}
+.faq .a{color:var(--dim);font-size:14px;margin-top:14px;max-width:640px;}
+
+/* ===== CTA BAND ===== */
+.cta-band{background:radial-gradient(circle at 30% 30%,#1c3348,#0A0D12 70%);text-align:center;}
+.cta-band h2{font-size:clamp(26px,3.4vw,40px);max-width:600px;margin:0 auto 16px;}
+.cta-band p{color:var(--dim);max-width:460px;margin:0 auto 30px;}
+.cta-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+
+/* footer */
+footer{background:#06080B;padding:64px 0 26px;border-top:1px solid var(--hair);}
+.ftop{display:grid;grid-template-columns:1.3fr 1fr 1fr 1.4fr;gap:40px;padding-bottom:44px;}
+@media(max-width:900px){.ftop{grid-template-columns:1fr 1fr;row-gap:32px;}}
+.fbrand .serif{font-size:16px;letter-spacing:.16em;margin-bottom:12px;}
+.fbrand p{font-size:12.5px;color:var(--dimmer);max-width:250px;}
+footer h5{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--dimmer);margin-bottom:14px;}
+footer ul{list-style:none;}
+footer li{margin-bottom:9px;font-size:13px;color:var(--dim);}
+footer li a:hover{color:var(--ivory);}
+.signup{display:flex;border:1px solid var(--hair);margin-top:4px;}
+.signup input{flex:1;background:transparent;border:0;padding:12px 14px;color:var(--ivory);font-family:inherit;font-size:13px;}
+.signup input:focus{outline:2px solid var(--white);outline-offset:-2px;}
+.signup button{background:var(--white);color:var(--navy-deep);border:0;padding:0 20px;font-size:11px;
+  letter-spacing:.12em;text-transform:uppercase;font-weight:700;cursor:pointer;font-family:inherit;}
+.fbot{display:flex;justify-content:space-between;padding-top:22px;border-top:1px solid var(--hair);
+  font-size:11px;color:var(--dimmer);flex-wrap:wrap;gap:8px;}
+
+a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--white);outline-offset:3px;}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease;}
+.reveal.in{opacity:1;transform:none;}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="logo">GREATER PLACE</div>
+    <nav class="navmid">
+      <a href="greater-place-ailey-pattern.html">Home</a>
+      <a href="our-story.html">Our Story</a>
+      <a class="on" href="programs.html">Programs</a>
+      <a href="events.html">Events</a>
+      <a href="blog.html">Blog</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="navright">
+      <a class="pill" href="contact.html">Get Involved</a>
+      <svg class="icn" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5L21 21"/></svg>
+      <svg class="icn" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </div>
+  </div>
+</header>
+
+<!-- BREADCRUMB -->
+<div class="crumb">
+  <div class="wrap">
+    <a href="programs.html">Programs</a><span>/</span><span>Training</span>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="thero reveal">
+  <div class="wrap">
+    <div class="eyebrow">Training</div>
+    <h1 class="serif">The Greater Place Pathway.</h1>
+    <p>A structured, four-stage progression from a dancer's very first class to a leadership role in the company — every dancer moves through the same stages, at their own pace, building technique, character and confidence along the way.</p>
+    <div class="promo-btns">
+      <a class="btn btn-red" href="contact.html">Enroll Now</a>
+      <a class="btn btn-line" href="programs.html">Back to Programs</a>
+    </div>
+    <figure class="hero-photo">
+      <div class="ph p2"><span class="ph-tag">Small ensemble, mid-rehearsal</span></div>
+    </figure>
+  </div>
+</section>
+
+<!-- PATHWAY MAP -->
+<section class="reveal" style="padding-top:0;">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-label">The Four Stages</span></div>
+    <div class="pathmap">
+      <div class="pathmap-row">
+        <div><span class="n">Stage One</span><span class="t serif">Discover</span><span class="s">Training</span><a href="#discover">View →</a></div>
+        <div><span class="n">Stage Two</span><span class="t serif">Develop</span><span class="s">JV</span><a href="#develop">View →</a></div>
+        <div><span class="n">Stage Three</span><span class="t serif">Perform</span><span class="s">Varsity</span><a href="#perform">View →</a></div>
+        <div><span class="n">Stage Four</span><span class="t serif">Lead</span><span class="s">Leadership</span><a href="#lead">View →</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STAGE ONE — DISCOVER -->
+<section id="discover" class="reveal">
+  <div class="wrap">
+    <div class="pdetail">
+      <div class="ph p3"><span class="ph-tag">First class, learning the basics</span></div>
+      <div>
+        <span class="stage-num">Stage One</span>
+        <span class="pd-tag red">Discover</span>
+        <h3 class="serif">Where every dancer begins.</h3>
+        <p>No prior experience required. Discover is built to meet a dancer exactly where they are — learning foundational technique, rhythm and basic choreography in a low-pressure group setting, while building the discipline habits that carry through every later stage.</p>
+        <div class="meta-row">
+          <div><span class="l">Typical Length</span><span class="v">2 Terms</span></div>
+          <div><span class="l">Class Size</span><span class="v">Small Group</span></div>
+          <div><span class="l">Age Range</span><span class="v">8–33</span></div>
+        </div>
+        <ul>
+          <li>Foundational technique and rhythm work</li>
+          <li>Introduction to devotion and Pathway character values</li>
+          <li>First group performance opportunity at a community event</li>
+        </ul>
+        <a class="btn btn-line" href="contact.html">Ask About Starting Here</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STAGE TWO — DEVELOP -->
+<section id="develop" class="reveal">
+  <div class="wrap">
+    <div class="pdetail rev">
+      <div class="ph p4"><span class="ph-tag">Sharpening technique, JV rehearsal</span></div>
+      <div>
+        <span class="stage-num">Stage Two</span>
+        <span class="pd-tag gold">Develop</span>
+        <h3 class="serif">Technique sharpens, choreography deepens.</h3>
+        <p>Dancers who've built a foundation in Discover move into more demanding choreography and a faster rehearsal pace. This is where technical growth accelerates — and where character mentorship starts pairing newer dancers with more experienced ones.</p>
+        <div class="meta-row">
+          <div><span class="l">Typical Length</span><span class="v">2–3 Terms</span></div>
+          <div><span class="l">Rehearsal</span><span class="v">2x / Week</span></div>
+          <div><span class="l">Performs In</span><span class="v">2+ Shows</span></div>
+        </div>
+        <ul>
+          <li>Multi-style choreography — liturgical, praise, contemporary</li>
+          <li>Paired mentorship with a Stage Three or Four dancer</li>
+          <li>Eligible for smaller community performances</li>
+        </ul>
+        <a class="btn btn-line" href="contact.html">Ask About This Stage</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STAGE THREE — PERFORM -->
+<section id="perform" class="reveal">
+  <div class="wrap">
+    <div class="pdetail">
+      <div class="ph p5"><span class="ph-tag">Full company rehearsal, ahead of a showcase</span></div>
+      <div>
+        <span class="stage-num">Stage Three</span>
+        <span class="pd-tag green">Perform</span>
+        <h3 class="serif">Company-level performance readiness.</h3>
+        <p>Perform-stage dancers are full company members — carrying lead and ensemble roles across the season's major performances, including the Winter Showcase and Annual Gala, while continuing to refine technique at an advanced level.</p>
+        <div class="meta-row">
+          <div><span class="l">Typical Length</span><span class="v">Ongoing</span></div>
+          <div><span class="l">Rehearsal</span><span class="v">3x / Week</span></div>
+          <div><span class="l">Performs In</span><span class="v">All Major Shows</span></div>
+        </div>
+        <ul>
+          <li>Lead and featured ensemble roles</li>
+          <li>Advanced technique and choreography ownership</li>
+          <li>First opportunities to co-lead warm-ups</li>
+        </ul>
+        <a class="btn btn-line" href="events.html">See Where They Perform</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STAGE FOUR — LEAD -->
+<section id="lead" class="reveal">
+  <div class="wrap">
+    <div class="pdetail rev">
+      <div class="ph p1"><span class="ph-tag">A senior dancer mentoring a newer one</span></div>
+      <div>
+        <span class="stage-num">Stage Four</span>
+        <span class="pd-tag purple">Lead</span>
+        <h3 class="serif">Leadership as a responsibility, not a title.</h3>
+        <p>The final stage of the Pathway hands real responsibility to dancers: leading warm-ups, mentoring newer members, helping shape rehearsal, and modeling the character values the whole program is built on. Many Stage Four dancers go on to instruct.</p>
+        <div class="meta-row">
+          <div><span class="l">Typical Length</span><span class="v">Ongoing</span></div>
+          <div><span class="l">Role</span><span class="v">Mentor / Co-Lead</span></div>
+          <div><span class="l">Path Beyond</span><span class="v">Instructor Track</span></div>
+        </div>
+        <ul>
+          <li>Leads warm-ups and mentors Stage One–Two dancers</li>
+          <li>Shapes rehearsal structure alongside instructors</li>
+          <li>Eligible for instructor and volunteer leadership roles</li>
+        </ul>
+        <a class="btn btn-line" href="greater-place-ailey-pattern.html#people">Meet Our Leaders</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<section class="tquote reveal">
+  <div class="wrap">
+    <blockquote class="serif">"I started in Discover not knowing a single step. Four years later I was leading warm-ups for dancers younger than I'd been when I walked in."</blockquote>
+    <div class="who">— Participant, Stage Four</div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="reveal">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-label">Good to Know</span></div>
+    <div class="faq">
+      <details open>
+        <summary>How long does it take to move between stages?</summary>
+        <div class="a">It depends on the dancer — most spend two to three terms in Discover and Develop before moving on, but progression is based on readiness, not a fixed calendar.</div>
+      </details>
+      <details>
+        <summary>Can an older beginner start in Discover?</summary>
+        <div class="a">Yes. Placement is based on experience, not age — a 25-year-old brand new to dance starts in Discover alongside younger first-timers.</div>
+      </details>
+      <details>
+        <summary>Is there an audition to join?</summary>
+        <div class="a">No audition is required to start at Discover. Placement above Stage One is assessed by our instructors during the first few classes.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-band reveal">
+  <div class="wrap">
+    <h2 class="serif">Start at Stage One.</h2>
+    <p>Enrollment for the 2027 season is open now — reach out and we'll help place you at the right stage.</p>
+    <div class="cta-btns">
+      <a class="btn btn-red" href="contact.html">Enroll Now</a>
+      <a class="btn btn-line" href="programs.html">Explore All Programs</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="ftop">
+      <div class="fbrand">
+        <div class="serif">GREATER PLACE</div>
+        <p>Performing arts, ministry and youth development for young people ages 8–33.</p>
+      </div>
+      <div>
+        <h5>Program</h5>
+        <ul>
+          <li><a href="our-story.html">Our Story</a></li>
+          <li><a href="training.html">Training</a></li>
+          <li><a href="programs.html">What We Develop</a></li>
+          <li><a href="blog.html">Blog</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Organisation</h5>
+        <ul>
+          <li><a href="greater-place-ailey-pattern.html#people">Team</a></li>
+          <li><a href="events.html">Events</a></li>
+          <li><a href="greater-place-ailey-pattern.html#support">Support Us</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Stay Connected</h5>
+        <div class="signup">
+          <input type="email" placeholder="Email address" aria-label="Email address">
+          <button type="button">Sign up</button>
+        </div>
+        <ul style="margin-top:18px;display:flex;gap:18px;">
+          <li><a href="#">Instagram</a></li><li><a href="#">YouTube</a></li><li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="fbot">
+      <span>© 2027 Greater Place</span>
+      <span>Training — The Greater Place Pathway</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

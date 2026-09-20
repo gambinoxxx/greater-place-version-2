@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog — Greater Place</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --black:#0A0D12;
+  --navy:#101826;
+  --navy-deep:#0B121C;
+  --ivory:#F3F5F8;
+  --white:#FFFFFF;
+  --dim:rgba(243,245,248,.55);
+  --dimmer:rgba(243,245,248,.38);
+  --hair:rgba(243,245,248,.14);
+  --c-red:#E5484D;
+  --c-red-deep:#C23238;
+  --c-green:#3FBF6F;
+  --c-purple:#A78BFA;
+  --c-gold:#D9A441;
+  --c-teal:#4FD1C5;
+  --c-blue:#5B9BD5;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Manrope',sans-serif;
+  background:var(--black);
+  color:var(--ivory);
+  font-size:15px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4,.serif{font-family:'Fraunces',serif;font-weight:400;}
+a{color:inherit;text-decoration:none;}
+.wrap{max-width:1360px;margin:0 auto;padding:0 40px;}
+@media(max-width:800px){.wrap{padding:0 20px;}}
+
+/* photo placeholders */
+.ph{position:relative;overflow:hidden;background:#101826;display:block;}
+.ph::after{content:"";position:absolute;inset:0;opacity:.5;mix-blend-mode:overlay;
+  background-image:radial-gradient(circle at 30% 22%,rgba(243,245,248,.4),transparent 46%),
+                   radial-gradient(circle at 74% 76%,rgba(0,0,0,.6),transparent 55%);}
+.p1{background:linear-gradient(140deg,#2a5a86,#5fa8dd 55%,#0B121C);}
+.p2{background:linear-gradient(155deg,#173650,#0d1620 62%,#0A0D12);}
+.p3{background:linear-gradient(130deg,#3d5b78,#152431 58%,#0A0D12);}
+.p4{background:linear-gradient(145deg,#1c3348,#0e1721 60%,#0A0D12);}
+.p5{background:linear-gradient(120deg,#4f86c6,#173650 58%,#080D12);}
+.p6{background:linear-gradient(165deg,#26445f,#4f86c6 50%,#0A0D12);}
+.p7{background:linear-gradient(150deg,#3a3a3a,#171717 60%,#0A0D12);}
+.p8{background:linear-gradient(150deg,#6b3a20,#2c1810 60%,#0A0D12);}
+
+/* nav */
+header{position:fixed;top:0;left:0;right:0;z-index:300;padding:16px 0;
+  background:rgba(10,13,18,.93);backdrop-filter:blur(12px);border-bottom:1px solid var(--hair);}
+header .wrap{display:flex;align-items:center;justify-content:space-between;gap:24px;}
+.logo{font-family:'Fraunces',serif;font-size:15px;letter-spacing:.18em;font-weight:500;}
+.navmid{display:flex;gap:26px;}
+.navmid a{font-size:12px;letter-spacing:.09em;text-transform:uppercase;font-weight:600;color:var(--dim);transition:.2s;}
+.navmid a:hover{color:var(--ivory);}
+.navmid a.on{color:var(--white);}
+.navright{display:flex;align-items:center;gap:18px;}
+.pill{background:var(--white);color:var(--navy-deep);font-size:11.5px;letter-spacing:.1em;
+  text-transform:uppercase;font-weight:700;padding:8px 16px;transition:.2s;}
+.pill:hover{background:transparent;color:var(--ivory);box-shadow:inset 0 0 0 1px rgba(243,245,248,.5);}
+.icn{width:16px;height:16px;stroke:var(--dim);fill:none;stroke-width:1.6;}
+@media(max-width:1050px){.navmid{display:none;}}
+
+.btn{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;padding:13px 24px;transition:.2s;
+  display:inline-flex;align-items:center;gap:8px;border:none;cursor:pointer;font-family:inherit;}
+.btn-red{background:var(--c-red);color:#fff;}
+.btn-red:hover{background:var(--c-red-deep);}
+.btn-line{border:1px solid rgba(243,245,248,.45);color:var(--ivory);background:transparent;}
+.btn-line:hover{background:rgba(243,245,248,.1);}
+.btn-white{background:var(--white);color:var(--navy-deep);}
+.btn-white:hover{background:transparent;color:var(--ivory);box-shadow:inset 0 0 0 1px rgba(243,245,248,.5);}
+
+section{padding:80px 0;}
+@media(max-width:800px){section{padding:52px 0;}}
+
+/* category tag colors */
+.tag{display:inline-block;font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;
+  padding:6px 12px;color:#0B121C;}
+.tag.culture{background:var(--c-purple);}
+.tag.community{background:var(--c-green);}
+.tag.pathway{background:var(--c-gold);}
+.tag.wellness{background:var(--c-teal);}
+.tag.events{background:var(--c-red);color:#fff;}
+.tag.stories{background:var(--c-blue);}
+
+/* ===== HERO ===== */
+.bhero{
+  padding-top:158px;padding-bottom:48px;position:relative;
+  background:linear-gradient(165deg,#152233 0%,#0d1620 55%,#0A0D12 100%);
+}
+.bhero::before{content:"";position:absolute;inset:0;opacity:.4;mix-blend-mode:soft-light;
+  background-image:radial-gradient(circle at 18% 25%,rgba(243,245,248,.4),transparent 42%),
+  radial-gradient(circle at 85% 65%,rgba(94,150,214,.5),transparent 48%);}
+.bhero .wrap{position:relative;z-index:2;}
+.bhero .eyebrow{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);font-weight:700;margin-bottom:16px;}
+.bhero h1{font-size:clamp(40px,6vw,72px);line-height:1.03;letter-spacing:-.01em;max-width:760px;}
+.bhero p{max-width:480px;font-size:16px;color:rgba(243,245,248,.8);margin-top:18px;}
+
+.search-row{margin-top:34px;max-width:420px;position:relative;}
+.search-row input{
+  width:100%;background:rgba(243,245,248,.06);border:1px solid var(--hair);color:var(--ivory);
+  padding:14px 16px 14px 44px;font-family:inherit;font-size:14px;border-radius:2px;
+}
+.search-row input:focus{outline:none;border-color:var(--white);}
+.search-row svg{position:absolute;left:15px;top:50%;transform:translateY(-50%);width:16px;height:16px;stroke:var(--dimmer);fill:none;stroke-width:1.8;}
+
+/* ===== FEATURED POST ===== */
+.featured{padding-top:0;}
+.feat-card{display:grid;grid-template-columns:1.15fr 1fr;border:1px solid var(--hair);overflow:hidden;}
+@media(max-width:900px){.feat-card{grid-template-columns:1fr;}}
+.feat-card .ph{aspect-ratio:16/12;}
+@media(max-width:900px){.feat-card .ph{aspect-ratio:16/10;}}
+.feat-content{padding:44px;display:flex;flex-direction:column;justify-content:center;}
+@media(max-width:800px){.feat-content{padding:30px;}}
+.feat-content .tag{margin-bottom:18px;width:fit-content;}
+.feat-content h2{font-size:clamp(24px,3vw,34px);line-height:1.16;margin-bottom:16px;}
+.feat-content p{color:var(--dim);font-size:15px;margin-bottom:22px;}
+.feat-meta{font-size:12.5px;color:var(--dimmer);margin-bottom:24px;}
+.feat-meta span:not(:last-child)::after{content:"·";margin:0 8px;}
+
+/* ===== FILTER PILLS ===== */
+.filters{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:44px;}
+.fpill{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;
+  padding:9px 18px;border:1px solid var(--hair);color:var(--dim);cursor:pointer;transition:.2s;background:transparent;font-family:inherit;}
+.fpill:hover{border-color:rgba(243,245,248,.35);color:var(--ivory);}
+.fpill.active{background:var(--white);color:var(--navy-deep);border-color:var(--white);}
+
+/* ===== POST GRID ===== */
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+@media(max-width:900px){.pgrid{grid-template-columns:1fr 1fr;}}
+@media(max-width:600px){.pgrid{grid-template-columns:1fr;}}
+.pcard{transition:opacity .3s ease, transform .3s ease;}
+.pcard.wide{grid-column:span 2;}
+@media(max-width:900px){.pcard.wide{grid-column:span 2;}}
+@media(max-width:600px){.pcard.wide{grid-column:span 1;}}
+.pcard.wide .ph{aspect-ratio:21/10;}
+.pcard .ph{aspect-ratio:4/3;margin-bottom:16px;position:relative;overflow:hidden;}
+.pcard .ph img.hoverzoom{transition:transform .4s ease;}
+.pcard:hover .ph{filter:brightness(1.08);}
+.pcard .tag{margin-bottom:12px;}
+.pcard h3{font-size:19px;line-height:1.28;margin-bottom:8px;}
+.pcard.wide h3{font-size:24px;}
+.pcard p{font-size:13.5px;color:var(--dim);margin-bottom:10px;}
+.pcard .meta{font-size:11.5px;color:var(--dimmer);}
+.pcard .meta span:not(:last-child)::after{content:"·";margin:0 6px;}
+.pcard[hidden]{display:none;}
+.empty-state{text-align:center;padding:60px 0;color:var(--dimmer);display:none;}
+.empty-state.show{display:block;}
+
+/* ===== NEWSLETTER BAND ===== */
+.nband{background:var(--navy-deep);text-align:center;}
+.nband h2{font-size:clamp(26px,3.4vw,40px);max-width:600px;margin:0 auto 14px;}
+.nband p{color:var(--dim);max-width:460px;margin:0 auto 30px;}
+.nsignup{display:flex;max-width:420px;margin:0 auto;border:1px solid var(--hair);}
+.nsignup input{flex:1;background:transparent;border:0;padding:14px 16px;color:var(--ivory);font-family:inherit;font-size:14px;}
+.nsignup input:focus{outline:none;}
+.nsignup button{background:var(--white);color:var(--navy-deep);border:0;padding:0 24px;font-size:11.5px;
+  letter-spacing:.1em;text-transform:uppercase;font-weight:700;cursor:pointer;font-family:inherit;}
+.nstatus{margin-top:14px;font-size:13px;color:var(--c-green);display:none;}
+.nstatus.show{display:block;}
+
+/* footer */
+footer{background:#06080B;padding:64px 0 26px;border-top:1px solid var(--hair);}
+.ftop{display:grid;grid-template-columns:1.3fr 1fr 1fr 1.4fr;gap:40px;padding-bottom:44px;}
+@media(max-width:900px){.ftop{grid-template-columns:1fr 1fr;row-gap:32px;}}
+.fbrand .serif{font-size:16px;letter-spacing:.16em;margin-bottom:12px;}
+.fbrand p{font-size:12.5px;color:var(--dimmer);max-width:250px;}
+footer h5{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--dimmer);margin-bottom:14px;}
+footer ul{list-style:none;}
+footer li{margin-bottom:9px;font-size:13px;color:var(--dim);}
+footer li a:hover{color:var(--ivory);}
+.signup{display:flex;border:1px solid var(--hair);margin-top:4px;}
+.signup input{flex:1;background:transparent;border:0;padding:12px 14px;color:var(--ivory);font-family:inherit;font-size:13px;}
+.signup input:focus{outline:2px solid var(--white);outline-offset:-2px;}
+.signup button{background:var(--white);color:var(--navy-deep);border:0;padding:0 20px;font-size:11px;
+  letter-spacing:.12em;text-transform:uppercase;font-weight:700;cursor:pointer;font-family:inherit;}
+.fbot{display:flex;justify-content:space-between;padding-top:22px;border-top:1px solid var(--hair);
+  font-size:11px;color:var(--dimmer);flex-wrap:wrap;gap:8px;}
+
+a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--white);outline-offset:3px;}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease;}
+.reveal.in{opacity:1;transform:none;}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="logo">GREATER PLACE</div>
+    <nav class="navmid">
+      <a href="greater-place-ailey-pattern.html">Home</a>
+      <a href="our-story.html">Our Story</a>
+      <a href="programs.html">Programs</a>
+      <a href="events.html">Events</a>
+      <a class="on" href="blog.html">Blog</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="navright">
+      <a class="pill" href="greater-place-ailey-pattern.html#support">Get Involved</a>
+      <svg class="icn" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5L21 21"/></svg>
+      <svg class="icn" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="bhero">
+  <div class="wrap">
+    <div class="eyebrow">The Journal</div>
+    <h1 class="serif">Stories, culture &amp; community.</h1>
+    <p>Notes from the studio, the stage and everywhere in between — written by the people building Greater Place.</p>
+    <div class="search-row">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5L21 21"/></svg>
+      <input type="text" id="searchInput" placeholder="Search articles...">
+    </div>
+  </div>
+</div>
+
+<!-- FEATURED POST -->
+<section class="featured reveal">
+  <div class="wrap">
+    <a href="blog-post.html" class="feat-card">
+      <div class="ph p6"></div>
+      <div class="feat-content">
+        <span class="tag culture">Culture</span>
+        <h2 class="serif">Why We Chose Ogene As Our Signature Piece</h2>
+        <p>Rooted in Igbo musical tradition, Ogene brings percussive rhythm and call-and-response into the Greater Place repertoire. Here's the story behind our most requested performance — and why it had to be this one.</p>
+        <div class="feat-meta">
+          <span>Founder Name</span><span>Sep 10, 2026</span><span>6 min read</span>
+        </div>
+        <span class="btn btn-line">Read Article</span>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- FILTERS + GRID -->
+<section class="reveal">
+  <div class="wrap">
+    <div class="filters" id="filterRow">
+      <button class="fpill active" data-filter="all">All Posts</button>
+      <button class="fpill" data-filter="culture">Culture</button>
+      <button class="fpill" data-filter="community">Community</button>
+      <button class="fpill" data-filter="pathway">Pathway</button>
+      <button class="fpill" data-filter="wellness">Wellness</button>
+      <button class="fpill" data-filter="events">Events</button>
+      <button class="fpill" data-filter="stories">Stories</button>
+    </div>
+
+    <div class="pgrid" id="postGrid">
+
+      <a href="blog-post.html" class="pcard wide" data-category="pathway" data-title="Inside the Greater Place Pathway: From Discover to Lead">
+        <div class="ph p2"></div>
+        <span class="tag pathway">Pathway</span>
+        <h3 class="serif">Inside The Greater Place Pathway: From Discover To Lead</h3>
+        <p>What actually happens at each of the four stages — and how to know when a dancer is ready to move to the next one.</p>
+        <div class="meta"><span>Programme Lead</span><span>Aug 22, 2026</span><span>5 min read</span></div>
+      </a>
+
+      <a href="blog-post.html" class="pcard" data-category="community" data-title="5 Things Every Dance Parent Should Know Before Enrolling">
+        <div class="ph p3"></div>
+        <span class="tag community">Community</span>
+        <h3 class="serif">5 Things Every Dance Parent Should Know Before Enrolling</h3>
+        <p>What to expect in the first month, and how we think about pacing for a first-time dancer.</p>
+        <div class="meta"><span>Instructor Name</span><span>Aug 2, 2026</span><span>4 min read</span></div>
+      </a>
+
+      <a href="blog-post.html" class="pcard" data-category="culture" data-title="Faith and Footwork: Blending Ministry With Movement">
+        <div class="ph p4"></div>
+        <span class="tag culture">Culture</span>
+        <h3 class="serif">Faith And Footwork: Blending Ministry With Movement</h3>
+        <p>How devotion, discipline and dance technique share the same rehearsal room every week.</p>
+        <div class="meta"><span>Founder Name</span><span>Jul 15, 2026</span><span>5 min read</span></div>
+      </a>
+
+      <a href="blog-post.html" class="pcard" data-category="wellness" data-title="What Wellness Looks Like for a Teenage Dancer">
+        <div class="ph p5"></div>
+        <span class="tag wellness">Wellness</span>
+        <h3 class="serif">What Wellness Looks Like For A Teenage Dancer</h3>
+        <p>Mental-health awareness isn't a separate class — it's built into how we run every rehearsal.</p>
+        <div class="meta"><span>Instructor Name</span><span>Jun 28, 2026</span><span>4 min read</span></div>
+      </a>
+
+      <a href="blog-post.html" class="pcard wide" data-category="community" data-title="Meet the Volunteers Who Show Up Every Saturday">
+        <div class="ph p1"></div>
+        <span class="tag community">Community</span>
+        <h3 class="serif">Meet The Volunteers Who Show Up Every Saturday</h3>
+        <p>They're not on payroll and they never miss a rehearsal. A short profile of the people who keep Greater Place running week after week.</p>
+        <div class="meta"><span>Volunteer Name</span><span>Jun 10, 2026</span><span>6 min read</span></div>
+      </a>
+
+      <a href="blog-post.html" class="pcard" data-category="events" data-title="Backstage at the Winter Showcase">
+        <div class="ph p8"></div>
+        <span class="tag events">Events</span>
+        <h3 class="serif">Backstage At The Winter Showcase</h3>
+        <p>A photo-led look at the two hours before curtain — nerves, warm-ups and last-minute costume fixes.</p>
+        <div class="meta"><span>Programme Lead</span><span>May 20, 2026</span><span>3 min read</span></div>
+      </a>
+
+      <a href="blog-post.html" class="pcard" data-category="stories" data-title="A Participant's Story: Finding My Confidence on Stage">
+        <div class="ph p7"></div>
+        <span class="tag stories">Stories</span>
+        <h3 class="serif">A Participant's Story: Finding My Confidence On Stage</h3>
+        <p>"I used to hide in the back row." One dancer on what changed after three years at Greater Place.</p>
+        <div class="meta"><span>Participant Name</span><span>Apr 30, 2026</span><span>4 min read</span></div>
+      </a>
+
+    </div>
+
+    <div class="empty-state" id="emptyState">No articles match your search — try a different keyword or filter.</div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<div class="nband reveal">
+  <div class="wrap">
+    <h2 class="serif">Never miss a story.</h2>
+    <p>New posts land every couple of weeks — enrollment tips, performance recaps and life inside the programme.</p>
+    <form id="newsForm">
+      <div class="nsignup">
+        <input type="email" id="newsEmail" placeholder="Email address" required>
+        <button type="submit">Subscribe</button>
+      </div>
+      <div class="nstatus" id="newsStatus">Thanks — check your inbox to confirm.</div>
+    </form>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="ftop">
+      <div class="fbrand">
+        <div class="serif">GREATER PLACE</div>
+        <p>Performing arts, ministry and youth development for young people ages 8–33.</p>
+      </div>
+      <div>
+        <h5>Program</h5>
+        <ul>
+          <li><a href="our-story.html">Our Story</a></li>
+          <li><a href="greater-place-ailey-pattern.html#training">Training</a></li>
+          <li><a href="programs.html">What We Develop</a></li>
+          <li><a href="blog.html">Blog</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Organisation</h5>
+        <ul>
+          <li><a href="greater-place-ailey-pattern.html#people">Team</a></li>
+          <li><a href="events.html">Events</a></li>
+          <li><a href="greater-place-ailey-pattern.html#support">Support Us</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Stay Connected</h5>
+        <div class="signup">
+          <input type="email" placeholder="Email address" aria-label="Email address">
+          <button type="button">Sign up</button>
+        </div>
+        <ul style="margin-top:18px;display:flex;gap:18px;">
+          <li><a href="#">Instagram</a></li><li><a href="#">YouTube</a></li><li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="fbot">
+      <span>© 2027 Greater Place</span>
+      <span>The Journal — an editorial home for our stories</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+/* ---- live search + category filter, combined ---- */
+const searchInput = document.getElementById('searchInput');
+const filterRow = document.getElementById('filterRow');
+const cards = Array.from(document.querySelectorAll('.pcard'));
+const emptyState = document.getElementById('emptyState');
+let activeFilter = 'all';
+
+function applyFilters(){
+  const q = searchInput.value.trim().toLowerCase();
+  let visibleCount = 0;
+  cards.forEach(card => {
+    const matchesCategory = activeFilter === 'all' || card.dataset.category === activeFilter;
+    const matchesSearch = !q || card.dataset.title.toLowerCase().includes(q);
+    const show = matchesCategory && matchesSearch;
+    card.hidden = !show;
+    if(show) visibleCount++;
+  });
+  emptyState.classList.toggle('show', visibleCount === 0);
+}
+
+searchInput.addEventListener('input', applyFilters);
+
+filterRow.addEventListener('click', (e) => {
+  const btn = e.target.closest('.fpill');
+  if(!btn) return;
+  filterRow.querySelectorAll('.fpill').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  activeFilter = btn.dataset.filter;
+  applyFilters();
+});
+
+/* ---- newsletter (client-side only, no backend) ---- */
+document.getElementById('newsForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  document.getElementById('newsStatus').classList.add('show');
+  this.reset();
+});
+</script>
+</body>
+</html>

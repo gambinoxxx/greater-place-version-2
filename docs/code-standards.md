@@ -25,13 +25,19 @@
 - Use `@mui/material-nextjs` 9.4.0 for App Router integration.
 - Use `AppRouterCacheProvider` where MUI's Next.js integration requires it.
 - Do not copy the old custom Emotion SSR `ThemeRegistry` from the Next.js 13 project.
-- Keep the MUI theme centralized in `lib/theme.js`.
+- Keep the MUI theme centralized in `lib/theme.js`. It is a client module (`'use client'`) because the theme object contains functions and cannot cross the Server→Client boundary as a prop; `app/layout.js` remains a Server Component that imports it into `ThemeProvider`.
 - Tailwind CSS 3.3.2 is used primarily for layout, spacing, and utility composition.
 - Avoid duplicating the same design-token definitions in arbitrary component files.
 - Never hardcode Greater Place hex values in individual components when an approved MUI/Tailwind token exists.
 - Global shape is square (`borderRadius: 0`) except for intentionally circular UI elements.
 - Typography uses Fraunces for display headings and Manrope for body/UI text.
 - The application is dark-only until a deliberately designed light palette is approved. `next-themes` is not the current source of truth for application theming.
+
+## Rendering stored content
+
+- `Post.body` is Markdown and is rendered only through `components/MarkdownBody.jsx` (`react-markdown`, React elements out, raw HTML dropped, URLs sanitized).
+- Never use `dangerouslySetInnerHTML` with database or user-supplied content. Do not add `rehype-raw` or other raw-HTML passthrough to the Markdown pipeline.
+- Search and filter parameters are read from `searchParams` on the server, validated/normalised, and passed to Prisma; escape SQL `LIKE` wildcards in free-text search terms.
 
 ## Database / Prisma
 
@@ -48,17 +54,22 @@
 
 ## API conventions
 
-- Validate all external input.
-- Return the standard `{ data, error }` shape.
-- Use appropriate HTTP status codes.
+- Validate all external input, on the server, before any database call. Put field rules in a pure module (see `lib/contact-validation.js`) so the browser can reuse them for instant feedback; the server remains authoritative.
+- Return the standard `{ data, error }` shape: success is `{ data, error: null }`; failure is `{ data: null, error: { message, fields? } }` where `fields` maps field names to user-facing messages.
+- Use appropriate HTTP status codes (400 validation or unreadable body, 413 too large, 415 wrong content type, 201 created, 500 unexpected).
+- Never return raw database or driver errors, stack traces, or connection details to the client. Return a generic message and log only a coarse error class name (never the request body).
+- JSON write endpoints require `Content-Type: application/json` (415 otherwise) and cap the body size.
 - Do not leak secrets or server-only environment values to the client.
 
 ## ImageKit
 
 - Use `@imagekit/nodejs` for server-side ImageKit operations.
 - Use `@imagekit/javascript` for browser/client functionality where required.
-- Keep server credentials and signing logic server-side.
-- Store only ImageKit file IDs/URLs in Postgres.
+- Keep server credentials and signing logic server-side: only `lib/imagekit.js` reads `IMAGEKIT_PRIVATE_KEY`, and it is never imported from a client component. Delivery helpers that need no secret live in `lib/image-url.js`.
+- Store only ImageKit file IDs/URLs in Postgres. The convention is the delivered `url` returned by an upload.
+- Render stored image URLs with `components/ImageKitImage.jsx` (pass a `sizes` hint), not a raw `<img>`. Gate with `isImageUrl()` and show a placeholder otherwise. Do not use ImageKit for the site's own design assets.
+- Upload from the browser with `components/useImageUpload.js`; do not write a second upload path. Any route that hands out an upload signature must be admin-only once auth exists.
+- The SDK's `getAuthenticationParameters` treats `expire` as an absolute Unix time (its JSDoc says "seconds from now"); keep passing an absolute time.
 
 ## Firebase
 

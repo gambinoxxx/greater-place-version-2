@@ -102,7 +102,7 @@ Implement one shared component at a time:
 
 ## Phase 3 — Homepage
 
-Create `app/page.jsx` as a Server Component using shared components and Prisma-backed content.
+Create `app/page.js` as a Server Component (the route file stays `.js`; shared components under `components/` are `.jsx`) using shared components and Prisma-backed content.
 
 Maintain the approved dark → light → dark section rhythm. Every CTA must be a real route or anchor; placeholders for Donate, Volunteer, Partner, Read Story, and Newsletter must be explicitly flagged rather than silently wired.
 
@@ -139,10 +139,13 @@ Maintain the approved dark → light → dark section rhythm. Every CTA must be 
 
 ## Phase 9 — Images
 
-- `lib/imagekit.js`: server SDK singleton using `@imagekit/nodejs`
-- Admin-only upload Route Handler once authentication exists
-- Store ImageKit IDs/URLs, not image binaries
-- Replace gradient placeholders incrementally when approved photos/assets are available
+- `lib/imagekit.js`: server SDK singleton using `@imagekit/nodejs` (lazy; the only reader of the private key) and `createUploadAuth()`
+- `GET /api/imagekit-auth`: returns `{ data: { token, expire, signature, publicKey }, error: null }` (503 while unconfigured). **Not authenticated yet: Phase 10/11 must make it admin-only before any ImageKit key is set in a deployed environment**
+- `components/useImageUpload.js`: reusable client upload hook (button or dropzone UIs; progress, cancel, validation) for the Phase 11 Post Editor and Media Library
+- `lib/image-url.js` and `components/ImageKitImage.jsx`: responsive, auto-format rendering of stored URLs, used by every card, the homepage team tile, the blog cover, and Markdown body images
+- Store ImageKit URLs, not image binaries: the existing image fields are unchanged (no migration)
+- Replace gradient placeholders incrementally when approved photos/assets are available (still open: no real assets exist yet)
+- Not done: a real upload against a live ImageKit account (no credentials yet); `/admin/**` UI (Phase 11)
 
 ## Phase 10 — Auth / Firebase
 
@@ -165,5 +168,6 @@ Blocked until the Firebase role is explicitly confirmed: Auth, Firestore, Storag
 3. Newsletter scope
 4. Neon migration connection strategy / `directUrl`
 5. Prisma Neon driver-adapter strategy, to be revisited before `lib/prisma.js` if needed
+6. Authentication for `/api/imagekit-auth` (currently open to anyone who can reach it): add the admin check in Phase 10/11 before any `IMAGEKIT_*` key is set in a deployed environment
 
 Next.js version is no longer an open decision for this V2 restart: the project baseline is Next.js 16.3.3 / React 19.2.0.

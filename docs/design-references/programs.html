@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Programs — Greater Place</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --black:#0A0D12;
+  --navy:#101826;
+  --navy-deep:#0B121C;
+  --ivory:#F3F5F8;
+  --white:#FFFFFF;
+  --dim:rgba(243,245,248,.55);
+  --dimmer:rgba(243,245,248,.38);
+  --hair:rgba(243,245,248,.14);
+  --c-red:#E5484D;
+  --c-red-deep:#C23238;
+  --c-green:#3FBF6F;
+  --c-purple:#A78BFA;
+  --c-gold:#D9A441;
+  --c-teal:#4FD1C5;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Manrope',sans-serif;
+  background:var(--black);
+  color:var(--ivory);
+  font-size:15px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4,.serif{font-family:'Fraunces',serif;font-weight:400;}
+a{color:inherit;text-decoration:none;}
+.wrap{max-width:1360px;margin:0 auto;padding:0 40px;}
+@media(max-width:800px){.wrap{padding:0 20px;}}
+
+/* photo placeholders */
+.ph{position:relative;overflow:hidden;background:#101826;display:block;}
+.ph::after{content:"";position:absolute;inset:0;opacity:.5;mix-blend-mode:overlay;
+  background-image:radial-gradient(circle at 30% 22%,rgba(243,245,248,.4),transparent 46%),
+                   radial-gradient(circle at 74% 76%,rgba(0,0,0,.6),transparent 55%);}
+.ph-tag{position:absolute;left:14px;bottom:12px;z-index:2;font-size:10px;letter-spacing:.04em;
+  font-style:italic;color:rgba(255,255,255,.62);}
+.p1{background:linear-gradient(140deg,#2a5a86,#5fa8dd 55%,#0B121C);}
+.p2{background:linear-gradient(155deg,#173650,#0d1620 62%,#0A0D12);}
+.p3{background:linear-gradient(130deg,#3d5b78,#152431 58%,#0A0D12);}
+.p4{background:linear-gradient(145deg,#1c3348,#0e1721 60%,#0A0D12);}
+.p5{background:linear-gradient(120deg,#4f86c6,#173650 58%,#080D12);}
+.p6{background:linear-gradient(165deg,#26445f,#4f86c6 50%,#0A0D12);}
+.p7{background:linear-gradient(150deg,#3a3a3a,#171717 60%,#0A0D12);}
+
+/* nav */
+header{position:fixed;top:0;left:0;right:0;z-index:300;padding:16px 0;
+  background:rgba(10,13,18,.93);backdrop-filter:blur(12px);border-bottom:1px solid var(--hair);}
+header .wrap{display:flex;align-items:center;justify-content:space-between;gap:24px;}
+.logo{font-family:'Fraunces',serif;font-size:15px;letter-spacing:.18em;font-weight:500;}
+.navmid{display:flex;gap:26px;}
+.navmid a{font-size:12px;letter-spacing:.09em;text-transform:uppercase;font-weight:600;color:var(--dim);transition:.2s;}
+.navmid a:hover{color:var(--ivory);}
+.navmid a.on{color:var(--white);}
+.navright{display:flex;align-items:center;gap:18px;}
+.pill{background:var(--white);color:var(--navy-deep);font-size:11.5px;letter-spacing:.1em;
+  text-transform:uppercase;font-weight:700;padding:8px 16px;transition:.2s;}
+.pill:hover{background:transparent;color:var(--ivory);box-shadow:inset 0 0 0 1px rgba(243,245,248,.5);}
+.icn{width:16px;height:16px;stroke:var(--dim);fill:none;stroke-width:1.6;}
+@media(max-width:1050px){.navmid{display:none;}}
+
+.btn{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;padding:13px 24px;transition:.2s;
+  display:inline-flex;align-items:center;gap:8px;border:none;cursor:pointer;font-family:inherit;}
+.btn-red{background:var(--c-red);color:#fff;}
+.btn-red:hover{background:var(--c-red-deep);}
+.btn-line{border:1px solid rgba(243,245,248,.45);color:var(--ivory);background:transparent;}
+.btn-line:hover{background:rgba(243,245,248,.1);}
+.btn-white{background:var(--white);color:var(--navy-deep);}
+.btn-white:hover{background:transparent;color:var(--ivory);box-shadow:inset 0 0 0 1px rgba(243,245,248,.5);}
+
+section{padding:88px 0;}
+@media(max-width:800px){section{padding:52px 0;}}
+
+.sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:20px;
+  border-top:1px solid var(--hair);padding-top:14px;margin-bottom:34px;flex-wrap:wrap;}
+.sec-label{font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:var(--dim);}
+.sec-more{font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--white);}
+.sec-more:hover{opacity:.7;}
+.sec-more.c-red{color:var(--c-red);}
+.sec-more.c-green{color:var(--c-green);}
+.sec-more.c-purple{color:var(--c-purple);}
+
+/* ===== HERO ===== */
+.phero{
+  padding-top:158px;padding-bottom:64px;position:relative;
+  background:linear-gradient(165deg,#152233 0%,#0d1620 55%,#0A0D12 100%);
+}
+.phero::before{content:"";position:absolute;inset:0;opacity:.4;mix-blend-mode:soft-light;
+  background-image:radial-gradient(circle at 18% 25%,rgba(243,245,248,.4),transparent 42%),
+  radial-gradient(circle at 85% 65%,rgba(94,150,214,.5),transparent 48%);}
+.phero .wrap{position:relative;z-index:2;}
+.phero .eyebrow{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);font-weight:700;margin-bottom:16px;}
+.phero h1{font-size:clamp(38px,5.6vw,66px);line-height:1.05;letter-spacing:-.01em;max-width:760px;}
+.phero p{max-width:520px;font-size:16px;color:rgba(243,245,248,.8);margin-top:18px;}
+.phero .promo-btns{display:flex;gap:10px;margin-top:28px;flex-wrap:wrap;}
+
+/* ===== PATHWAY (reused training block) ===== */
+.train-head{max-width:600px;margin-bottom:44px;}
+.train-head .sec-label{margin-bottom:18px;display:block;}
+.train-head h2{font-size:clamp(28px,3.8vw,44px);line-height:1.1;margin-bottom:18px;}
+.train-head p{color:var(--dim);max-width:460px;margin-bottom:22px;}
+.train-photo .ph{aspect-ratio:21/9;}
+.stagebar{display:flex;flex-wrap:wrap;gap:0;margin-top:0;border-top:1px solid var(--hair);}
+.stagebar div{flex:1;min-width:150px;padding:20px 22px;border-right:1px solid var(--hair);}
+.stagebar div:last-child{border-right:none;}
+.stagebar .n{display:block;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--dimmer);}
+.stagebar .t{display:block;font-family:'Fraunces',serif;font-size:20px;margin-top:6px;}
+.stagebar .s{display:block;font-size:12px;color:var(--dim);margin-top:3px;}
+@media(max-width:800px){.stagebar div{flex:1 1 50%;}}
+
+/* ===== PROGRAM DETAIL — alternating photo/text rows ===== */
+.pdetail{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;}
+.pdetail:not(:last-child){margin-bottom:96px;}
+.pdetail.rev{direction:rtl;}
+.pdetail.rev>*{direction:ltr;}
+@media(max-width:900px){.pdetail{grid-template-columns:1fr;gap:28px;direction:ltr;}.pdetail:not(:last-child){margin-bottom:56px;}}
+.pdetail .ph{aspect-ratio:5/4;}
+.pdetail .pd-tag{display:inline-block;font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;
+  padding:6px 12px;margin-bottom:18px;color:#0B121C;}
+.pdetail .pd-tag.gold{background:var(--c-gold);}
+.pdetail .pd-tag.green{background:var(--c-green);}
+.pdetail .pd-tag.teal{background:var(--c-teal);}
+.pdetail h3{font-size:clamp(24px,3vw,34px);line-height:1.15;margin-bottom:16px;}
+.pdetail p{color:var(--dim);font-size:15px;margin-bottom:18px;}
+.pdetail ul{list-style:none;margin-bottom:22px;}
+.pdetail li{font-size:13.5px;color:rgba(243,245,248,.75);padding-left:18px;position:relative;margin-bottom:8px;}
+.pdetail li::before{content:"—";position:absolute;left:0;color:var(--dimmer);}
+
+/* ===== GRID BLOCK (Culture) ===== */
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
+@media(max-width:900px){.grid4{grid-template-columns:1fr 1fr;}}
+@media(max-width:560px){.grid4{grid-template-columns:1fr;}}
+.gcard .ph{aspect-ratio:4/3;position:relative;margin-bottom:14px;}
+.gcard h4{font-size:17px;margin-bottom:4px;}
+.gcard .cap{font-size:13px;color:var(--dim);margin-bottom:8px;}
+
+/* ===== FAQ (native details) ===== */
+.faq{max-width:760px;}
+.faq details{border-top:1px solid var(--hair);padding:22px 0;}
+.faq details:last-child{border-bottom:1px solid var(--hair);}
+.faq summary{cursor:pointer;font-family:'Fraunces',serif;font-size:18px;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:20px;}
+.faq summary::-webkit-details-marker{display:none;}
+.faq summary::after{content:"+";font-size:22px;color:var(--dimmer);transition:.2s;flex-shrink:0;}
+.faq details[open] summary::after{content:"–";}
+.faq .a{color:var(--dim);font-size:14px;margin-top:14px;max-width:640px;}
+
+/* ===== CTA BAND ===== */
+.cta-band{background:radial-gradient(circle at 30% 30%,#1c3348,#0A0D12 70%);text-align:center;}
+.cta-band h2{font-size:clamp(26px,3.4vw,40px);max-width:600px;margin:0 auto 16px;}
+.cta-band p{color:var(--dim);max-width:460px;margin:0 auto 30px;}
+.cta-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+
+/* footer */
+footer{background:#06080B;padding:64px 0 26px;border-top:1px solid var(--hair);}
+.ftop{display:grid;grid-template-columns:1.3fr 1fr 1fr 1.4fr;gap:40px;padding-bottom:44px;}
+@media(max-width:900px){.ftop{grid-template-columns:1fr 1fr;row-gap:32px;}}
+.fbrand .serif{font-size:16px;letter-spacing:.16em;margin-bottom:12px;}
+.fbrand p{font-size:12.5px;color:var(--dimmer);max-width:250px;}
+footer h5{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--dimmer);margin-bottom:14px;}
+footer ul{list-style:none;}
+footer li{margin-bottom:9px;font-size:13px;color:var(--dim);}
+footer li a:hover{color:var(--ivory);}
+.signup{display:flex;border:1px solid var(--hair);margin-top:4px;}
+.signup input{flex:1;background:transparent;border:0;padding:12px 14px;color:var(--ivory);font-family:inherit;font-size:13px;}
+.signup input:focus{outline:2px solid var(--white);outline-offset:-2px;}
+.signup button{background:var(--white);color:var(--navy-deep);border:0;padding:0 20px;font-size:11px;
+  letter-spacing:.12em;text-transform:uppercase;font-weight:700;cursor:pointer;font-family:inherit;}
+.fbot{display:flex;justify-content:space-between;padding-top:22px;border-top:1px solid var(--hair);
+  font-size:11px;color:var(--dimmer);flex-wrap:wrap;gap:8px;}
+
+a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--white);outline-offset:3px;}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease;}
+.reveal.in{opacity:1;transform:none;}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="logo">GREATER PLACE</div>
+    <nav class="navmid">
+      <a href="greater-place-ailey-pattern.html">Home</a>
+      <a href="our-story.html">Our Story</a>
+      <a class="on" href="programs.html">Programs</a>
+      <a href="events.html">Events</a>
+      <a href="blog.html">Blog</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="navright">
+      <a class="pill" href="contact.html">Get Involved</a>
+      <svg class="icn" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5L21 21"/></svg>
+      <svg class="icn" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="phero">
+  <div class="wrap">
+    <div class="eyebrow">What We Develop</div>
+    <h1 class="serif">Every dancer builds more than technique.</h1>
+    <p>Four pillars run through everything we teach: disciplined training, faith and character, leadership, and wellness — woven into movement rooted in African performing arts.</p>
+    <div class="promo-btns">
+      <a class="btn btn-red" href="contact.html">Enroll Now</a>
+      <a class="btn btn-line" href="#pathway">See the Pathway</a>
+    </div>
+  </div>
+</div>
+
+<!-- PATHWAY -->
+<section id="pathway" class="reveal">
+  <div class="wrap">
+    <div class="train-head">
+      <span class="sec-label">Training</span>
+      <h2 class="serif">The Greater Place Pathway</h2>
+      <p>A structured progression from a first class to a leadership role — every dancer moves through the same four stages, at their own pace.</p>
+      <div class="sec-head" style="border:none;padding-top:0;margin-bottom:0;">
+        <a class="btn btn-line" href="contact.html">Ask About Enrolling</a>
+      </div>
+    </div>
+    <div class="train-photo"><div class="ph p2"><span class="ph-tag">Small ensemble, mid-rehearsal</span></div></div>
+    <div class="stagebar">
+      <div><span class="n">Stage One</span><span class="t serif">Discover</span><span class="s">Training</span></div>
+      <div><span class="n">Stage Two</span><span class="t serif">Develop</span><span class="s">JV</span></div>
+      <div><span class="n">Stage Three</span><span class="t serif">Perform</span><span class="s">Varsity</span></div>
+      <div><span class="n">Stage Four</span><span class="t serif">Lead</span><span class="s">Leadership</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAITH & CHARACTER -->
+<section id="faith" class="reveal">
+  <div class="wrap">
+    <div class="pdetail">
+      <div class="ph p3"><span class="ph-tag">Devotion before rehearsal, every Saturday</span></div>
+      <div>
+        <span class="pd-tag gold">Faith &amp; Character</span>
+        <h3 class="serif">Biblical principles woven into everyday discipline.</h3>
+        <p>Every rehearsal opens with a short devotion — not a separate class, but a lens for how we train. Dancers learn that discipline, integrity and service aren't opposed to artistry; they're what make it sustainable.</p>
+        <ul>
+          <li>Weekly devotion and reflection before rehearsal</li>
+          <li>Character mentorship built into the Pathway stages</li>
+          <li>Service projects tied to church and community partners</li>
+        </ul>
+        <a class="btn btn-line" href="contact.html">Ask About This Program</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LEADERSHIP -->
+<section id="leadership" class="reveal">
+  <div class="wrap">
+    <div class="pdetail rev">
+      <div class="ph p4"><span class="ph-tag">Senior dancers leading a warm-up</span></div>
+      <div>
+        <span class="pd-tag green">Leadership</span>
+        <h3 class="serif">Confidence built by leading, not just performing.</h3>
+        <p>By Stage Four of the Pathway, dancers aren't just performing — they're teaching warm-ups, mentoring newer members and helping shape rehearsal. Leadership here is a responsibility every dancer grows into, not a title handed to a few.</p>
+        <ul>
+          <li>Peer-mentorship pairing newer dancers with seniors</li>
+          <li>Rotating student-led warm-ups and rehearsal segments</li>
+          <li>Public-speaking and teamwork built into every showcase</li>
+        </ul>
+        <a class="btn btn-line" href="contact.html">Ask About This Program</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WELLNESS -->
+<section id="wellness" class="reveal">
+  <div class="wrap">
+    <div class="pdetail">
+      <div class="ph p5"><span class="ph-tag">A quiet stretch-and-check-in before class</span></div>
+      <div>
+        <span class="pd-tag teal">Wellness</span>
+        <h3 class="serif">Mental health awareness, built into every rehearsal.</h3>
+        <p>We treat wellness as part of training, not an add-on. Instructors are trained to recognize burnout and stress, rehearsals include space to check in, and dancers are taught healthy coping skills alongside technique.</p>
+        <ul>
+          <li>Regular wellness check-ins woven into rehearsal structure</li>
+          <li>Instructor training in mental-health awareness</li>
+          <li>A culture that treats rest as part of the work</li>
+        </ul>
+        <a class="btn btn-line" href="contact.html">Ask About This Program</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CULTURE / MOVEMENT -->
+<section id="culture" class="reveal">
+  <div class="wrap">
+    <div class="train-head">
+      <span class="sec-label">Culture</span>
+      <h2 class="serif">Movement &amp; Culture</h2>
+      <p>Rooted in Igbo musical tradition and church worship alike — a reminder that this is African performing arts, not an imported form.</p>
+    </div>
+    <div class="grid4">
+      <div class="gcard"><div class="ph p6"></div><h4 class="serif">Ogene</h4><div class="cap">Percussive call-and-response rooted in Igbo tradition.</div></div>
+      <div class="gcard"><div class="ph p3"></div><h4 class="serif">Liturgical Dance</h4><div class="cap">Worship expressed through choreographed movement.</div></div>
+      <div class="gcard"><div class="ph p4"></div><h4 class="serif">Praise &amp; Worship</h4><div class="cap">Contemporary gospel movement for group and solo work.</div></div>
+      <div class="gcard"><div class="ph p1"></div><h4 class="serif">Drama &amp; Skits</h4><div class="cap">Storytelling and theatre alongside dance technique.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="reveal">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-label">Good to Know</span></div>
+    <div class="faq">
+      <details open>
+        <summary>What age groups do you accept?</summary>
+        <div class="a">Greater Place welcomes dancers ages 8 through 33, grouped by Pathway stage rather than strictly by age, so placement depends on experience as much as it does age.</div>
+      </details>
+      <details>
+        <summary>Do dancers need prior experience?</summary>
+        <div class="a">No. Stage One — Discover — is built for first-time dancers. Everyone starts there regardless of background and moves through the Pathway at their own pace.</div>
+      </details>
+      <details>
+        <summary>Is faith participation required to join?</summary>
+        <div class="a">Greater Place is a faith-rooted program and devotion is part of every rehearsal, but dancers of any background are welcome to train with us.</div>
+      </details>
+      <details>
+        <summary>How do I enroll?</summary>
+        <div class="a">Reach out on <a href="https://wa.me/15550100192?text=Hi%20Greater%20Place!%20I%27d%20like%20to%20enroll." style="text-decoration:underline;">WhatsApp</a> or through our <a href="contact.html" style="text-decoration:underline;">contact page</a> and we'll walk you through placement and the next intake date.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-band reveal">
+  <div class="wrap">
+    <h2 class="serif">Ready to start the Pathway?</h2>
+    <p>Enrollment for the 2027 season is open now — reach out and we'll help you find the right stage to begin.</p>
+    <div class="cta-btns">
+      <a class="btn btn-red" href="contact.html">Enroll Now</a>
+      <a class="btn btn-line" href="events.html">See Upcoming Events</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="ftop">
+      <div class="fbrand">
+        <div class="serif">GREATER PLACE</div>
+        <p>Performing arts, ministry and youth development for young people ages 8–33.</p>
+      </div>
+      <div>
+        <h5>Program</h5>
+        <ul>
+          <li><a href="our-story.html">Our Story</a></li>
+          <li><a href="training.html">Training</a></li>
+          <li><a href="programs.html">What We Develop</a></li>
+          <li><a href="blog.html">Blog</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Organisation</h5>
+        <ul>
+          <li><a href="greater-place-ailey-pattern.html#people">Team</a></li>
+          <li><a href="events.html">Events</a></li>
+          <li><a href="greater-place-ailey-pattern.html#support">Support Us</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Stay Connected</h5>
+        <div class="signup">
+          <input type="email" placeholder="Email address" aria-label="Email address">
+          <button type="button">Sign up</button>
+        </div>
+        <ul style="margin-top:18px;display:flex;gap:18px;">
+          <li><a href="#">Instagram</a></li><li><a href="#">YouTube</a></li><li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="fbot">
+      <span>© 2027 Greater Place</span>
+      <span>Programs — Faith, Leadership, Wellness &amp; Culture</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

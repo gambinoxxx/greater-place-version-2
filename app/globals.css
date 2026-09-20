@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+  Page atmosphere: one background whose colour follows scroll position.
+  components/PageAtmosphere.jsx writes --atmos-t (0 = dark, 1 = light) and html[data-atmosphere].
+  Text, line and tint colours derive from --atmos-fg, so content always contrasts with the
+  current background. Pages that do not mount PageAtmosphere keep the dark theme background.
+*/
+:root {
+  --atmos-dark: theme('colors.brand.black');
+  --atmos-light: theme('colors.brand.ivory');
+  --atmos-t: 0;
+  --atmos-fg: theme('colors.brand.ivory');
+  --atmos-fg-muted: color-mix(in srgb, var(--atmos-fg) 75%, transparent);
+  --atmos-line: color-mix(in srgb, var(--atmos-fg) 20%, transparent);
+  --atmos-tint: color-mix(in srgb, var(--atmos-fg) 6%, transparent);
+}
+
+html[data-atmosphere='light'] {
+  --atmos-fg: theme('colors.brand.black');
+}
+
+html[data-atmosphere] body {
+  background-color: color-mix(in oklab, var(--atmos-light) calc(var(--atmos-t) * 100%), var(--atmos-dark));
+}
