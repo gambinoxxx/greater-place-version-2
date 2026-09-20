@@ -74,9 +74,9 @@ Initial field sets in `prisma/schema.prisma` (all models also carry `createdAt`;
 
 - `Program`, `Class`: `slug` (unique), `title`, `description`, `image`
 - `Event`: `slug` (unique), `title`, `description`, `startsAt`, `location`, `image`
-- `Post`: `slug` (unique), `title`, `excerpt`, `body` (`@db.Text`), `category`, `coverImage`, `publishedAt` (defaults to now), `authorName`
+- `Post`: `slug` (unique), `title`, `excerpt`, `body` (`@db.Text`), `category`, `coverImage`, `isPublished` (`Boolean`, default `true`; added in Phase 11), `publishedAt` (defaults to now), `authorName`
 - `TeamMember`: `name`, `role`, `bio`, `image`
-- `ContactSubmission`: `name`, `email`, `message` (`@db.Text`)
+- `ContactSubmission`: `name`, `email`, `message` (`@db.Text`), `isRead` (`Boolean`, default `false`; added in Phase 11)
 
 The datasource reads `DATABASE_URL` only. `directUrl` and any Neon driver-adapter configuration are intentionally not present until those open decisions are resolved.
 
@@ -137,7 +137,7 @@ The datasource reads `DATABASE_URL` only. `directUrl` and any Neon driver-adapte
 `app/contact/page.js` (Server Component, `force-dynamic`), `app/api/contact/route.js` (Route Handler), and `components/ContactForm.jsx` (the page's only client component). Copy comes from `docs/design-references/contact.html`.
 
 - Channels: the WhatsApp channel and the "Message Us on WhatsApp" link use the existing `lib/whatsapp.js` / server-side `WHATSAPP_NUMBER` convention (the same single number as `/events`; the mockup's sample number is not used). The email channel uses the new server-side `CONTACT_EMAIL` env var (`lib/contact.js`, documented in `.env.example`): it must look like a single email address, otherwise the channel is not rendered. Each channel is omitted while its variable is unset. The "Mon–Fri, 9am–5pm" hours line is copied from the mockup and should be verified.
-- Storage: `ContactSubmission` has only `name`, `email`, and `message` (plus `id` and `createdAt`). The form also collects an optional phone number and a required "reason for contact" (from the mockup). They are folded into the stored `message` by `formatSubmissionMessage()`: `Reason: <reason>`, then `Phone: <phone>` only if given, a blank line, then the visitor's message. There is no schema change; extra structured columns are an open decision.
+- Storage: `ContactSubmission` has `name`, `email`, and `message` (plus `id`, `createdAt`, and the admin inbox's `isRead` flag from Phase 11). The form also collects an optional phone number and a required "reason for contact" (from the mockup). They are folded into the stored `message` by `formatSubmissionMessage()`: `Reason: <reason>`, then `Phone: <phone>` only if given, a blank line, then the visitor's message. There is no schema change; extra structured columns are an open decision.
 - Validation lives in `lib/contact-validation.js`, a pure module with no server-only imports, so the same rules run in the browser (instant feedback) and in the API (authoritative): name 1–100 chars with no line breaks; email ≤ 254 chars and a simple `x@y.zz` shape; optional phone of 7–15 digits (30 chars max, digits and `+ - ( ) .` only); reason must be one of `REASONS`; message 10–5000 chars (control characters are stripped). No validation library was needed.
 - `POST /api/contact` response contract: `{ data, error }` always.
   - `201 { data: { received: true }, error: null }` on success (the row id and other stored fields are not returned).
@@ -201,6 +201,39 @@ Authentication (Phase 10): Clerk proves who someone is; an email allowlist decid
 - Sign-in: `app/sign-in/[[...sign-in]]/page.js` renders Clerk's `<SignIn />`, themed by `lib/clerk-appearance.js` from the Tailwind brand tokens (the sign-up link is hidden: access is by allowlist, not by creating an account). Signing in returns to `/admin`; signing out returns to `/` (props on `<ClerkProvider>`). `/not-authorized` lives outside `/admin` on purpose (a page under `/admin` would be gated and redirect to itself) and offers `components/AdminSignOutButton.jsx`.
 - Configuration: `<ClerkProvider>` wraps the root layout only when both keys are set, so the site and `next build` work with none of the Clerk variables. The publishable key is inlined at build time, so set both keys before `next build`. When Clerk is configured its script loads (async) on every page, public ones included; scoping the provider to the admin and sign-in layouts is an option for Phase 11.
 - Owner setup: use a Clerk development instance locally, put the keys and `ADMIN_ALLOWED_EMAILS` in the environment, and consider disabling open sign-up in the Clerk dashboard.
+
+## Admin CMS (Phase 11)
+
+The team's protected `/admin` area. Every route is behind Phase 10's gate (`proxy.js`: Clerk sign-in plus the `ADMIN_ALLOWED_EMAILS` allowlist); this phase adds no new auth. Copy and layout follow `docs/design-references/admin-*.html` (dashboard, posts, post editor, media, events, programs, contact). The admin UI is its own visual context: a fixed sidebar shell and slightly rounded panels (`components/admin/ui.js`), not `SiteHeader` / `SiteFooter`. There is **no Settings page and no Settings link** (deferred).
+
+Routes (all Server Components unless noted; every page starts with `requireAdminPage()`):
+
+- `/admin`: dashboard (post counts, recent posts, newest unread messages).
+- `/admin/posts`, `/admin/posts/new`, `/admin/posts/[id]/edit`: full `Post` CRUD. The list shows drafts too and filters by `q`, `status` (all / published / draft) and `category`.
+- `/admin/media`: Media Library (ImageKit).
+- `/admin/events`, `/admin/events/new`, `/admin/events/[id]/edit`: full `Event` CRUD; Upcoming / Past is computed from `startsAt`.
+- `/admin/programs` (`?tab=programs|classes`), `/admin/programs/new?type=program|class`, `/admin/programs/[id]/edit?type=program|class`: ONE section over TWO separate models (`Program`, `Class`). They have the same four fields (title, slug, description, image) and are never merged.
+- `/admin/contact` (`?filter=unread`): read-only inbox with mark read / unread.
+
+Shell: `app/admin/layout.js` (re-checks admin access, fetches the unread count) plus `components/admin/AdminSidebar.jsx` (client: active link, Log out) and `AdminTopbar.jsx`. The nav is Dashboard, Blog Posts, Media Library, Events, Programs & Classes, Contact (unread badge). On phones the sidebar becomes a scrollable top bar.
+
+Write API (Route Handlers, all under `/api/admin/**` so `proxy.js`'s matcher covers them; the matcher is a wildcard, so new admin routes need no proxy change):
+
+- `POST /api/admin/{posts,events,programs,classes}`, `PUT` and `DELETE /api/admin/{posts,events,programs,classes}/[id]`, and `PATCH /api/admin/contact/[id]` (`{ isRead }` only: there is no create, edit, reply, or delete for contact).
+- `lib/admin-crud.js` implements CRUD once for the four resources; `lib/admin-api.js` (`adminRoute`) wraps every handler: it re-verifies the admin with `getAdminSession()` (401 signed out, 403 not allowlisted, 503 unconfigured), requires `application/json` (415), caps the body at 500,000 characters (413), rejects cross-site writes (`Origin` must match, `Sec-Fetch-Site` must be same-origin or none: 403), and returns a generic 500 (only an error class name is logged). Responses are always `{ data, error }`; `error` may carry `fields` (per-field messages). 400 validation, 404 unknown or malformed id (ids must look like a cuid before reaching Prisma), 409 duplicate slug (Prisma `P2002`).
+- `lib/admin-validation.js` is pure and shared with the browser: whitelisted fields only (mass assignment is impossible: `id`, `createdAt` and unknown properties are dropped), strict types, length limits, slug pattern, http(s)-only image URLs, dates between 2000 and 2100. A post may keep an older free-form category it already has; new values must be one of the six known categories.
+
+Schema changes in Phase 11 (both additive, migration `20260920140000_admin_post_status_and_contact_read`): `Post.isPublished` and `ContactSubmission.isRead`. Because a draft must never be public, the public Post queries gained `isPublished: true` (`buildPostWhere` and `getPostBySlug` in `lib/blog.js`, the `/blog/[slug]` related list, and the `/programs` and `/classes` blog teasers). Existing posts default to published; existing submissions default to unread.
+
+Editors are client components (`PostEditor`, `EventEditor`, `ProgramEditor`, sharing `useAdminForm`): the same validators run in the browser, focus moves to the first invalid field or the error summary, and a synchronous guard prevents double submits. The post editor has real Draft / Published states ("Save Draft" stores a post that is not public; "Publish" makes it visible). The publish date is only sent when changed (noon UTC keeps the day stable). Deleting uses an accessible confirm dialog (`ConfirmDelete`, focus on Cancel, Escape closes).
+
+Markdown toolbar: `components/admin/MarkdownField.jsx` is a plain `<textarea>` with Bold, Italic, Heading 2, Quote, Link and Image buttons implemented as string manipulation in `lib/markdown-edit.js` (pure, unit-tested). No editor library and no new dependency. The Image button uploads through Phase 9's `useImageUpload` and inserts `![alt](url)`; parentheses and spaces in URLs are percent-encoded so a URL cannot break the syntax. `Post.body` is still rendered only by `components/MarkdownBody.jsx`.
+
+Images: the cover / event / program image fields use `CoverImageField` (labelled dropzone plus a URL box for reusing a Media Library URL) on top of `useImageUpload` and the gated `/api/imagekit-auth`. The Media Library lists the account's newest image files through `listMediaFiles()` in `lib/imagekit.js` (server SDK `assets.list`, 40 per page; search matches file names within the newest 200), with upload and a Copy URL button. It has no delete. Listing URLs carry `?updatedAt=`, which `ImageKitImage` handles.
+
+Contact inbox: each message shows name, mailto link (only for plain addresses: a stored `?` or `&` never becomes part of a `mailto:` URL), relative time, the Phase 7 folded `Reason:` / `Phone:` header parsed back out (`parseSubmissionMessage`), and the message with line breaks preserved. Unread messages have a red marker and screen-reader text; the sidebar badge updates after each toggle.
+
+Known gaps against the mockups (the schema has nowhere to store them): Programs show no "N classes linked" (no relation between `Program` and `Class`), and Classes show no age group, level or schedule.
 
 ## Route and component conventions
 

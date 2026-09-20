@@ -31,7 +31,7 @@ export default async function ProgramsPage() {
   const [programs, classes, posts] = await Promise.all([
     prisma.program.findMany({ orderBy: { createdAt: 'asc' } }),
     prisma.class.findMany({ orderBy: { createdAt: 'asc' }, take: 4 }),
-    prisma.post.findMany({ orderBy: { publishedAt: 'desc' }, take: 3 }),
+    prisma.post.findMany({ where: { isPublished: true }, orderBy: { publishedAt: 'desc' }, take: 3 }),
   ])
 
   const enrollHref = buildEnrollHref()

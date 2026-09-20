@@ -5,7 +5,8 @@ change.
 
 ## Current Phase
 
-- Phase 10 — Auth (Clerk): built and verified with fake keys and logic tests; REAL sign-in is not verified yet (needs Clerk development keys in `.env`).
+- Phase 11 — Admin CMS: complete. (Phase 10 — Auth (Clerk) is now also fully verified with real Clerk keys.)
+- Phase 10 — Auth (Clerk): complete (real sign-in verified during Phase 11; see Completed).
 - Phase 9 — Images (ImageKit): complete.
 - Phase 8 — Our Story & Team: complete.
 - Phase 7 — Contact: complete.
@@ -18,9 +19,9 @@ change.
 
 ## Current Goal
 
-- Finish Phase 10 verification: add a Clerk DEVELOPMENT instance's `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` and `CLERK_SECRET_KEY` plus `ADMIN_ALLOWED_EMAILS` to `.env` (locally), then run the real end-to-end check (sign in with an allowlisted throwaway test user, a signed-in user who is not on the list, sign out, the sign-in page's appearance). The owner approved creating and then deleting throwaway `+clerk_test` users in that dev instance.
-- Then Phase 11 — Admin CMS (`/admin` dashboard, `/admin/posts`, `/admin/media`; mockups exist in `docs/design-references/`). Sign-in currently lands on a 404 at `/admin` because no admin page exists yet.
-- Alongside: add real content to Neon (events, team, and real blog posts to replace the placeholders), set `WHATSAPP_NUMBER` and `CONTACT_EMAIL`, and (locally) create an ImageKit account and fill the `IMAGEKIT_*` variables. `/our-story` and the homepage team section stay empty until `TeamMember` rows exist.
+- Phase 12 — QA (renumbered from the old Phase 11): production build, no broken internal links, no `href="#"` placeholders (the homepage Donate / Partner / Volunteer / Read Their Story / Instagram / YouTube ones remain), WhatsApp and email links verified, responsive checks, Prisma-backed content not hardcoded.
+- Owner actions before launch: add real content through `/admin` (events, team rows still need seeding or a Team admin; posts to replace the placeholders), set `WHATSAPP_NUMBER` and `CONTACT_EMAIL`, create the first real admin accounts and set `ADMIN_ALLOWED_EMAILS` in every deployed environment, and RESTART your `next dev` (the Prisma client changed: `Post.isPublished`, `ContactSubmission.isRead`).
+- The real ContactSubmission row that exists (1) is unread; it will show in the admin inbox.
 
 ## Completed
 
@@ -101,7 +102,18 @@ change.
 - Phase 10, UI: `<ClerkProvider signInUrl="/sign-in" signInFallbackRedirectUrl="/admin" afterSignOutUrl="/">` wraps the root layout only when both Clerk keys are set (so the site and `next build` work with none). `app/sign-in/[[...sign-in]]/page.js` renders Clerk's `<SignIn />` themed by `lib/clerk-appearance.js` (colours from the Tailwind brand tokens; dark card, Fraunces heading, red primary button, square corners, sign-up link hidden). `app/not-authorized/page.js` (outside `/admin`) plus `components/AdminSignOutButton.jsx`. `.env.example` gained `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`, `CLERK_SECRET_KEY`, `ADMIN_ALLOWED_EMAILS`. No `/admin` page, no Prisma change, no ImageKit logic change (only the route's comment).
 - Phase 10, docs: `implementation-roadmap.md` (Phase 10 rewritten as Auth (Clerk), Phase 11 Admin CMS inserted, QA renumbered to Phase 12, open decisions updated), `architecture.md` (auth section), `project-overview.md` (stack and Admin CMS scope), `ai-workflow-rules.md` (rule 13 rewritten, new rule 24 listing security-sensitive files), `code-standards.md` (Firebase section replaced by Authentication (Clerk)).
 - Phase 10 verification — production build and `next start`, WITHOUT real Clerk keys: 52 allowlist logic checks (including a 2,000-case fuzz that nothing outside the list is ever admitted); unconfigured (no keys): build passes with no warnings, 60 checks (public routes untouched with no Clerk script or cookie, `/admin` and admin APIs answer 503, 15 URL-variant and 7 spoofed-header bypass attempts including `x-middleware-subrequest`, `/sign-in` and `/not-authorized` render safely); configured with obviously FAKE but well-formed keys (nonexistent instance): build passes and static pages stay static, 45 checks (signed-out pages get Clerk's handshake redirect, admin APIs get JSON 401, forged, unsigned, expired, and wrong-key JWTs and garbage cookies are all rejected, bypass variants and spoofed headers still gated, no secret or allowlist address in any response); `getAdminSession()` fail-closed branches (no keys, empty or garbage allowlist) and the throw when called outside the matcher. Scratch route deleted; `npm run build` passes.
-- Phase 10 NOT verified: a real Clerk sign-in (no keys yet); the sign-in page's real appearance (Clerk's form only renders once `clerk-js` loads from a real instance); the sign-in to `/admin` redirect; the allowlisted / not-allowlisted outcome with real accounts; sign-out to `/`; the Backend API email lookup; `getAdminSession()` on an allowed request.
+- Phase 10 items listed as not verified in that entry were verified for real in Phase 11 (see "Phase 10, REAL verification" below); the only thing still not exercised is Clerk's "Continue with Google" flow.
+
+- Phase 10, REAL verification (done at the start of Phase 11, against the owner's real Clerk DEV instance, with throwaway `+clerk_test` users that were created and deleted afterwards): 20/20 checks. Signed-out `/admin` redirects to Clerk's handshake and the API answers 401; the real sign-in form renders (dark card, Fraunces heading, red primary button; two visual defects were found and fixed: the card was left-aligned and the button had Clerk's gradient sheen with dark text); a one-time ticket sign-in and a real email-and-password sign-in (including Clerk's new-device code, `424242` for `+clerk_test` addresses in a dev instance) both land on `/admin`; an allowlisted admin passes the gate and gets REAL signed ImageKit parameters from `/api/imagekit-auth`; a signed-in stranger is sent to `/not-authorized` and gets 403 from the API; sign-out returns to `/` and closes the API again. Not seen: Clerk's Google button flow.
+- Phase 11 schema (owner-approved, two additive columns, migration `20260920140000_admin_post_status_and_contact_read`): `ContactSubmission.isRead Boolean @default(false)` and `Post.isPublished Boolean @default(true)`. Post status was not in the prompt's allowed schema change, but the mockups (dashboard counts, list filter, Save Draft / Publish) require it, so the owner approved it together with hiding drafts publicly. Tested on a scratch schema (fresh apply plus a zero-drift check), then applied to the REAL Neon database on the direct endpoint: "Database schema is up to date", real counts unchanged (Program 3, Class 4, Event 0, Post 4, TeamMember 0, ContactSubmission 1), all 4 existing posts still published, the 1 existing message unread.
+- Phase 11, public routes touched (the one sanctioned exception): every public Post read got `isPublished: true` (`buildPostWhere` and `getPostBySlug` in `lib/blog.js`, the `/blog/[slug]` "more from the journal" query, the `/programs` and `/classes` blog teasers). Verified: a draft is a 404 at its URL and absent from `/blog`, search, related posts, and both teasers.
+- Phase 11, admin shell and pages: `app/admin/layout.js` + `components/admin/AdminSidebar.jsx` + `AdminTopbar.jsx` (Dashboard, Blog Posts, Media Library, Events, Programs & Classes, Contact with unread badge; NO Settings link or page). Pages (all call `requireAdminPage()`): `/admin`; `/admin/posts` (+ new, edit); `/admin/media`; `/admin/events` (+ new, edit); `/admin/programs` (Programs / Classes tabs, + new, edit via `?type=`); `/admin/contact`. The seven admin mockups arrived after the prompt was written (it said none existed for events, programs, contact), so all were used. Only `admin-login.html` never existed.
+- Phase 11, API (Route Handlers under `/api/admin/**`): POST / PUT / DELETE for posts, events, programs, classes (`lib/admin-crud.js`) and PATCH `isRead` for contact, all wrapped by `adminRoute()` (`lib/admin-api.js`): admin re-check, JSON only (415), 500,000-char cap (413), cross-site writes rejected (403), `{ data, error }`. Validation is `lib/admin-validation.js` (pure, shared with the browser; whitelisted fields, slug pattern, http(s) images). Duplicate slug 409, unknown or malformed id 404, generic 500.
+- Phase 11, editors and UX: Markdown toolbar (Bold, Italic, H2, Quote, Link, Image) is a plain textarea plus pure string helpers in `lib/markdown-edit.js`: NO editor library and NO new dependency. Body and cover images upload through Phase 9's `useImageUpload`; the Media Library lists the account's images (`listMediaFiles()`, server SDK), with upload, search, and Copy URL. Delete uses a modal confirm (focus on Cancel, Escape closes). Contact shows the Phase 7 folded Reason / Phone header parsed back out; only plain addresses become `mailto:` links.
+- Phase 11 mockup gaps flagged, not worked around: no "classes linked" on programs (no `Program`-`Class` relation), and no age group, level, or schedule on classes (no columns). Programs and Classes render the same card shape.
+- Phase 11 verification — production build, real Clerk sessions, real ImageKit (uploads confined to `/phase11-test`, then deleted by fileId: the account is back to its original single image), scratch Neon schema (dropped): 101 unit checks (validation, Markdown edits, formatting); 162 gate/API checks (every admin page and API is gated when signed out (307 / 401) and for a signed-in stranger (redirect / 403); cross-origin, `Origin: null`, `text/plain`, oversized, malformed and wrong-typed requests rejected; mass assignment blocked; SQL and HTML text stored inertly; a 10-way same-slug race gives exactly one 201; Program and Class ids never mix; contact allows only `isRead`; errors leak nothing); 54 browser checks for dashboard and posts (real uploads, toolbar, draft to publish, drafts hidden publicly, validation focus, double-click guard, delete confirm); 60 browser checks for events, programs, contact, media (real ImageKit), and layout at 320 / 390 / 768 / 1280 / 1920px. `npm run build` passes with the real env and with no Clerk or ImageKit env (0 warnings).
+- Phase 11 bugs found by testing and fixed: (1) the dashboard grid had no `grid-cols-1`, so a long title widened it to about 515px on phones; (2) an absolutely positioned `sr-only` table header escaped the `overflow-x-auto` wrapper (which was not positioned) and added 400px+ of page scroll on `/admin/events`; fixed with `relative` on the wrappers; (3) the media topbar's `shrink-0` action group could not wrap; (4) `encodeURIComponent` leaves `(` and `)`, so an image URL with parentheses could break out of the Markdown image syntax (now percent-encoded); (5) Media search and topbar wrapping on phones; (6) inserting an image mid-sentence left a stray space.
+- Test-harness lessons: Clerk's `__session` cookie is a 60-second JWT (re-read cookies per request); ImageKit's `assets.list({ path })` does not recurse into subfolders (list recursively before cleanup); `innerText` returns CSS-uppercased text; a hung `navigator.clipboard.readText()` needs a timeout; killing a test skips its cleanup, so always run the cleanup script afterwards.
 
 ## In Progress
 
@@ -109,8 +121,8 @@ change.
 
 ## Next Up
 
-- Phase 10 real-key verification (see Current Goal), then Phase 11 — Admin CMS.
-- Phase 12 — QA (renumbered from the old Phase 11).
+- Phase 12 — QA (see Current Goal).
+- Possible admin follow-ups (need decisions): a Team admin (`TeamMember` has no order or featured field), Media Library delete, a post preview, and pagination beyond 200 rows.
 - Replace the gradient placeholders with real photography as approved assets arrive (the rendering pipeline is ready).
 
 ## Open Questions
@@ -174,7 +186,7 @@ change.
 
 - No real ImageKit account or credentials exist yet, so a real upload has never been run; only the fake-ImageKit tests above. Once keys exist (locally), do one real upload and confirm the file lands, the returned `url` renders through `ImageKitImage` (check the delivered format and that the `?tr=` transformations resolve), and that the signature is accepted.
 - ImageKit dashboard settings the code cannot enforce: allowed file types, maximum file size, and an upload folder policy (a signature cannot restrict them; the hook's checks are convenience only). No folder taxonomy was invented; callers pass `folder` (for example `/posts`).
-- The admin mockups (dashboard, posts, post editor, media, plus contact, events, programs) now exist in `docs/design-references/`; the Phase 9 upload hook's "labelled dropzone" versus "plain upload button" shapes should be checked against `admin-post-editor.html` and `admin-media.html` in Phase 11. `admin-login.html` still does NOT exist.
+- `docs/design-references/admin-login.html` never existed; the other seven admin mockups were used in Phase 11. The Phase 9 upload hook fit both shapes (a labelled dropzone for cover images and a plain upload button in the Media Library).
 - Stored value convention: the delivered `url` (the only form the `isImageUrl` guard and `ImageKitImage` accept). No `fileId` column exists. A Media Library can list and delete through the server SDK, but "which records use this image" needs the URL search or a future column; decide when the Media Library is designed.
 - `alt` text: `ImageKitImage` supports it, but every call site still renders decorative images with `alt=""` because no model has an alt or caption field (the blog cover caption gap from Phase 6 applies). Decide whether images need alt text and where it is stored.
 - Images are lazy-loaded (`loading="lazy"`), except the `/blog/[slug]` cover (`eager`). The first card image on a page is not marked high priority; revisit when real hero photography exists.
@@ -187,9 +199,17 @@ change.
 - The publishable key is inlined at build time (`NEXT_PUBLIC_`), so both Clerk keys must be set before `next build`; adding them after a build leaves the layout without the provider.
 - Each protected request costs one Clerk Backend API call to read the user's verified primary email (no session-token claim carries it). Fine for a small admin team; a custom session claim or a short cache is an option if latency matters. A failed lookup denies access.
 - Only the verified PRIMARY email counts, and matching is exact and case-insensitive (no domain or wildcard rules, no subaddress normalisation: `name+tag@x.org` is a different address from `name@x.org`). Confirm that is the intended policy.
-- Sign-in lands on `/admin`, which is a 404 until Phase 11 builds the dashboard.
 - Clerk's own error text still says "Your middleware or proxy file exists at ./middleware" in one message; it works with `proxy.js`.
 
+- Restart your local `next dev` (it was running on port 3000): the Prisma client changed (`Post.isPublished`, `ContactSubmission.isRead`), and a dev server started earlier still holds the old client, so the new admin pages and the public draft filter would fail there until it restarts.
+- The Media Library cannot delete files and its search only matches file names within the newest 200 images; there is no "where is this image used" view (no `fileId` or usage tracking). Decide whether deletion is wanted and how to avoid orphaning images that posts still reference.
+- There is no post preview in the editor (Markdown is rendered only by the public page), and there are no scheduled posts: the publish date is just a date, and a Published post is public immediately whatever its date.
+- Admin lists cap at 200 rows (posts, events, contact) with no pagination; the Media Library pages by 40.
+- Event times: the admin enters a date and time in their own browser's time zone and it is stored as an instant, but the public `/events` page formats it in the SERVER's time zone (an earlier decision). If the server and the admin differ, the shown time differs.
+- The sidebar shows the admin's verified email (not a display name) and a plain Log out; the mockup's "Founder Name" avatar is a placeholder circle.
+- `TeamMember` has no admin screen (the prompt did not include one) and the table is still empty, so the post editor's Author box suggests no names until team rows exist.
+- The mobile admin nav is a horizontally scrolling row with a visible scrollbar; polish if desired.
+- Clerk's `getAdminSession()` calls the Backend API once per request (cached per request for the layout and page). Each admin page load is proxy + layout/page = about two Clerk API calls.
 ## Architecture Decisions
 
 - Stack is Next.js 16.3.3 / React 19.2.0 / MUI 9.4.0 (not the original Next 13 / React 18 / MUI v5). Follows `architecture.md` "Version modernization decision"; nothing was upgraded in Phase 1 or 2.
@@ -252,6 +272,12 @@ change.
 - Testing technique without a Clerk account: well-formed but nonexistent-instance keys (`pk_test_` plus the base64 of `<host>$`) let the whole configured code path (build, static prerender, handshake redirects, 401s, forged-token rejection) be exercised; real sign-in still needs a real dev instance. Beware `echo "====..."` in zsh (it is treated as a command).
 - `npm update` follows caret ranges across minors (`^19.2.0` allowed React 19.3.0): pin exact versions when a specific patch is intended.
 
+- Admin CMS pattern: every admin page starts with `requireAdminPage()`, every write handler is an `adminRoute()` (often via `crudRoutes()`), and validation is one pure module shared by browser and server. New admin routes under `/admin` or `/api/admin` need no proxy change (wildcard matcher), which Unit 10 confirmed.
+- Drafts are a column (`Post.isPublished`), not a separate table, and public queries filter on it in one place per query. A future public Post query that forgets the filter would expose drafts: grep for `prisma.post` when adding one.
+- Programs and Classes stay two models behind one admin section, distinguished by `?type=` / `?tab=`; the API is one endpoint set per model so a Program id can never be edited as a Class.
+- Admin uploads use the same signed flow as Phase 9; the folders are `/posts`, `/events`, `/programs`, `/classes`, `/library`. Tests rewrote the folder to `/phase11-test/...` in the browser (an XHR `send` hook) to stay inside the approved test area.
+- Layout lesson: `sr-only` inside an `overflow-x-auto` table needs a positioned (`relative`) wrapper; grids need `grid-cols-1` as the base column template.
+
 ## Session Notes
 
 - Phase 1 and Phase 2 work: 2026-09-19. Phase 3 work: 2026-09-20. Nothing from Phases 1–3 has been committed yet — review and commit (`app/` move and `app/page.js`, `lib/*`, `components/*`, `prisma/schema.prisma` and `prisma/migrations/`, config and doc edits).
@@ -284,3 +310,7 @@ change.
 - The Phase 10 prompt said `middleware.js`; Next 16 renamed it `proxy.js`, so `proxy.js` was used (see Architecture Decisions). It also said "Phases 0–7 are complete" (Phases 0–9 are), referred to `docs/design-reference/` (the folder is `docs/design-references/`), and named `admin-login.html`, which does not exist (the seven other admin mockups arrived during this phase).
 - The owner asked for real-key testing; `.env` had none of the three Clerk variables when checked (names, prefixes, and counts only were checked; no value was ever printed). The owner's dev server on port 3000 was left alone; the `next build` output directory is shared with it.
 - Temporary scratch route `/api/zz-p10` (used to exercise `getAdminSession()`) was deleted before the final build; no `/admin` page exists.
+- Phase 11 work: 2026-09-20. Nothing from Phases 1–11 has been committed yet. Phase 11 added no dependency. Two additive columns were applied to the REAL Neon database (with approval) after testing on a scratch schema.
+- The Phase 11 prompt said `middleware.js` (it is `proxy.js`), said no mockups exist for events, programs, or contact (they arrived before the phase started), and referred to `docs/design-reference/` (the folder is `docs/design-references/`).
+- The real `ContactSubmission` table now holds 1 row (0 at the end of Phase 9): a message submitted through `/contact` outside these tests. No test wrote to the real tables.
+- With the owner's approval, tests created and deleted throwaway `+clerk_test` users in the Clerk dev instance and uploaded a few tiny PNGs into `/phase11-test` of the real ImageKit account (all deleted; the account again holds only its original `default-image.jpg`). A killed test run skips its cleanup, so `cleanup-all11` style cleanup was run by hand once.

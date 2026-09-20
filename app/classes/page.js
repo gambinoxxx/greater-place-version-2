@@ -25,7 +25,7 @@ const SECTION = 'scroll-mt-24 py-20 md:py-28'
 export default async function ClassesPage() {
   const [classes, posts] = await Promise.all([
     prisma.class.findMany({ orderBy: { createdAt: 'asc' } }),
-    prisma.post.findMany({ orderBy: { publishedAt: 'desc' }, take: 3 }),
+    prisma.post.findMany({ where: { isPublished: true }, orderBy: { publishedAt: 'desc' }, take: 3 }),
   ])
 
   return (

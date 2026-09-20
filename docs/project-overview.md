@@ -17,7 +17,7 @@ Working creative line: “Where movement becomes opportunity.”
 - Use photography and editorial composition to communicate movement, people, culture, and transformation.
 - Support structured content rather than hard-coded page content.
 - Provide a foundation for enrollment, contact, authentication, and administrative workflows.
-- Give the team a protected admin area (Admin CMS, Phase 11) to manage blog posts and the ImageKit media library without touching code.
+- Give the team a protected admin area (Admin CMS, Phase 11) to manage blog posts, events, programs and classes, and the ImageKit media library, and to read contact messages, without touching code.
 
 ## 3. Primary Audience
 - Young people and prospective participants.
@@ -102,7 +102,7 @@ Image binaries belong in ImageKit. The database stores the relevant ImageKit ide
 ## 10. Authentication
 Authentication is Clerk. The admin area (`/admin/**`, plus `/api/admin/**` and the ImageKit upload-signing route) is open only to signed-in users whose verified primary email is on an owner-controlled allowlist (`ADMIN_ALLOWED_EMAILS`); the public site needs no sign-in. Firebase is not used.
 
-The Admin CMS (Phase 11) is the product surface behind that gate: a dashboard, blog post management (create, edit, delete `Post` records), and an ImageKit-backed media library. See `architecture.md` for how the gate works.
+The Admin CMS (Phase 11) is the product surface behind that gate: a dashboard, blog post management (create, edit, delete `Post` records, with drafts), event and program / class management, an ImageKit-backed media library, and a read-only contact inbox with mark-as-read. See `architecture.md` for how the gate works.
 
 ## 11. Fonts
 - Fraunces — display/headings

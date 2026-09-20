@@ -142,6 +142,9 @@ Buttons are MUI `Button` theme variants defined in `lib/theme.js` (`components.M
 
 `size="small"` is supported. For link buttons pass `href`; the theme sets `MuiButtonBase.defaultProps.LinkComponent` to `next/link`, so internal links navigate client-side. Do not pass `component={Link}` from a Server Component (functions cannot cross the Server→Client boundary).
 
+### Admin area
+The `/admin` screens (docs/design-references/admin-*.html) are a separate visual context: a fixed sidebar shell, small border radii (4 to 8px) on panels, buttons, inputs and tags, and mono type for slugs and Markdown. The zero-radius rule above applies to the public site.
+
 ## 16. Theme Rule
 The project remains dark-only at the global theme level until a real light palette is designed. Do not add a theme toggle simply because next-themes exists. Light/ivory sections are allowed as intentional editorial sections. On the homepage the dark → light → dark change is a scroll-driven page atmosphere (see `docs/tailwind-conversion-notes.md` §13), not a theme toggle.
 

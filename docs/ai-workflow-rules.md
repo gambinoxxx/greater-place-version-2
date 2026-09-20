@@ -123,7 +123,7 @@ An authorization mistake in these places is a real security bug, not a style nit
 
 - `proxy.js` (the gate in front of `/admin/**`, `/api/admin/**`, and `/api/imagekit-auth`)
 - `lib/admin-access.js` and `lib/admin-auth.js` (allowlist decision and server-side re-check)
-- everything under `app/admin/**` and `app/api/admin/**` (Phase 11)
+- everything under `app/admin/**` and `app/api/admin/**`, plus `lib/admin-api.js`, `lib/admin-crud.js`, `lib/admin-page.js`, and `lib/admin-validation.js` (Phase 11)
 - `app/api/imagekit-auth/route.js` and `lib/imagekit.js` (upload signing and the ImageKit private key)
 - `.env*` files and anything that reads `CLERK_SECRET_KEY`, `IMAGEKIT_PRIVATE_KEY`, or `ADMIN_ALLOWED_EMAILS`
 

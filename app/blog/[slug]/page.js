@@ -30,7 +30,7 @@ export default async function PostPage({ params }) {
 
   // "More from the journal": other posts, same category first, then the newest.
   const others = await prisma.post.findMany({
-    where: { slug: { not: post.slug } },
+    where: { slug: { not: post.slug }, isPublished: true },
     orderBy: { publishedAt: 'desc' },
     take: 12,
   })

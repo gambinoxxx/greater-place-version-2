@@ -80,6 +80,12 @@
 - Do not add auth or user models to Prisma; Clerk owns identity. Firebase is not used.
 - Set the Clerk keys before `next build` (the publishable key is inlined). Never hardcode keys or allowlist addresses.
 
+## Admin CMS
+- Every admin page calls `requireAdminPage()` first; every admin Route Handler is built with `adminRoute()` (`lib/admin-api.js`) so it re-verifies the admin, requires JSON, caps the body, and rejects cross-site writes. Do not write an admin handler by hand.
+- New resources reuse `crudRoutes()` (`lib/admin-crud.js`) and a validator in `lib/admin-validation.js`: whitelist fields, never spread the request body into Prisma, and keep the validator pure so the browser can run it too.
+- Admin lists that scroll horizontally wrap the table in `relative overflow-x-auto` (an absolutely positioned `sr-only` cell escapes an unpositioned scroll container and widens the page). Grids use an explicit `grid-cols-1` base so a long title cannot widen the track.
+- Text from the database (titles, names, messages) is always rendered as React text, never as HTML.
+
 ## Components
 
 Shared components should be reusable and props-driven.

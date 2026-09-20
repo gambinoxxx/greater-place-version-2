@@ -162,11 +162,16 @@ Maintain the approved dark → light → dark section rhythm. Every CTA must be 
 
 Depends on Phase 9 (ImageKit) and Phase 10 (Clerk + allowlist).
 
-- `/admin`: dashboard
-- `/admin/posts`: list, create, edit, and delete, backed by the Prisma `Post` model (cover images through `components/useImageUpload.js`)
-- `/admin/media`: ImageKit-backed media library
-- Everything is protected by Phase 10's `proxy.js`; Route Handlers and Server Actions also re-check with `getAdminSession()` and keep admin APIs under `/api/admin/**`
-- Mockups also exist for `/admin/contact`, `/admin/events`, and `/admin/programs`; whether they belong in this phase is decided in the Phase 11 prompt
+- Shared admin shell (`app/admin/layout.js`, `components/admin/AdminSidebar.jsx`, `AdminTopbar.jsx`): Dashboard, Blog Posts, Media Library, Events, Programs & Classes, Contact (unread badge). No Settings page or link (deferred)
+- `/admin`: dashboard (counts, recent posts, unread messages)
+- `/admin/posts` (+ `/new`, `/[id]/edit`): full `Post` CRUD with Draft / Published, a Markdown toolbar (plain textarea, no new dependency), cover image and body image upload through `components/useImageUpload.js`, and a confirm-before-delete dialog
+- `/admin/media`: ImageKit-backed Media Library (list, search, upload, Copy URL)
+- `/admin/events` (+ `/new`, `/[id]/edit`): full `Event` CRUD
+- `/admin/programs` (+ `/new`, `/[id]/edit`): full CRUD for `Program` and `Class` (two models, tabs in one section)
+- `/admin/contact`: read-only inbox with mark read / unread (no edit, reply, or delete)
+- Route Handlers under `/api/admin/{posts,events,programs,classes}` (POST, PUT, DELETE) and `/api/admin/contact/[id]` (PATCH `isRead`): `{ data, error }`, validated server-side, re-verified with `getAdminSession()`, JSON-only, same-origin only
+- Schema: two additive columns, `Post.isPublished` (default true) and `ContactSubmission.isRead` (default false); public Post queries now exclude drafts
+- Everything is behind Phase 10's `proxy.js` (its wildcard matcher already covers every new route)
 
 ## Phase 12 — QA
 
