@@ -14,6 +14,10 @@ const FIELD_ORDER = ['name', 'email', 'phone', 'reason', 'message']
 const GENERIC_ERROR = 'Something went wrong. Please try again, or contact us directly.'
 const NETWORK_ERROR = 'We could not reach the server. Please check your connection and try again, or contact us directly.'
 
+// MUI's outlined alerts use pale severity tints that vanish on the light atmosphere: the text follows
+// the page instead, and only the border and icon carry the severity colour.
+const ALERT_SX = { color: 'var(--atmos-fg)', borderColor: 'var(--atmos-field)' }
+
 export default function ContactForm() {
   const [values, setValues] = useState(EMPTY)
   const [errors, setErrors] = useState({})
@@ -100,7 +104,7 @@ export default function ContactForm() {
   if (status === 'success') {
     return (
       <div>
-        <Alert ref={alertRef} tabIndex={-1} severity="success" variant="outlined">
+        <Alert ref={alertRef} tabIndex={-1} severity="success" variant="outlined" sx={ALERT_SX}>
           Thanks — we&apos;ve received your message and will get back to you.
         </Alert>
         <div className="mt-6">
@@ -159,7 +163,13 @@ export default function ContactForm() {
       </div>
 
       {status === 'error' && (
-        <Alert ref={alertRef} tabIndex={-1} severity="error" variant="outlined">
+        <Alert
+          ref={alertRef}
+          tabIndex={-1}
+          severity="error"
+          variant="outlined"
+          sx={{ ...ALERT_SX, borderColor: 'var(--atmos-error)', '& .MuiAlert-icon': { color: 'var(--atmos-error)' } }}
+        >
           {serverMessage}
         </Alert>
       )}

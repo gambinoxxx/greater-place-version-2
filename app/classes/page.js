@@ -1,6 +1,7 @@
 import Button from '@mui/material/Button'
 import SiteHeader from '@/components/SiteHeader'
 import SiteFooter from '@/components/SiteFooter'
+import PageAtmosphere from '@/components/PageAtmosphere'
 import RevealOnScroll from '@/components/RevealOnScroll'
 import SectionHeader from '@/components/SectionHeader'
 import ProgramCard from '@/components/ProgramCard'
@@ -31,6 +32,7 @@ export default async function ClassesPage() {
   return (
     <>
       <SiteHeader />
+      <PageAtmosphere hero />
       <main id="main" className="text-atmos">
         <PageHero
           eyebrow="Classes"
@@ -51,7 +53,7 @@ export default async function ClassesPage() {
           not an imported form.
         </PageHero>
 
-        <section id="classes" data-theme="dark" className={SECTION}>
+        <section id="classes" data-theme="light" className={SECTION}>
           <div className={CONTAINER}>
             <SectionHeader label="Classes" accent="purple" />
             <RevealOnScroll>

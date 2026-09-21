@@ -20,7 +20,7 @@ export default function FaqAccordion({ items, label = 'Frequently asked question
             color: 'inherit',
             backgroundImage: 'none',
             borderTop: 1,
-            borderColor: 'divider',
+            borderColor: 'var(--atmos-line)',
             '&::before': { display: 'none' },
           }}
         >
@@ -32,7 +32,15 @@ export default function FaqAccordion({ items, label = 'Frequently asked question
                 <path d="m6 9 6 6 6-6" />
               </svg>
             }
-            sx={{ px: 0, py: 1, '& .MuiAccordionSummary-content': { my: 2 } }}
+            sx={{
+              px: 0,
+              py: 1,
+              '& .MuiAccordionSummary-content': { my: 2 },
+              // The chevron would otherwise use MUI's translucent-white icon colour: invisible on ivory.
+              '& .MuiAccordionSummary-expandIconWrapper': { color: 'inherit' },
+              // MUI's default focus tint is a translucent white: invisible on the light atmosphere.
+              '&.Mui-focusVisible': { backgroundColor: 'transparent', outline: '2px solid currentColor', outlineOffset: -2 },
+            }}
           >
             <span className="font-serif text-xl md:text-2xl">{item.question}</span>
           </AccordionSummary>

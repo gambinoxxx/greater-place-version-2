@@ -2,6 +2,7 @@ import Link from 'next/link'
 import Button from '@mui/material/Button'
 import SiteHeader from '@/components/SiteHeader'
 import SiteFooter from '@/components/SiteFooter'
+import PageAtmosphere from '@/components/PageAtmosphere'
 import RevealOnScroll from '@/components/RevealOnScroll'
 import SectionHeader from '@/components/SectionHeader'
 import ProgramCard from '@/components/ProgramCard'
@@ -77,6 +78,7 @@ export default async function ProgramsPage() {
   return (
     <>
       <SiteHeader />
+      <PageAtmosphere hero />
       <main id="main" className="text-atmos">
         <PageHero
           eyebrow="What We Develop"
@@ -96,7 +98,7 @@ export default async function ProgramsPage() {
           wellness — woven into movement rooted in African performing arts.
         </PageHero>
 
-        <section id="pathway" data-theme="dark" className={SECTION}>
+        <section id="pathway" data-theme="light" className={SECTION}>
           <div className={CONTAINER}>
             <SectionHeader label="Training" accent="gold" href="/training" linkLabel="Explore training" />
             <RevealOnScroll>
@@ -132,7 +134,7 @@ export default async function ProgramsPage() {
           </div>
         </section>
 
-        <section id="programs" data-theme="dark" className={SECTION}>
+        <section id="programs" data-theme="light" className={SECTION}>
           <div className={CONTAINER}>
             <SectionHeader label="Programs" />
             <RevealOnScroll>
@@ -156,7 +158,7 @@ export default async function ProgramsPage() {
           </div>
         </section>
 
-        <section id="culture" data-theme="dark" className={SECTION}>
+        <section id="culture" data-theme="light" className={SECTION}>
           <div className={CONTAINER}>
             <SectionHeader label="Culture" accent="purple" href="/classes" linkLabel="View all classes" />
             <RevealOnScroll>
@@ -185,7 +187,7 @@ export default async function ProgramsPage() {
 
         <BlogTeaser posts={posts} />
 
-        <section data-theme="dark" className={SECTION}>
+        <section data-theme="light" className={SECTION}>
           <div className={CONTAINER}>
             <SectionHeader label="Good to Know" />
             <RevealOnScroll className="mt-10">

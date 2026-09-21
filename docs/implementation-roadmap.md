@@ -98,7 +98,7 @@ Implement one shared component at a time:
 7. `ProgramCard`
 8. `CategoryTag`
 
-`SiteHeader` may use IntersectionObserver/data-theme behavior from the approved page reference. Keep the application theme dark-only; section-level visual changes are a page design behavior, not a global theme switch.
+`SiteHeader` may use IntersectionObserver/data-theme behavior from the approved page reference. Keep the application theme dark-only; section-level visual changes are a page design behavior, not a global theme switch. The same scroll-driven atmosphere is applied on every inner route as a single dark-hero → light-content transition (see `docs/tailwind-conversion-notes.md` §13).
 
 ## Phase 3 — Homepage
 

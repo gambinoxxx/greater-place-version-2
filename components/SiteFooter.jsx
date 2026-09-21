@@ -23,7 +23,7 @@ const LINK =
 // socialLinks: [{ label, href }]. No real accounts are hardcoded; the block is hidden until supplied.
 export default function SiteFooter({ socialLinks = [] }) {
   return (
-    <footer data-theme="dark" className="bg-brand-footerBg text-brand-ivory">
+    <footer data-theme="dark" className="atmos-dark-surface bg-brand-footerBg text-brand-ivory">
       <div className={`${CONTAINER} grid gap-12 py-16 md:grid-cols-2 lg:grid-cols-12`}>
         <div className="lg:col-span-4">
           <p className="font-serif text-2xl font-semibold tracking-tight">Greater Place</p>

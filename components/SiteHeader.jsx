@@ -38,6 +38,7 @@ export default function SiteHeader() {
   const headerRef = useRef(null)
   const [scrolled, setScrolled] = useState(false)
   const [sectionTheme, setSectionTheme] = useState('dark')
+  const [overFooter, setOverFooter] = useState(false)
   const [open, setOpen] = useState(false)
 
   useEffect(() => {
@@ -65,6 +66,10 @@ export default function SiteHeader() {
       observer = new IntersectionObserver(
         (entries) => {
           for (const entry of entries) {
+            // The footer is a fixed dark surface. Over it the header stays dark whatever the page
+            // atmosphere says: on a phone the footer is taller than the viewport, so the header can
+            // sit over it while the last section above it is light.
+            if (entry.target.tagName === 'FOOTER') setOverFooter(entry.isIntersecting)
             // Pages that mount PageAtmosphere drive the theme through html[data-atmosphere] instead.
             if (entry.isIntersecting && !document.documentElement.hasAttribute('data-atmosphere')) {
               setSectionTheme(entry.target.dataset.theme === 'light' ? 'light' : 'dark')
@@ -112,7 +117,8 @@ export default function SiteHeader() {
   }, [open])
 
   // An open mobile menu always renders on the dark palette so it stays legible.
-  const t = THEMES[open ? 'dark' : sectionTheme]
+  const headerTheme = open || overFooter ? 'dark' : sectionTheme
+  const t = THEMES[headerTheme]
   const surface =
     scrolled || open
       ? `${open ? 'bg-brand-black border-brand-ivory/10' : t.surface} backdrop-blur-md`
@@ -124,7 +130,7 @@ export default function SiteHeader() {
     <header
       ref={headerRef}
       data-scrolled={scrolled}
-      data-header-theme={open ? 'dark' : sectionTheme}
+      data-header-theme={headerTheme}
       className={`fixed inset-x-0 top-0 z-50 border-b transition-colors duration-300 motion-reduce:transition-none ${surface} ${t.text}`}
     >
       <nav aria-label="Primary" className={`${CONTAINER} flex h-[72px] items-center justify-between gap-6`}>

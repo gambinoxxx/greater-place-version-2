@@ -102,7 +102,7 @@ The datasource reads `DATABASE_URL` only. `directUrl` and any Neon driver-adapte
 - Culture has no model. The `/programs` Culture section is a teaser over `Class` records, not a new content type.
 - Blog teaser: there is no `Blog` model. Teasers use the existing `Post` model (`post.findMany`, `publishedAt` desc, `take: 3`) so they and the future `/blog` page read the same data. `components/BlogTeaser.jsx` renders them through `ProgramCard` with a `CategoryTag` badge; every card and "View all" links to `/blog`.
 - Classes, Training, and Blog are intentionally absent from the header navigation. They are reached through CTAs on `/programs`, the homepage, the footer, and the blog teasers.
-- These routes are plain dark pages (`data-theme="dark"`); they do not mount `PageAtmosphere`. `SiteHeader` and `SiteFooter` are rendered by each page (there is no shared layout for them yet).
+- Every public inner route (these three, plus `/events`, `/blog`, `/blog/[slug]`, `/contact`, `/our-story`) mounts `<PageAtmosphere hero />` and has exactly one dark → light transition: the hero band is `data-theme="dark"`, everything below it is `data-theme="light"` (`docs/tailwind-conversion-notes.md` §13). `CtaBand` and `BlogTeaser` are always in the light zone. `SiteHeader` and `SiteFooter` are rendered by each page (there is no shared layout for them yet).
 - Enrollment via WhatsApp uses `buildEnrollHref()` in `lib/whatsapp.js` (the `WHATSAPP_NUMBER` env var). The number in the mockups is not used.
 
 ### Seed data

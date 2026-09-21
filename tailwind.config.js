@@ -29,6 +29,7 @@ module.exports = {
           muted: 'var(--atmos-fg-muted)',
           line: 'var(--atmos-line)',
           tint: 'var(--atmos-tint)',
+          inverse: 'var(--atmos-inverse)',
         },
       },
       fontFamily: {

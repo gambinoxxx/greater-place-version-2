@@ -1,6 +1,7 @@
 import Button from '@mui/material/Button'
 import SiteHeader from '@/components/SiteHeader'
 import SiteFooter from '@/components/SiteFooter'
+import PageAtmosphere from '@/components/PageAtmosphere'
 import RevealOnScroll from '@/components/RevealOnScroll'
 import SectionHeader from '@/components/SectionHeader'
 import EventCard from '@/components/EventCard'
@@ -33,6 +34,7 @@ export default async function EventsPage() {
   return (
     <>
       <SiteHeader />
+      <PageAtmosphere hero />
       <main id="main" className="text-atmos">
         <PageHero
           eyebrow="Performances"
@@ -54,7 +56,7 @@ export default async function EventsPage() {
           training builds.
         </PageHero>
 
-        <section id="upcoming" data-theme="dark" className={SECTION}>
+        <section id="upcoming" data-theme="light" className={SECTION}>
           <div className={CONTAINER}>
             <SectionHeader label="Upcoming" accent="red" />
             <RevealOnScroll>
@@ -81,7 +83,7 @@ export default async function EventsPage() {
         </section>
 
         {past.length > 0 && (
-          <section id="past" data-theme="dark" className={SECTION}>
+          <section id="past" data-theme="light" className={SECTION}>
             <div className={CONTAINER}>
               <SectionHeader label="Past Highlights" accent="red" />
               <RevealOnScroll>

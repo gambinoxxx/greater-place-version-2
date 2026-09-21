@@ -3,6 +3,7 @@ import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 import SiteHeader from '@/components/SiteHeader'
 import SiteFooter from '@/components/SiteFooter'
+import PageAtmosphere from '@/components/PageAtmosphere'
 import PageHero from '@/components/PageHero'
 import PostCard from '@/components/PostCard'
 import { CATEGORY_NAMES } from '@/components/CategoryTag'
@@ -35,12 +36,13 @@ export default async function BlogPage({ searchParams }) {
 
   const pill = (active) =>
     `inline-flex items-center border px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] transition-colors motion-reduce:transition-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current ${
-      active ? 'border-brand-ivory bg-brand-ivory text-brand-black' : 'border-atmos-line hover:bg-atmos-line'
+      active ? 'border-atmos bg-atmos text-atmos-inverse' : 'border-atmos-line hover:bg-atmos-line'
     }`
 
   return (
     <>
       <SiteHeader />
+      <PageAtmosphere hero />
       <main id="main" className="text-atmos">
         <PageHero
           eyebrow="The Journal"
@@ -66,7 +68,7 @@ export default async function BlogPage({ searchParams }) {
           Notes from the studio, the stage and everywhere in between — written by the people building Greater Place.
         </PageHero>
 
-        <section data-theme="dark" className="pb-20 md:pb-28">
+        <section data-theme="light" className="pb-20 md:pb-28">
           <div className={CONTAINER}>
             <nav aria-label="Filter by category" className="flex flex-wrap gap-3">
               <Link href={blogHref({ q })} aria-current={category ? undefined : 'page'} className={pill(!category)}>

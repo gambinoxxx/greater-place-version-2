@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import SiteHeader from '@/components/SiteHeader'
 import SiteFooter from '@/components/SiteFooter'
+import PageAtmosphere from '@/components/PageAtmosphere'
 import SectionHeader from '@/components/SectionHeader'
 import CategoryTag from '@/components/CategoryTag'
 import ImagePlaceholder from '@/components/ImagePlaceholder'
@@ -40,6 +41,7 @@ export default async function PostPage({ params }) {
   return (
     <>
       <SiteHeader />
+      <PageAtmosphere hero />
       <main id="main" className="text-atmos">
         <article>
           <header data-theme="dark" className="pb-12 pt-32 md:pb-16 md:pt-40">
@@ -79,7 +81,7 @@ export default async function PostPage({ params }) {
             </div>
           </header>
 
-          <div data-theme="dark" className="pb-20 md:pb-28">
+          <div data-theme="light" className="pb-20 md:pb-28">
             <div className={`${CONTAINER} grid gap-8 lg:grid-cols-[auto_minmax(0,1fr)] lg:gap-16`}>
               <div className="lg:sticky lg:top-28 lg:self-start">
                 <ShareRail path={`/blog/${post.slug}`} title={post.title} />
@@ -92,7 +94,7 @@ export default async function PostPage({ params }) {
         </article>
 
         {related.length > 0 && (
-          <section data-theme="dark" className="border-t border-atmos-line py-20 md:py-28">
+          <section data-theme="light" className="border-t border-atmos-line py-20 md:py-28">
             <div className={CONTAINER}>
               <SectionHeader label="More from the journal" href="/blog" linkLabel="View all" />
               <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

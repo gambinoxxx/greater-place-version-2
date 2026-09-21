@@ -4,10 +4,10 @@ import ProgramCard from '@/components/ProgramCard'
 import CategoryTag from '@/components/CategoryTag'
 
 // Teaser: `posts` are Prisma `Post` rows fetched by the page. Each card links to its post at
-// /blog/<slug>; "View all" links to /blog.
+// /blog/<slug>; "View all" links to /blog. It sits in the light zone below the page hero.
 export default function BlogTeaser({ posts }) {
   return (
-    <section id="blog" data-theme="dark" className="scroll-mt-24 py-20 md:py-28">
+    <section id="blog" data-theme="light" className="scroll-mt-24 py-20 md:py-28">
       <div className="mx-auto w-full max-w-[1280px] px-5 md:px-8 lg:px-12">
         <SectionHeader label="From the blog" href="/blog" linkLabel="View all" />
         <RevealOnScroll>

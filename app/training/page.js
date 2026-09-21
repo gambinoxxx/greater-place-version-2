@@ -2,6 +2,7 @@ import Link from 'next/link'
 import Button from '@mui/material/Button'
 import SiteHeader from '@/components/SiteHeader'
 import SiteFooter from '@/components/SiteFooter'
+import PageAtmosphere from '@/components/PageAtmosphere'
 import RevealOnScroll from '@/components/RevealOnScroll'
 import SectionHeader from '@/components/SectionHeader'
 import PageHero from '@/components/PageHero'
@@ -43,6 +44,7 @@ export default function TrainingPage() {
   return (
     <>
       <SiteHeader />
+      <PageAtmosphere hero />
       <main id="main" className="text-atmos">
         <PageHero
           eyebrow="Training"
@@ -65,7 +67,7 @@ export default function TrainingPage() {
           confidence along the way.
         </PageHero>
 
-        <section data-theme="dark" className="pb-8">
+        <section data-theme="light" className="pb-8">
           <div className={CONTAINER}>
             <SectionHeader label="The Four Stages" accent="gold" />
             <ol className="mt-8 grid border-t border-atmos-line sm:grid-cols-2 lg:grid-cols-4">
@@ -87,7 +89,7 @@ export default function TrainingPage() {
         </section>
 
         {PATHWAY.map((stage, index) => (
-          <section key={stage.slug} id={stage.slug} data-theme="dark" className={SECTION}>
+          <section key={stage.slug} id={stage.slug} data-theme="light" className={SECTION}>
             <div className={CONTAINER}>
               <RevealOnScroll className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
                 <ImagePlaceholder label={stage.photo} className={`aspect-[4/3] ${index % 2 === 1 ? 'lg:order-2' : ''}`} />
@@ -121,7 +123,7 @@ export default function TrainingPage() {
           </section>
         ))}
 
-        <section data-theme="dark" className="scroll-mt-24 py-20 md:py-28">
+        <section data-theme="light" className="scroll-mt-24 py-20 md:py-28">
           <div className={CONTAINER}>
             <SectionHeader label="Good to Know" />
             <RevealOnScroll className="mt-10">

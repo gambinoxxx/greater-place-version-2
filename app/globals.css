@@ -16,10 +16,34 @@
   --atmos-fg-muted: color-mix(in srgb, var(--atmos-fg) 75%, transparent);
   --atmos-line: color-mix(in srgb, var(--atmos-fg) 20%, transparent);
   --atmos-tint: color-mix(in srgb, var(--atmos-fg) 6%, transparent);
+  /* The opposite of --atmos-fg: for a filled control (an active pill) that must stand out on the page. */
+  --atmos-inverse: theme('colors.brand.black');
+  /* Form-control borders need more contrast than a decorative rule (--atmos-line). */
+  --atmos-field: color-mix(in srgb, var(--atmos-fg) 45%, transparent);
+  /* Error text: brand red on black, the deeper red on ivory (brand red is too light to read there). */
+  --atmos-error: theme('colors.brand.red');
 }
 
 html[data-atmosphere='light'] {
   --atmos-fg: theme('colors.brand.black');
+  --atmos-inverse: theme('colors.brand.ivory');
+  --atmos-error: theme('colors.brand.redDeep');
+}
+
+/*
+  A self-contained dark surface (the footer) inside an atmosphere page. Custom properties that are
+  computed from another custom property on :root do not re-resolve on descendants, so every derived
+  token is declared again here; without this, MUI fields and muted text in the footer would follow the
+  page to black-on-dark whenever the page is light.
+*/
+.atmos-dark-surface {
+  --atmos-fg: theme('colors.brand.ivory');
+  --atmos-fg-muted: color-mix(in srgb, var(--atmos-fg) 75%, transparent);
+  --atmos-line: color-mix(in srgb, var(--atmos-fg) 20%, transparent);
+  --atmos-tint: color-mix(in srgb, var(--atmos-fg) 6%, transparent);
+  --atmos-inverse: theme('colors.brand.black');
+  --atmos-field: color-mix(in srgb, var(--atmos-fg) 45%, transparent);
+  --atmos-error: theme('colors.brand.red');
 }
 
 html[data-atmosphere] body {

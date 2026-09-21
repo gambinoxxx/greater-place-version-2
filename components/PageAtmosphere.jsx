@@ -15,12 +15,24 @@ const target = (section) => (section.dataset.theme === 'light' ? 1 : 0)
 // scrolling around each dark/light boundary. It only writes --atmos-t and html[data-atmosphere];
 // globals.css turns those into the background and text colours, so text always contrasts with the
 // current background. The flip of the text colour happens at t = 0.5.
-export default function PageAtmosphere() {
+//
+// The footer is left out on purpose: it is a fixed dark surface with its own background, so it must
+// not pull the page dark just above it (an inner page that ends on a light section stays light down
+// to the footer). While the centre line is over the footer the last themed section wins.
+//
+// `hero` is for inner pages that open with one dark hero band and stay light below it. The homepage
+// samples the viewport centre (0.5), which only reads as "dark at the top" when the first section is
+// taller than about 85% of the viewport. A hero band is shorter than that, so with `hero` the line
+// sits near the top (0.2) and the page opens fully dark, then eases to light as the hero scrolls away.
+const CENTRE_LINE = 0.5
+const HERO_LINE = 0.2
+
+export default function PageAtmosphere({ hero = false }) {
   const pathname = usePathname()
 
   useEffect(() => {
     const root = document.documentElement
-    const sections = [...document.querySelectorAll('[data-theme]')]
+    const sections = [...document.querySelectorAll('[data-theme]:not(footer)')]
     if (!sections.length) return undefined
 
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)')
@@ -29,7 +41,7 @@ export default function PageAtmosphere() {
     const compute = () => {
       frame = 0
       const vh = window.innerHeight
-      const line = vh * 0.5
+      const line = vh * (hero ? HERO_LINE : CENTRE_LINE)
       const span = Math.max(vh * 0.7, 320)
       const rects = sections.map((section) => section.getBoundingClientRect())
 
@@ -78,7 +90,7 @@ export default function PageAtmosphere() {
       root.removeAttribute('data-atmosphere')
       root.style.removeProperty('--atmos-t')
     }
-  }, [pathname])
+  }, [pathname, hero])
 
   return null
 }

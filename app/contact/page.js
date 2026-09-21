@@ -1,6 +1,7 @@
 import Button from '@mui/material/Button'
 import SiteHeader from '@/components/SiteHeader'
 import SiteFooter from '@/components/SiteFooter'
+import PageAtmosphere from '@/components/PageAtmosphere'
 import RevealOnScroll from '@/components/RevealOnScroll'
 import SectionHeader from '@/components/SectionHeader'
 import PageHero from '@/components/PageHero'
@@ -59,6 +60,7 @@ export default function ContactPage() {
   return (
     <>
       <SiteHeader />
+      <PageAtmosphere hero />
       <main id="main" className="text-atmos">
         <PageHero eyebrow="Get In Touch" title="Let's start a conversation.">
           Whether you&apos;re enrolling a dancer, booking a performance, volunteering or exploring a partnership —
@@ -66,7 +68,7 @@ export default function ContactPage() {
         </PageHero>
 
         {hasChannels && (
-          <section data-theme="dark" className="pb-8">
+          <section data-theme="light" className="pb-8">
             <div className={CONTAINER}>
               <RevealOnScroll className="grid gap-6 md:grid-cols-2">
                 {whatsappHref && (
@@ -98,7 +100,7 @@ export default function ContactPage() {
           </section>
         )}
 
-        <section id="message" data-theme="dark" className={SECTION}>
+        <section id="message" data-theme="light" className={SECTION}>
           <div className={CONTAINER}>
             <div className="max-w-3xl">
               <SectionHeader label="Send A Message" />
@@ -121,7 +123,7 @@ export default function ContactPage() {
           </div>
         </section>
 
-        <section data-theme="dark" className={SECTION}>
+        <section data-theme="light" className={SECTION}>
           <div className={CONTAINER}>
             <SectionHeader label="Frequently Asked" />
             <RevealOnScroll>

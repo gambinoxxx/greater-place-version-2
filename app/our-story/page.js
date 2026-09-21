@@ -1,6 +1,7 @@
 import Button from '@mui/material/Button'
 import SiteHeader from '@/components/SiteHeader'
 import SiteFooter from '@/components/SiteFooter'
+import PageAtmosphere from '@/components/PageAtmosphere'
 import RevealOnScroll from '@/components/RevealOnScroll'
 import SectionHeader from '@/components/SectionHeader'
 import ImagePlaceholder from '@/components/ImagePlaceholder'
@@ -44,16 +45,17 @@ export default async function OurStoryPage() {
   return (
     <>
       <SiteHeader />
+      <PageAtmosphere hero />
       <main id="main" className="text-atmos">
         <section data-theme="dark" className="relative flex h-[82vh] min-h-[520px] items-end overflow-hidden">
           <ImagePlaceholder label="Photography placeholder" className="absolute inset-0 border-0" />
           <div className={`${CONTAINER} relative flex items-end justify-between gap-6 pb-16`}>
             <h1 className="break-words font-serif text-3xl tracking-[0.04em] sm:text-4xl md:text-5xl">Our Story</h1>
-            <span aria-hidden="true" className="mb-2 h-2 w-2 shrink-0 rounded-full bg-brand-white" />
+            <span aria-hidden="true" className="mb-2 h-2 w-2 shrink-0 rounded-full bg-current" />
           </div>
         </section>
 
-        <section data-theme="dark" className="pb-10 pt-20 md:pt-24">
+        <section data-theme="light" className="pb-10 pt-20 md:pt-24">
           <div className={CONTAINER}>
             <RevealOnScroll>
               <div aria-hidden="true" className="mb-6 h-[3px] w-[22px] bg-brand-red" />
@@ -70,7 +72,7 @@ export default async function OurStoryPage() {
 
         {/* The mockup's founder quote is unconfirmed placeholder copy attributed to a placeholder name, so
             no quote text or attribution is shown until a real one is supplied. */}
-        <section data-theme="dark" className="relative flex min-h-[520px] items-end overflow-hidden md:min-h-[70vh]">
+        <section data-theme="light" className="relative flex min-h-[520px] items-end overflow-hidden md:min-h-[70vh]">
           <ImagePlaceholder label="Photography placeholder" className="absolute inset-0 border-0" />
           <div className={`${CONTAINER} relative pb-16 pt-32`}>
             <RevealOnScroll>
@@ -82,7 +84,7 @@ export default async function OurStoryPage() {
           </div>
         </section>
 
-        <section data-theme="dark" className={SECTION}>
+        <section data-theme="light" className={SECTION}>
           <div className={CONTAINER}>
             <SectionHeader label="Our Founder" />
             <RevealOnScroll>
@@ -106,7 +108,7 @@ export default async function OurStoryPage() {
           </div>
         </section>
 
-        <section data-theme="dark" className="pb-20 md:pb-28">
+        <section data-theme="light" className="pb-20 md:pb-28">
           <div className={CONTAINER}>
             <RevealOnScroll>
               <ul className="grid grid-cols-2 gap-4 lg:grid-cols-4">
@@ -123,7 +125,7 @@ export default async function OurStoryPage() {
           </div>
         </section>
 
-        <section id="leadership" data-theme="dark" className={SECTION}>
+        <section id="leadership" data-theme="light" className={SECTION}>
           <div className={`${CONTAINER} grid gap-12 lg:grid-cols-2 lg:gap-[70px]`}>
             <div>
               <SectionHeader label="Our Leadership" />
@@ -157,7 +159,7 @@ export default async function OurStoryPage() {
           </div>
         </section>
 
-        <section data-theme="dark" className={SECTION}>
+        <section data-theme="light" className={SECTION}>
           <div className={CONTAINER}>
             <RevealOnScroll>
               <ImagePlaceholder label="Team group photo placeholder" className="aspect-[2/1] min-h-[220px] w-full" />
@@ -170,7 +172,7 @@ export default async function OurStoryPage() {
         </section>
 
         {/* The mockup's "Read Our Full History" button pointed at href="#": there is no destination, so it is omitted. */}
-        <section data-theme="dark" className={SECTION}>
+        <section data-theme="light" className={SECTION}>
           <div className={`${CONTAINER} grid items-center gap-10 lg:grid-cols-2 lg:gap-[60px]`}>
             <div>
               <SectionHeader label="Our History" />
