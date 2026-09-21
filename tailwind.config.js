@@ -30,6 +30,9 @@ module.exports = {
           line: 'var(--atmos-line)',
           tint: 'var(--atmos-tint)',
           inverse: 'var(--atmos-inverse)',
+          card: 'var(--atmos-card)',
+          'card-media': 'var(--atmos-card-media)',
+          'card-muted': 'var(--atmos-card-muted)',
         },
       },
       fontFamily: {

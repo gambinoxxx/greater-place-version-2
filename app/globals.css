@@ -22,6 +22,24 @@
   --atmos-field: color-mix(in srgb, var(--atmos-fg) 45%, transparent);
   /* Error text: brand red on black, the deeper red on ivory (brand red is too light to read there). */
   --atmos-error: theme('colors.brand.red');
+  /*
+    Card surfaces (ProgramCard, EventCard). They ease with --atmos-t exactly like the body background:
+    at t = 0 they are the dark navy card, at t = 1 they are the page's own ivory (so the card reads as an
+    outlined light card, like PostCard) and the image block is a plain light grey. Custom properties
+    computed from --atmos-t are resolved on :root, which is where the page writes it.
+  */
+  --atmos-card: color-mix(in oklab, var(--atmos-light) calc(var(--atmos-t) * 100%), theme('colors.brand.navy'));
+  --atmos-card-media: color-mix(
+    in oklab,
+    color-mix(in srgb, theme('colors.brand.black') 6%, var(--atmos-light)) calc(var(--atmos-t) * 100%),
+    theme('colors.brand.navyDeep')
+  );
+  /*
+    Description text on a card: 60% on the dark card, 75% (the same as PostCard's excerpt) on light. It
+    reaches 75% by t = 0.5, where the text colour flips, so it is never fainter than the page's own muted
+    text at the flip point.
+  */
+  --atmos-card-muted: color-mix(in srgb, var(--atmos-fg) calc(60% + min(var(--atmos-t) * 2, 1) * 15%), transparent);
 }
 
 html[data-atmosphere='light'] {

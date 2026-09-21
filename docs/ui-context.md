@@ -91,6 +91,8 @@ Cards are useful for structured content such as programs, events, stories, and c
 
 Use borders and spacing rather than heavy shadows.
 
+Card surfaces follow the page atmosphere (dark navy card in a dark zone, outlined ivory card in a light zone; `docs/tailwind-conversion-notes.md` §13), never a hardcoded dark fill.
+
 `EventCard` has a vertical `card` layout (carousels, grids) and a horizontal `row` layout (the `/events` list, image beside text from `md`), with an optional description and a configurable secondary action. `ProgramCard` accepts `expanded`, `ctaLabel`, and a node `badge`. `PostCard` is the blog post card (category tag over the image, serif title, excerpt, `Author · Date · N min read`), with a wide `featured` layout for the newest post. Blog category filters are pill links built from `CATEGORY_NAMES` in `CategoryTag`; the active pill is filled ivory.
 
 ## 11. Imagery
