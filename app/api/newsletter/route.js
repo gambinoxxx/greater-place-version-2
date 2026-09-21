@@ -7,7 +7,7 @@ import { validateNewsletterEmail } from '@/lib/newsletter-validation'
 //   400 { data: null, error: { message } }   invalid email (no Resend call)
 //   413 / 415 { data: null, error: { message } }   body too large / not JSON
 //   502 { data: null, error: { message } }   Resend rejected the request
-//   503 { data: null, error: { message } }   RESEND_API_KEY / RESEND_AUDIENCE_ID not set
+//   503 { data: null, error: { message } }   RESEND_API_KEY not set
 //   500 { data: null, error: { message } }   unexpected failure (generic; details stay in the server log)
 const MAX_BODY_CHARS = 2_000
 
