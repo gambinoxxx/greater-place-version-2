@@ -1,6 +1,5 @@
 import Link from 'next/link'
-import Button from '@mui/material/Button'
-import TextField from '@mui/material/TextField'
+import NewsletterForm from '@/components/NewsletterForm'
 
 const PROGRAM_LINKS = [
   { label: 'Programs', href: '/programs' },
@@ -63,25 +62,11 @@ export default function SiteFooter({ socialLinks = [] }) {
         </nav>
 
         <div className="md:col-span-2 lg:col-span-4">
-          {/* Newsletter is UI only: no <form> and no handler until the newsletter decision is made. */}
           <div role="group" aria-labelledby="footer-newsletter">
             <h2 id="footer-newsletter" className={HEADING}>
               Newsletter
             </h2>
-            <div className="mt-5 flex items-stretch gap-3">
-              <TextField
-                id="footer-newsletter-email"
-                name="email"
-                type="email"
-                label="Email address"
-                autoComplete="email"
-                size="small"
-                fullWidth
-              />
-              <Button type="button" variant="solidWhite" size="small">
-                Subscribe
-              </Button>
-            </div>
+            <NewsletterForm />
           </div>
 
           {socialLinks.length > 0 && (

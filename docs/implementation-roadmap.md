@@ -186,7 +186,7 @@ Depends on Phase 9 (ImageKit) and Phase 10 (Clerk + allowlist).
 ## Open decisions
 
 1. Donate / Partner / Volunteer destinations
-2. Newsletter scope
+2. ~~Newsletter scope~~ Resolved: the footer form posts to `/api/newsletter`, which adds the address to a Resend Audience (`lib/newsletter.js`). The owner supplies `RESEND_API_KEY` / `RESEND_AUDIENCE_ID` (`.env.example`); until then the form answers with a "not set up yet" error.
 3. Neon migration connection strategy / `directUrl`
 4. Prisma Neon driver-adapter strategy, to be revisited before `lib/prisma.js` if needed
 5. Admin email allowlist: configured through `ADMIN_ALLOWED_EMAILS` (comma-separated, exact match on the verified primary email); the owner supplies the real addresses
