@@ -1,11 +1,17 @@
 import Link from 'next/link'
+import HeroVideo from '@/components/HeroVideo'
 
 // Top-of-page hero for inner pages: optional breadcrumb, eyebrow, serif heading, supporting copy,
-// an actions slot (buttons), and an optional media slot below.
-export default function PageHero({ eyebrow, title, children, breadcrumb, actions, media }) {
+// an actions slot (buttons), an optional media slot below, and an optional full-bleed background
+// video (backgroundVideo, backgroundVideoPoster) behind everything else in the hero.
+export default function PageHero({ eyebrow, title, children, breadcrumb, actions, media, backgroundVideo, backgroundVideoPoster }) {
   return (
-    <section data-theme="dark" className="pb-16 pt-32 md:pb-24 md:pt-40">
-      <div className="mx-auto w-full max-w-[1280px] px-5 md:px-8 lg:px-12">
+    <section
+      data-theme="dark"
+      className={`pb-16 pt-32 md:pb-24 md:pt-40 ${backgroundVideo ? 'relative overflow-hidden' : ''}`}
+    >
+      {backgroundVideo && <HeroVideo src={backgroundVideo} poster={backgroundVideoPoster} />}
+      <div className={`mx-auto w-full max-w-[1280px] px-5 md:px-8 lg:px-12 ${backgroundVideo ? 'relative' : ''}`}>
         {breadcrumb && (
           <nav aria-label="Breadcrumb" className="mb-8 text-xs font-bold uppercase tracking-[0.16em] text-atmos-muted">
             <ol className="flex flex-wrap items-center gap-2">

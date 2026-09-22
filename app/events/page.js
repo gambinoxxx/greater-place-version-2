@@ -39,6 +39,8 @@ export default async function EventsPage() {
         <PageHero
           eyebrow="Performances"
           title="See the work on stage."
+          backgroundVideo="/greater-place-hero-video.mp4"
+          backgroundVideoPoster="/greater-place-hero-poster.jpg"
           actions={
             <>
               {rsvpHref && (
