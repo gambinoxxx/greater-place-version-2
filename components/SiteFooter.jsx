@@ -11,6 +11,7 @@ const ORGANISATION_LINKS = [
   { label: 'Our Story', href: '/our-story' },
   { label: 'Events', href: '/events' },
   { label: 'Blog', href: '/blog' },
+  { label: 'Donate', href: '/donate' },
   { label: 'Get Involved', href: '/get-involved' },
   { label: 'Contact', href: '/contact' },
 ]

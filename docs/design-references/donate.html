@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Donate — Greater Place</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --black:#0A0D12;
+  --navy:#101826;
+  --navy-deep:#0B121C;
+  --ivory:#F3F5F8;
+  --white:#FFFFFF;
+  --dim:rgba(243,245,248,.55);
+  --dimmer:rgba(243,245,248,.38);
+  --hair:rgba(243,245,248,.14);
+  --c-red:#E5484D;
+  --c-red-deep:#C23238;
+  --c-green:#3FBF6F;
+  --c-gold:#D9A441;
+  /* Light-zone equivalents, matching the site's live dark-hero -> light-body pattern
+     (docs/tailwind-conversion-notes.md "Page atmosphere"). This mockup shows the light
+     zone directly instead of relying on scroll-driven easing, since it's static. */
+  --lt-bg:#F3F5F8;
+  --lt-fg:#0A0D12;
+  --lt-dim:rgba(10,13,18,.62);
+  --lt-dimmer:rgba(10,13,18,.42);
+  --lt-hair:rgba(10,13,18,.14);
+  --lt-tint:rgba(10,13,18,.05);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Manrope',sans-serif;
+  background:var(--black);
+  color:var(--ivory);
+  font-size:15px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4,.serif{font-family:'Fraunces',serif;font-weight:400;}
+a{color:inherit;text-decoration:none;}
+.wrap{max-width:1360px;margin:0 auto;padding:0 40px;}
+@media(max-width:800px){.wrap{padding:0 20px;}}
+
+/* nav */
+header{position:fixed;top:0;left:0;right:0;z-index:300;padding:16px 0;
+  background:rgba(10,13,18,.93);backdrop-filter:blur(12px);border-bottom:1px solid var(--hair);}
+header .wrap{display:flex;align-items:center;justify-content:space-between;gap:24px;}
+.logo{font-family:'Fraunces',serif;font-size:15px;letter-spacing:.18em;font-weight:500;}
+.navmid{display:flex;gap:26px;}
+.navmid a{font-size:12px;letter-spacing:.09em;text-transform:uppercase;font-weight:600;color:var(--dim);transition:.2s;}
+.navmid a:hover{color:var(--ivory);}
+.navmid a.on{color:var(--white);}
+.navright{display:flex;align-items:center;gap:18px;}
+.pill{background:var(--white);color:var(--navy-deep);font-size:11.5px;letter-spacing:.1em;
+  text-transform:uppercase;font-weight:700;padding:8px 16px;transition:.2s;}
+.pill:hover{background:transparent;color:var(--ivory);box-shadow:inset 0 0 0 1px rgba(243,245,248,.5);}
+.icn{width:16px;height:16px;stroke:var(--dim);fill:none;stroke-width:1.6;}
+@media(max-width:1050px){.navmid{display:none;}}
+
+.btn{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;padding:13px 24px;transition:.2s;
+  display:inline-flex;align-items:center;gap:8px;border:none;cursor:pointer;font-family:inherit;}
+.btn-red{background:var(--c-red);color:#fff;}
+.btn-red:hover{background:var(--c-red-deep);}
+.btn-line{border:1px solid rgba(243,245,248,.45);color:var(--ivory);background:transparent;}
+.btn-line:hover{background:rgba(243,245,248,.1);}
+.btn-line-dark{border:1px solid rgba(10,13,18,.35);color:var(--lt-fg);background:transparent;}
+.btn-line-dark:hover{background:rgba(10,13,18,.06);}
+
+section{padding:88px 0;}
+@media(max-width:800px){section{padding:52px 0;}}
+.light{background:var(--lt-bg);color:var(--lt-fg);}
+
+.sec-label{font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:var(--dim);}
+.light .sec-label{color:var(--lt-dim);}
+
+/* ===== HERO (dark) ===== */
+.dhero{
+  padding-top:158px;padding-bottom:64px;position:relative;
+  background:linear-gradient(165deg,#152233 0%,#0d1620 55%,#0A0D12 100%);
+}
+.dhero::before{content:"";position:absolute;inset:0;opacity:.4;mix-blend-mode:soft-light;
+  background-image:radial-gradient(circle at 18% 25%,rgba(243,245,248,.4),transparent 42%),
+  radial-gradient(circle at 85% 65%,rgba(217,164,65,.45),transparent 48%);}
+.dhero .wrap{position:relative;z-index:2;}
+.dhero .eyebrow{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);font-weight:700;margin-bottom:16px;}
+.dhero h1{font-size:clamp(38px,5.6vw,66px);line-height:1.05;letter-spacing:-.01em;max-width:760px;}
+.dhero p{max-width:540px;font-size:16px;color:rgba(243,245,248,.8);margin-top:18px;}
+.dhero .promo-btns{display:flex;gap:10px;margin-top:28px;flex-wrap:wrap;}
+
+/* ===== IMPACT STATS (light) — illustrative figures, replace with real numbers before launch ===== */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--lt-hair);
+  border:1px solid var(--lt-hair);margin-top:44px;}
+@media(max-width:900px){.stats{grid-template-columns:1fr 1fr;}}
+.stat{background:var(--lt-bg);padding:32px 26px;}
+.stat .num{font-family:'Fraunces',serif;font-size:clamp(30px,3.4vw,44px);line-height:1;}
+.stat .lbl{margin-top:10px;font-size:12px;letter-spacing:.06em;color:var(--lt-dim);}
+
+/* ===== GIVING OPTIONS (light cards, matches ProgramCard's atmosphere-aware treatment) ===== */
+.give-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:44px;}
+@media(max-width:900px){.give-grid{grid-template-columns:1fr;}}
+.give-card{border:1px solid var(--lt-hair);padding:34px 30px;display:flex;flex-direction:column;background:var(--lt-bg);}
+.give-card .tag{align-self:flex-start;font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;
+  padding:5px 11px;background:var(--lt-fg);color:var(--lt-bg);margin-bottom:18px;}
+.give-card h3{font-size:23px;margin-bottom:10px;}
+.give-card p{font-size:13.5px;color:var(--lt-dim);flex:1;margin-bottom:22px;}
+.give-card .amt{font-size:12px;color:var(--lt-dimmer);margin-bottom:16px;}
+
+/* ===== WHERE IT GOES (light, two-col) ===== */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start;}
+@media(max-width:900px){.split{grid-template-columns:1fr;gap:36px;}}
+.line-item{display:flex;justify-content:space-between;gap:16px;padding:18px 0;border-top:1px solid var(--lt-hair);}
+.line-item:last-child{border-bottom:1px solid var(--lt-hair);}
+.line-item .pct{font-family:'Fraunces',serif;font-size:22px;}
+.line-item .lbl{font-size:14px;}
+.line-item .lbl small{display:block;margin-top:4px;font-size:12.5px;color:var(--lt-dimmer);}
+
+/* ===== OTHER WAYS (dark) ===== */
+.otherways{background:var(--navy-deep);}
+.ow-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:40px;}
+@media(max-width:800px){.ow-grid{grid-template-columns:1fr;}}
+.ow-card{border:1px solid var(--hair);padding:32px;transition:.2s;}
+.ow-card:hover{border-color:rgba(243,245,248,.3);background:rgba(243,245,248,.02);}
+.ow-card h3{font-size:21px;margin-bottom:8px;}
+.ow-card p{font-size:13.5px;color:var(--dim);margin-bottom:20px;}
+
+/* ===== CTA BAND (dark) ===== */
+.cta-band{background:radial-gradient(circle at 30% 30%,#3a2c14,#0A0D12 70%);text-align:center;}
+.cta-band h2{font-size:clamp(26px,3.4vw,40px);max-width:620px;margin:0 auto 16px;}
+.cta-band p{color:var(--dim);max-width:460px;margin:0 auto 30px;}
+.cta-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+.trust-note{margin-top:22px;font-size:12px;color:var(--dimmer);}
+
+/* footer */
+footer{background:#06080B;padding:64px 0 26px;border-top:1px solid var(--hair);}
+.ftop{display:grid;grid-template-columns:1.3fr 1fr 1fr 1.4fr;gap:40px;padding-bottom:44px;}
+@media(max-width:900px){.ftop{grid-template-columns:1fr 1fr;row-gap:32px;}}
+.fbrand .serif{font-size:16px;letter-spacing:.16em;margin-bottom:12px;}
+.fbrand p{font-size:12.5px;color:var(--dimmer);max-width:250px;}
+footer h5{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--dimmer);margin-bottom:14px;}
+footer ul{list-style:none;}
+footer li{margin-bottom:9px;font-size:13px;color:var(--dim);}
+footer li a:hover{color:var(--ivory);}
+.signup{display:flex;border:1px solid var(--hair);margin-top:4px;}
+.signup input{flex:1;background:transparent;border:0;padding:12px 14px;color:var(--ivory);font-family:inherit;font-size:13px;}
+.signup input:focus{outline:2px solid var(--white);outline-offset:-2px;}
+.signup button{background:var(--white);color:var(--navy-deep);border:0;padding:0 20px;font-size:11px;
+  letter-spacing:.12em;text-transform:uppercase;font-weight:700;cursor:pointer;font-family:inherit;}
+.fbot{display:flex;justify-content:space-between;padding-top:22px;border-top:1px solid var(--hair);
+  font-size:11px;color:var(--dimmer);flex-wrap:wrap;gap:8px;}
+
+a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--white);outline-offset:3px;}
+.light a:focus-visible,.light button:focus-visible{outline-color:var(--lt-fg);}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease;}
+.reveal.in{opacity:1;transform:none;}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="logo">GREATER PLACE</div>
+    <nav class="navmid">
+      <a href="greater-place-ailey-pattern.html">Home</a>
+      <a href="our-story.html">Our Story</a>
+      <a href="programs.html">Programs</a>
+      <a href="events.html">Events</a>
+      <a href="blog.html">Blog</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="navright">
+      <a class="pill" href="get-involved.html">Get Involved</a>
+      <svg class="icn" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5L21 21"/></svg>
+      <svg class="icn" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="dhero">
+  <div class="wrap">
+    <div class="eyebrow">Give</div>
+    <h1 class="serif">Fuel the next performance.</h1>
+    <p>Every gift covers something specific — a scholarship spot, a season of training, a stage a young person gets to stand on. Give once, or give monthly.</p>
+    <div class="promo-btns">
+      <a class="btn btn-red" href="#give">Give Now</a>
+      <a class="btn btn-line" href="#where-it-goes">See Where It Goes</a>
+    </div>
+  </div>
+</div>
+
+<!-- IMPACT STATS (illustrative — swap for real figures before launch) -->
+<section class="light reveal">
+  <div class="wrap">
+    <span class="sec-label">The Impact So Far</span>
+    <div class="stats">
+      <div class="stat"><div class="num serif">100+</div><div class="lbl">Young people trained each year</div></div>
+      <div class="stat"><div class="num serif">38</div><div class="lbl">Scholarship spots funded</div></div>
+      <div class="stat"><div class="num serif">12</div><div class="lbl">Public performances a season</div></div>
+      <div class="stat"><div class="num serif">7 yrs+</div><div class="lbl">Serving the community</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- WAYS TO GIVE -->
+<section id="give" class="light reveal">
+  <div class="wrap">
+    <span class="sec-label">Ways To Give</span>
+    <h2 class="serif" style="margin-top:10px;font-size:clamp(26px,3.4vw,38px);max-width:620px;">Choose the gift that fits.</h2>
+    <div class="give-grid">
+      <div class="give-card">
+        <span class="tag">One-Time</span>
+        <h3 class="serif">Make a Gift</h3>
+        <p>A single donation, any amount — put straight toward training, costumes, and performance costs for the current season.</p>
+        <div class="amt">Suggested: $25 · $75 · $150 · Other</div>
+        <a class="btn btn-red" href="#" target="_blank" rel="noopener">Give Once →</a>
+      </div>
+      <div class="give-card">
+        <span class="tag">Monthly</span>
+        <h3 class="serif">Become a Sustainer</h3>
+        <p>Recurring gifts let us plan a full season in advance instead of season-to-season — the steadiest way to support the work.</p>
+        <div class="amt">Suggested: $10/mo · $25/mo · $50/mo</div>
+        <a class="btn btn-line-dark" href="#" target="_blank" rel="noopener">Give Monthly →</a>
+      </div>
+      <div class="give-card">
+        <span class="tag">Sponsorship</span>
+        <h3 class="serif">Sponsor a Dancer</h3>
+        <p>Cover one young person's tuition, shoes, and travel for a full season, and follow their progress across the year.</p>
+        <div class="amt">$600 covers one season</div>
+        <a class="btn btn-line-dark" href="contact.html">Ask About Sponsorship →</a>
+      </div>
+    </div>
+    <p style="margin-top:22px;font-size:12px;color:var(--lt-dimmer);">
+      Online giving is being set up — the buttons above are placeholders until a payment processor is connected. In the meantime, <a href="contact.html" style="text-decoration:underline;">contact us</a> or use WhatsApp/email in the footer to give directly.
+    </p>
+  </div>
+</section>
+
+<!-- WHERE IT GOES -->
+<section id="where-it-goes" class="light reveal">
+  <div class="wrap">
+    <div class="split">
+      <div>
+        <span class="sec-label">Where It Goes</span>
+        <h2 class="serif" style="margin-top:10px;font-size:clamp(26px,3.4vw,38px);">Every dollar has a job.</h2>
+        <p style="margin-top:16px;color:var(--lt-dim);font-size:14.5px;max-width:420px;">
+          We keep overhead low so gifts reach the studio floor, not a back office. Figures below are illustrative — replace with the real breakdown before this page ships.
+        </p>
+      </div>
+      <div>
+        <div class="line-item"><span class="lbl">Training &amp; Instruction<small>Instructor pay, studio time, curriculum</small></span><span class="pct serif">58%</span></div>
+        <div class="line-item"><span class="lbl">Scholarships<small>Tuition-free spots for families who need them</small></span><span class="pct serif">24%</span></div>
+        <div class="line-item"><span class="lbl">Performances &amp; Production<small>Venues, costumes, staging</small></span><span class="pct serif">13%</span></div>
+        <div class="line-item"><span class="lbl">Operations<small>The essentials that keep the lights on</small></span><span class="pct serif">5%</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OTHER WAYS TO HELP -->
+<section class="otherways reveal">
+  <div class="wrap">
+    <span class="sec-label">Not Ready To Give?</span>
+    <h2 class="serif" style="margin-top:10px;font-size:clamp(24px,3.2vw,34px);">There's more than one way to support Greater Place.</h2>
+    <div class="ow-grid">
+      <div class="ow-card">
+        <h3 class="serif">Partner With Us</h3>
+        <p>Corporate sponsorships, school partnerships, and in-kind support all move the work forward without a check.</p>
+        <a class="btn btn-line" href="get-involved.html#partner">Explore Partnership →</a>
+      </div>
+      <div class="ow-card">
+        <h3 class="serif">Volunteer</h3>
+        <p>Rehearsal support, event-day crew, mentorship — bring your time instead of, or alongside, a gift.</p>
+        <a class="btn btn-line" href="get-involved.html#volunteer">See Volunteer Roles →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<div class="cta-band reveal">
+  <div class="wrap">
+    <span class="sec-label">Ready?</span>
+    <h2 class="serif" style="margin-top:14px;">Your gift moves a young person forward.</h2>
+    <p>However you give, it's felt in the studio.</p>
+    <div class="cta-btns">
+      <a class="btn btn-red" href="#give">Give Now</a>
+      <a class="btn btn-line" href="contact.html">Talk to Someone First</a>
+    </div>
+    <div class="trust-note">Greater Place is a registered nonprofit. Gifts are tax-deductible where applicable — receipt details to be confirmed.</div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="ftop">
+      <div class="fbrand">
+        <div class="serif">GREATER PLACE</div>
+        <p>Performing arts, ministry and youth development for young people ages 8–33.</p>
+      </div>
+      <div>
+        <h5>Program</h5>
+        <ul>
+          <li><a href="our-story.html">Our Story</a></li>
+          <li><a href="training.html">Training</a></li>
+          <li><a href="programs.html">What We Develop</a></li>
+          <li><a href="blog.html">Blog</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Organisation</h5>
+        <ul>
+          <li><a href="greater-place-ailey-pattern.html#people">Team</a></li>
+          <li><a href="events.html">Events</a></li>
+          <li><a href="donate.html">Donate</a></li>
+          <li><a href="get-involved.html">Get Involved</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Stay Connected</h5>
+        <div class="signup">
+          <input type="email" placeholder="Email address" aria-label="Email address">
+          <button type="button">Sign up</button>
+        </div>
+        <ul style="margin-top:18px;display:flex;gap:18px;">
+          <li><a href="#">Instagram</a></li><li><a href="#">YouTube</a></li><li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="fbot">
+      <span>© 2027 Greater Place</span>
+      <span>Donate — Support the work on and off the stage</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('.reveal').forEach((el)=>{
+  const io=new IntersectionObserver((entries)=>{entries.forEach((e)=>{if(e.isIntersecting){el.classList.add('in');io.unobserve(el);}});},{threshold:.12});
+  io.observe(el);
+});
+</script>
+</body>
+</html>
