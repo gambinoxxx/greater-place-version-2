@@ -10,11 +10,13 @@ import ImageKitImage from '@/components/ImageKitImage'
 import EventCard from '@/components/EventCard'
 import ProgramCard from '@/components/ProgramCard'
 import EventsCarousel from '@/components/EventsCarousel'
+import StoriesRotator from '@/components/StoriesRotator'
 import prisma from '@/lib/prisma'
 import { getEvents } from '@/lib/events'
 import { isImageUrl } from '@/lib/image-url'
 import { PATHWAY } from '@/lib/pathway'
 import { SOCIAL_LINKS } from '@/lib/site'
+import { TESTIMONIALS } from '@/lib/testimonials'
 import { buildChatHref, buildRsvpHref } from '@/lib/whatsapp'
 
 // Content is Prisma-backed and must stay fresh; this also keeps `next build` independent of the database.
@@ -272,24 +274,8 @@ export default async function Home() {
           <div className={CONTAINER}>
             <SectionHeader label="Stories of Change" accent="blue" href="/blog" linkLabel="More stories" />
             <RevealOnScroll>
-              <h2 className="mt-8 font-serif text-4xl md:text-5xl">Stories of change</h2>
-              <div className="mt-12 grid items-center gap-10 lg:grid-cols-2">
-                <ImagePlaceholder label="Story photo placeholder" className="aspect-[4/3]" />
-                <div>
-                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-atmos-muted">Story placeholder</p>
-                  <p className="mt-4 font-serif text-3xl md:text-4xl">A story of change</p>
-                  <p className="mt-4 leading-relaxed text-atmos-muted">
-                    Real stories from the young people and families of Greater Place will be shared here. Story content
-                    to be supplied.
-                  </p>
-                  <div className="mt-8">
-                    {/* Approved placeholder destination. */}
-                    <Button variant="outline" href="#">
-                      Read Their Story
-                    </Button>
-                  </div>
-                </div>
-              </div>
+              <h2 className="mt-8 font-serif text-4xl md:text-5xl">Real stories, in their own words.</h2>
+              <StoriesRotator stories={TESTIMONIALS} />
             </RevealOnScroll>
           </div>
         </section>
