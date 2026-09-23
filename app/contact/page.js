@@ -8,6 +8,7 @@ import PageHero from '@/components/PageHero'
 import FaqAccordion from '@/components/FaqAccordion'
 import ContactForm from '@/components/ContactForm'
 import { buildMailtoHref, getContactEmail } from '@/lib/contact'
+import { REASONS } from '@/lib/contact-validation'
 import { SOCIAL_LINKS } from '@/lib/site'
 import { buildLearnMoreHref, buildQuickChatHref, getWhatsAppDisplay } from '@/lib/whatsapp'
 
@@ -49,7 +50,10 @@ const FAQ = [
   },
 ]
 
-export default function ContactPage() {
+export default async function ContactPage({ searchParams }) {
+  // ?reason=Volunteer (etc.) preselects the form's reason; anything not in REASONS means no prefill.
+  const { reason } = await searchParams
+  const initialReason = REASONS.includes(reason) ? reason : ''
   const whatsappHref = buildLearnMoreHref()
   const quickChatHref = buildQuickChatHref()
   const whatsappNumber = getWhatsAppDisplay()
@@ -109,7 +113,7 @@ export default function ContactPage() {
                 <p className="mb-10 mt-6 text-lg leading-relaxed text-atmos-muted">
                   Tell us a little about what you need — we&apos;ll route it to the right person on our team.
                 </p>
-                <ContactForm />
+                <ContactForm initialReason={initialReason} />
                 {quickChatHref && (
                   <div className="mt-12 flex flex-wrap items-center gap-4 border-t border-atmos-line pt-8">
                     <p className="text-atmos-muted">Prefer something faster?</p>

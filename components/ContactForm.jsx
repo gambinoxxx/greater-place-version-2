@@ -18,8 +18,9 @@ const NETWORK_ERROR = 'We could not reach the server. Please check your connecti
 // the page instead, and only the border and icon carry the severity colour.
 const ALERT_SX = { color: 'var(--atmos-fg)', borderColor: 'var(--atmos-field)' }
 
-export default function ContactForm() {
-  const [values, setValues] = useState(EMPTY)
+// initialReason: a validated REASONS entry (from /contact?reason=...) to preselect, or '' for none.
+export default function ContactForm({ initialReason = '' }) {
+  const [values, setValues] = useState({ ...EMPTY, reason: initialReason })
   const [errors, setErrors] = useState({})
   const [status, setStatus] = useState('idle') // idle | sending | success | error
   const [serverMessage, setServerMessage] = useState('')

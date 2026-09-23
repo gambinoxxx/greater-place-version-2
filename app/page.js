@@ -302,15 +302,15 @@ export default async function Home() {
               <p className="mt-6 max-w-xl text-lg leading-relaxed text-atmos-muted">
                 Give, partner, or volunteer to help young people move, grow &amp; lead.
               </p>
-              {/* Donate, Partner With Us, and Volunteer are approved placeholder destinations. */}
+              {/* Partner With Us and Volunteer go to /get-involved; Donate is still an approved placeholder destination. */}
               <div className="mt-10 flex flex-wrap gap-4">
                 <Button variant="solidRed" href="#">
                   Donate
                 </Button>
-                <Button variant="solidWhite" href="#">
+                <Button variant="solidWhite" href="/get-involved#partner">
                   Partner With Us
                 </Button>
-                <Button variant="outline" href="#">
+                <Button variant="outline" href="/get-involved#volunteer">
                   Volunteer
                 </Button>
               </div>
