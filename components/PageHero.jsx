@@ -5,6 +5,8 @@ import HeroVideo from '@/components/HeroVideo'
 // an actions slot (buttons), an optional media slot below, and an optional full-bleed background
 // video (backgroundVideo, backgroundVideoPoster) or background image (backgroundImage) behind
 // everything else in the hero. If both are given, the video wins and backgroundImage is ignored.
+// backgroundImageClassName and scrim (elements) override the image's crop and the default dark scrim
+// for photos that need a lighter touch.
 export default function PageHero({
   eyebrow,
   title,
@@ -15,6 +17,8 @@ export default function PageHero({
   backgroundVideo,
   backgroundVideoPoster,
   backgroundImage,
+  backgroundImageClassName = '',
+  scrim,
 }) {
   const hasBackground = Boolean(backgroundVideo || backgroundImage)
   return (
@@ -26,11 +30,13 @@ export default function PageHero({
       {!backgroundVideo && backgroundImage && (
         <div aria-hidden="true" className="absolute inset-0 overflow-hidden">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={backgroundImage} alt="" className="h-full w-full object-cover" />
+          <img src={backgroundImage} alt="" className={`h-full w-full object-cover ${backgroundImageClassName}`} />
           {/* Scrim: dark gradient over the photo, keeps text readable regardless of the photo's own
               brightness. Stronger at the top (/75) than a first pass (/55) — the heading sits there,
               and get-involved.PNG's bright sky washed it out at /55. */}
-          <div className="absolute inset-0 bg-gradient-to-b from-brand-black/75 via-brand-black/85 to-brand-black" />
+          {scrim ?? (
+            <div className="absolute inset-0 bg-gradient-to-b from-brand-black/75 via-brand-black/85 to-brand-black" />
+          )}
         </div>
       )}
       <div className={`mx-auto w-full max-w-[1280px] px-5 md:px-8 lg:px-12 ${hasBackground ? 'relative' : ''}`}>

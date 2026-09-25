@@ -78,6 +78,15 @@ export default function DonatePage() {
           eyebrow="Give"
           title="Fuel the next performance."
           backgroundImage="/donate.PNG"
+          // The jar sits right of center in the photo: keep it in frame on narrow screens, and fade the
+          // scrim out toward it so it reads clearly while the headline side stays dark enough for white text.
+          backgroundImageClassName="object-[78%_center]"
+          scrim={
+            <>
+              <div className="absolute inset-0 bg-gradient-to-r from-brand-black/70 via-brand-black/35 to-brand-black/5" />
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent from-55% to-brand-black" />
+            </>
+          }
           actions={
             <>
               <Button variant="solidRed" href="#give">

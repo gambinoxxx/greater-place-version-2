@@ -5,7 +5,7 @@ import { isImageUrl } from '@/lib/image-url'
 // Also used for Classes data: Class and Program share the same shape, so pass `href` to
 // point at /classes#<slug> instead of the default /programs#<slug>. `badge` is a string or a node
 // (e.g. <CategoryTag />); `expanded` shows the whole description instead of three lines.
-// Surface colours come from the page atmosphere (--atmos-card*, see app/globals.css): a dark navy card in a
+                                                             // Surface colours come from the page atmosphere (--atmos-card*, see app/globals.css): a dark navy card in a
 // dark zone, an outlined light card in a light zone. Do not hardcode brand-navy / brand-ivory here.
 export default function ProgramCard({
   program,
