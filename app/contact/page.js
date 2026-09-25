@@ -71,12 +71,15 @@ export default async function ContactPage({ searchParams }) {
           title="Let's start a conversation."
           backgroundImage="/contact-hero.png"
           // The subject sits on the right of a white studio backdrop: keep her in frame on narrow screens,
-          // and use a heavier scrim than /donate's since the white backdrop would otherwise wash out the
+          // and use a heavier scrim than /donate's, since the white backdrop would otherwise wash out the
           // headline. The top fade keeps the header legible over the bright photo.
           backgroundImageClassName="object-[80%_center]"
           scrim={
             <>
-              <div className="absolute inset-0 bg-gradient-to-r from-brand-black/85 via-brand-black/60 to-brand-black/15" />
+              {/* Tailwind 3.3 only has opacity steps of 5, 10, 20, 25… so no /15, /35 or /85 here. */}
+              <div className="absolute inset-0 bg-gradient-to-r from-brand-black/90 via-brand-black/75 to-brand-black/20" />
+              {/* On narrow screens the copy runs across the subject, so darken the whole photo further. */}
+              <div className="absolute inset-0 bg-brand-black/50 md:hidden" />
               <div className="absolute inset-0 bg-gradient-to-b from-brand-black/50 via-transparent via-30% to-transparent" />
               <div className="absolute inset-0 bg-gradient-to-b from-transparent from-55% to-brand-black" />
             </>
