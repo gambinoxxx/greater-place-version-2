@@ -160,16 +160,22 @@ export default function DonatePage() {
           </div>
         </section>
 
-        <section id="where-it-goes" data-theme="light" className={SECTION}>
+        <section id="where-it-goes" data-theme="light" className={`relative overflow-hidden ${SECTION}`}>
+          {/* Full-bleed background photo behind the whole section, blurred + washed with the page's own
+              light background colour so the existing dark-on-light text and allocation list stay exactly
+              as readable as before — same treatment as get-involved's #partner-types. */}
+          <div aria-hidden="true" className="absolute inset-0 -z-10">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/donate-where-It-goes.PNG"
+              alt=""
+              className="h-full w-full scale-110 object-cover blur-xl"
+            />
+            <div className="absolute inset-0 bg-brand-ivory/90" />
+          </div>
           <div className={CONTAINER}>
             <RevealOnScroll className="grid items-start gap-10 lg:grid-cols-2 lg:gap-16">
               <div>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/donate-where-It-goes.PNG"
-                  alt=""
-                  className="mb-8 aspect-[4/3] w-full max-w-sm border border-atmos-line object-cover"
-                />
                 <SectionHeader label="Where It Goes" />
                 <h2 className="mt-8 font-serif text-4xl md:text-5xl">Every dollar has a job.</h2>
                 <p className="mt-6 max-w-md text-lg leading-relaxed text-atmos-muted">
