@@ -198,7 +198,7 @@ export default function GetInvolvedPage() {
             <img
               src="/get-involved-partner-with-us.PNG"
               alt=""
-              className="h-full w-full scale-110 object-cover blur-2xl"
+              className="h-full w-full scale-110 object-cover blur-xl"
             />
             <div className="absolute inset-0 bg-brand-ivory/90" />
           </div>
