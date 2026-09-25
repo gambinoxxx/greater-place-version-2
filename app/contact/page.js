@@ -66,7 +66,22 @@ export default async function ContactPage({ searchParams }) {
       <SiteHeader />
       <PageAtmosphere hero />
       <main id="main" className="text-atmos">
-        <PageHero eyebrow="Get In Touch" title="Let's start a conversation.">
+        <PageHero
+          eyebrow="Get In Touch"
+          title="Let's start a conversation."
+          backgroundImage="/contact-hero.png"
+          // The subject sits on the right of a white studio backdrop: keep her in frame on narrow screens,
+          // and use a heavier scrim than /donate's since the white backdrop would otherwise wash out the
+          // headline. The top fade keeps the header legible over the bright photo.
+          backgroundImageClassName="object-[80%_center]"
+          scrim={
+            <>
+              <div className="absolute inset-0 bg-gradient-to-r from-brand-black/85 via-brand-black/60 to-brand-black/15" />
+              <div className="absolute inset-0 bg-gradient-to-b from-brand-black/50 via-transparent via-30% to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent from-55% to-brand-black" />
+            </>
+          }
+        >
           Whether you&apos;re enrolling a dancer, booking a performance, volunteering or exploring a partnership —
           we&apos;d love to hear from you.
         </PageHero>
