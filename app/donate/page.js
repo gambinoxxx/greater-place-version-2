@@ -27,7 +27,7 @@ const STATS = [
   { value: '100+', label: 'Young people trained each year' },
   { value: '38', label: 'Scholarship spots funded' },
   { value: '12', label: 'Public performances a season' },
-  { value: '7 yrs+', label: 'Serving the community' },
+  { value: '3 yrs+', label: 'Serving the community' },
 ]
 
 // Illustrative breakdown from the mockup — replace with the real one before launch.
