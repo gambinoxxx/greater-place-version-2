@@ -115,6 +115,15 @@ export default function GetInvolvedPage() {
           eyebrow="Get Involved"
           title="Bring your time, your network, or your platform."
           backgroundImage="/get-involved.PNG"
+          // The volunteer sits right of center in the photo: keep them in frame on narrow screens, and fade the
+          // scrim out toward them so the vest reads clearly while the bright sky behind the headline stays dark.
+          backgroundImageClassName="object-[68%_center]"
+          scrim={
+            <>
+              <div className="absolute inset-0 bg-gradient-to-r from-brand-black/70 via-brand-black/35 to-brand-black/5" />
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent from-55% to-brand-black" />
+            </>
+          }
         >
           Greater Place runs on people who show up — in the studio, backstage, and behind the scenes. Volunteer your
           time, or partner with us as an organization.
