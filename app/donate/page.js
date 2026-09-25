@@ -161,17 +161,17 @@ export default function DonatePage() {
         </section>
 
         <section id="where-it-goes" data-theme="light" className={`relative overflow-hidden ${SECTION}`}>
-          {/* Full-bleed background photo behind the whole section, blurred + washed with the page's own
-              light background colour so the existing dark-on-light text and allocation list stay exactly
-              as readable as before — same treatment as get-involved's #partner-types. */}
+          {/* Full-bleed background photo behind the whole section. No scale-up (a tight crop already reads
+              large at this section's short, wide aspect) and a fuller blur so it sits back as a soft
+              backdrop rather than a sharp, oversized portrait, with a wash on top for text contrast. */}
           <div aria-hidden="true" className="absolute inset-0 -z-10">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/donate-where-It-goes.PNG"
               alt=""
-              className="h-full w-full scale-110 object-cover blur-xl"
+              className="h-full w-full object-cover blur-xl"
             />
-            <div className="absolute inset-0 bg-brand-ivory/90" />
+            <div className="absolute inset-0 bg-brand-ivory/70" />
           </div>
           <div className={CONTAINER}>
             <RevealOnScroll className="grid items-start gap-10 lg:grid-cols-2 lg:gap-16">
