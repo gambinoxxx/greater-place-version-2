@@ -48,15 +48,15 @@ export default async function BlogPage({ searchParams }) {
           eyebrow="The Journal"
           title="Stories, culture & community."
           backgroundImage="/blog-hero.png"
-          // A portrait shot on a light backdrop, so a wide hero crops it to a horizontal band: keep the band
-          // near the top so the typed "blog" page and the top of the red typewriter stay in frame. The
-          // scrim darkens the headline side. Tailwind 3.3 has no /15, /35 or /85 opacity steps.
-          backgroundImageClassName="object-[center_18%]"
+          // A portrait shot: stretched across the full hero it is scaled up to a thin, heavily zoomed band.
+          // From md up it sits in the right half instead (less zoom, and clear of the copy), with its left
+          // edge fading into the dark hero. On phones there is no free side, so it stays full-bleed behind a
+          // dark wash. Tailwind 3.3 has no /15, /35 or /85 opacity steps.
+          backgroundImageClassName="absolute inset-y-0 right-0 md:w-1/2 object-[center_35%]"
           scrim={
             <>
-              <div className="absolute inset-0 bg-gradient-to-r from-brand-black/90 via-brand-black/70 to-brand-black/10" />
-              {/* On narrow screens the copy and search run across the photo, so darken it further. */}
-              <div className="absolute inset-0 bg-brand-black/50 md:hidden" />
+              <div className="absolute inset-y-0 right-0 hidden w-1/2 bg-gradient-to-r from-brand-black via-brand-black/40 via-30% to-transparent md:block" />
+              <div className="absolute inset-0 bg-brand-black/70 md:hidden" />
               <div className="absolute inset-0 bg-gradient-to-b from-brand-black/50 via-transparent via-30% to-transparent" />
               <div className="absolute inset-0 bg-gradient-to-b from-transparent from-55% to-brand-black" />
             </>
