@@ -199,17 +199,17 @@ export default function GetInvolvedPage() {
         </section>
 
         <section id="partner-types" data-theme="light" className={`relative overflow-hidden ${SECTION}`}>
-          {/* Full-bleed background photo behind the whole section, blurred + washed with the page's own
-              light background colour so the existing dark-on-light text and cards stay exactly as
-              readable as before — the photo sits behind everything, never inside the card layout. */}
+          {/* Full-bleed background photo behind the whole section, lightly blurred + washed with the page's
+              own light background colour: enough to keep the dark-on-light text readable while the photo
+              stays recognizable. It sits behind everything, never inside the card layout. */}
           <div aria-hidden="true" className="absolute inset-0 -z-10">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/get-involved-partner-with-us.PNG"
               alt=""
-              className="h-full w-full scale-110 object-cover blur-xl"
+              className="h-full w-full scale-110 object-cover blur-sm"
             />
-            <div className="absolute inset-0 bg-brand-ivory/90" />
+            <div className="absolute inset-0 bg-brand-ivory/65" />
           </div>
           <div className={CONTAINER}>
             <SectionHeader label="Partner With Us" />
