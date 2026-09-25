@@ -111,7 +111,11 @@ export default function GetInvolvedPage() {
       <SiteHeader />
       <PageAtmosphere hero />
       <main id="main" className="text-atmos">
-        <PageHero eyebrow="Get Involved" title="Bring your time, your network, or your platform.">
+        <PageHero
+          eyebrow="Get Involved"
+          title="Bring your time, your network, or your platform."
+          backgroundImage="/get-involved.PNG"
+        >
           Greater Place runs on people who show up — in the studio, backstage, and behind the scenes. Volunteer your
           time, or partner with us as an organization.
         </PageHero>
@@ -185,7 +189,19 @@ export default function GetInvolvedPage() {
           </div>
         </section>
 
-        <section id="partner-types" data-theme="light" className={SECTION}>
+        <section id="partner-types" data-theme="light" className={`relative overflow-hidden ${SECTION}`}>
+          {/* Full-bleed background photo behind the whole section, blurred + washed with the page's own
+              light background colour so the existing dark-on-light text and cards stay exactly as
+              readable as before — the photo sits behind everything, never inside the card layout. */}
+          <div aria-hidden="true" className="absolute inset-0 -z-10">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/get-involved-partner-with-us.PNG"
+              alt=""
+              className="h-full w-full scale-110 object-cover blur-2xl"
+            />
+            <div className="absolute inset-0 bg-brand-ivory/90" />
+          </div>
           <div className={CONTAINER}>
             <SectionHeader label="Partner With Us" />
             <RevealOnScroll>
