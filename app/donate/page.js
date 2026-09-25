@@ -77,6 +77,7 @@ export default function DonatePage() {
         <PageHero
           eyebrow="Give"
           title="Fuel the next performance."
+          backgroundImage="/donate.PNG"
           actions={
             <>
               <Button variant="solidRed" href="#give">
@@ -163,6 +164,12 @@ export default function DonatePage() {
           <div className={CONTAINER}>
             <RevealOnScroll className="grid items-start gap-10 lg:grid-cols-2 lg:gap-16">
               <div>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/donate-where-It-goes.PNG"
+                  alt=""
+                  className="mb-8 aspect-[4/3] w-full max-w-sm border border-atmos-line object-cover"
+                />
                 <SectionHeader label="Where It Goes" />
                 <h2 className="mt-8 font-serif text-4xl md:text-5xl">Every dollar has a job.</h2>
                 <p className="mt-6 max-w-md text-lg leading-relaxed text-atmos-muted">
