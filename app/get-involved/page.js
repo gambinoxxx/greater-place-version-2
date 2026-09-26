@@ -13,9 +13,9 @@ import { buildVolunteerHref } from '@/lib/whatsapp'
 // (like /contact and /our-story). The WhatsApp number is never hardcoded: the button is omitted while
 // WHATSAPP_NUMBER is unset. The two "apply" CTAs preselect the contact form's reason via ?reason=.
 export const metadata = {
-  title: 'Get Involved — Greater Place',
+  title: 'Get Involved - Greater Place',
   description:
-    'Greater Place runs on people who show up — in the studio, backstage, and behind the scenes. Volunteer your time, or partner with us as an organization.',
+    'Greater Place runs on people who show up: in the studio, backstage, and behind the scenes. Volunteer your time, or partner with us as an organization.',
 }
 
 // Reads WHATSAPP_NUMBER per request, so a changed value never needs a rebuild.
@@ -44,20 +44,20 @@ const VOLUNTEER_ROLES = [
     title: 'Rehearsal Support',
     tag: 'One-Off',
     commitment: 'low',
-    description: 'Help supervise, run music, or manage props during weekday rehearsals — as your schedule allows.',
+    description: 'Help supervise, run music, or manage props during weekday rehearsals, as your schedule allows.',
   },
   {
     title: 'Administrative Help',
     tag: 'Ongoing, Light',
     commitment: 'medium',
-    description: 'Data entry, scheduling, or communications support a few hours a month — remote-friendly.',
+    description: 'Data entry, scheduling, or communications support a few hours a month, remote-friendly.',
   },
   {
     title: 'Mentorship',
     tag: 'Season-Long',
     commitment: 'high',
     description:
-      'Pair with a young dancer for a season — a consistent, background-checked commitment with real relationship.',
+      'Pair with a young dancer for a season: a consistent, background-checked commitment with real relationship.',
   },
 ]
 
@@ -125,7 +125,7 @@ export default function GetInvolvedPage() {
             </>
           }
         >
-          Greater Place runs on people who show up — in the studio, backstage, and behind the scenes. Volunteer your
+          Greater Place runs on people who show up: in the studio, backstage, and behind the scenes. Volunteer your
           time, or partner with us as an organization.
         </PageHero>
 
@@ -139,7 +139,7 @@ export default function GetInvolvedPage() {
                 </div>
                 <h2 className="font-serif text-3xl">Volunteer</h2>
                 <p className="mb-6 mt-3 max-w-md leading-relaxed text-atmos-card-muted">
-                  Give an afternoon, a performance night, or a season. No dance background required — just show up and
+                  Give an afternoon, a performance night, or a season. No dance background required. Just show up and
                   help.
                 </p>
                 <Button variant="solidRed" href="#volunteer-roles" className="mt-auto">
@@ -152,7 +152,7 @@ export default function GetInvolvedPage() {
                 </div>
                 <h2 className="font-serif text-3xl">Partner With Us</h2>
                 <p className="mb-6 mt-3 max-w-md leading-relaxed text-atmos-card-muted">
-                  Bring your company, school, or organization alongside ours — sponsorship, in-kind support, or a
+                  Bring your company, school, or organization alongside ours: sponsorship, in-kind support, or a
                   standing partnership.
                 </p>
                 <Button variant="outline" href="#partner-types" className="mt-auto">
@@ -169,7 +169,7 @@ export default function GetInvolvedPage() {
             <RevealOnScroll>
               <h2 className="mt-8 max-w-2xl font-serif text-4xl md:text-5xl">Ways to help, by time commitment.</h2>
               <p className="mt-6 max-w-xl text-lg leading-relaxed text-atmos-muted">
-                Pick what fits your schedule — every role below directly supports a program or an event.
+                Pick what fits your schedule. Every role below directly supports a program or an event.
               </p>
               <ul className="mt-10 grid gap-6 md:grid-cols-2">
                 {VOLUNTEER_ROLES.map((role) => (

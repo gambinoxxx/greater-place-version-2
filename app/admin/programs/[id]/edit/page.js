@@ -5,7 +5,7 @@ import { isRecordId } from '@/lib/admin-api'
 import { getImageEndpoint } from '@/lib/image-url'
 import ProgramEditor from '@/components/admin/ProgramEditor'
 
-export const metadata = { title: 'Admin — Edit Program or Class' }
+export const metadata = { title: 'Admin - Edit Program or Class' }
 export const dynamic = 'force-dynamic'
 
 // ?type=program (default) or ?type=class picks the model; the two are separate tables.

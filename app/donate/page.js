@@ -14,9 +14,9 @@ import { SOCIAL_LINKS } from '@/lib/site'
 // expand into an amount card that opens Cash App (components/GiveButton.jsx). The cashtag is a
 // constant, so unlike /get-involved this page reads no env var and stays statically rendered.
 export const metadata = {
-  title: 'Donate — Greater Place',
+  title: 'Donate - Greater Place',
   description:
-    'Every gift covers something specific — a scholarship spot, a season of training, a stage a young person gets to stand on. Give once, or give monthly.',
+    'Every gift covers something specific: a scholarship spot, a season of training, a stage a young person gets to stand on. Give once, or give monthly.',
 }
 
 const CONTAINER = 'mx-auto w-full max-w-[1280px] px-5 md:px-8 lg:px-12'
@@ -48,7 +48,7 @@ const OTHER_WAYS = [
   },
   {
     title: 'Volunteer',
-    description: 'Rehearsal support, event-day crew, mentorship — bring your time instead of, or alongside, a gift.',
+    description: 'Rehearsal support, event-day crew, mentorship: bring your time instead of, or alongside, a gift.',
     href: '/get-involved#volunteer',
     cta: 'See Volunteer Roles →',
   },
@@ -98,7 +98,7 @@ export default function DonatePage() {
             </>
           }
         >
-          Every gift covers something specific — a scholarship spot, a season of training, a stage a young person
+          Every gift covers something specific: a scholarship spot, a season of training, a stage a young person
           gets to stand on. Give once, or give monthly.
         </PageHero>
 
@@ -128,7 +128,7 @@ export default function DonatePage() {
                 <GiveCard
                   tag="One-Time"
                   title="Make a Gift"
-                  description="A single donation, any amount — put straight toward training, costumes, and performance costs for the current season."
+                  description="A single donation, any amount: put straight toward training, costumes, and performance costs for the current season."
                   amounts="Suggested: $25 · $75 · $150 · Other"
                 >
                   <GiveButton ctaLabel="Give Once →" suggestedAmounts={[25, 75, 150]} />
@@ -136,14 +136,14 @@ export default function DonatePage() {
                 <GiveCard
                   tag="Monthly"
                   title="Become a Sustainer"
-                  description="Recurring gifts let us plan a full season in advance instead of season-to-season — the steadiest way to support the work."
+                  description="Recurring gifts let us plan a full season in advance instead of season-to-season. It's the steadiest way to support the work."
                   amounts="Suggested: $10/mo · $25/mo · $50/mo"
                 >
                   <GiveButton
                     ctaLabel="Give Monthly →"
                     buttonVariant="outline"
                     suggestedAmounts={[10, 25, 50]}
-                    note="Cash App sends this as a single payment — give again each month, or contact us about setting up a recurring gift."
+                    note="Cash App sends this as a single payment. Give again each month, or contact us about setting up a recurring gift."
                   />
                 </GiveCard>
                 <GiveCard
@@ -256,7 +256,7 @@ export default function DonatePage() {
               </Button>
             </div>
             <p className="mt-6 text-xs text-atmos-muted">
-              Greater Place is a registered nonprofit. Gifts are tax-deductible where applicable — receipt details to
+              Greater Place is a registered nonprofit. Gifts are tax-deductible where applicable; receipt details to
               be confirmed.
             </p>
           </RevealOnScroll>

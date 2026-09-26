@@ -6,7 +6,7 @@ import { isClerkConfigured } from '@/lib/admin-access'
 // /admin on purpose (a page under /admin would be gated and redirect back here forever) and never
 // runs Clerk on the server. It says nothing about who is on the list or how the list is configured.
 export const metadata = {
-  title: 'Not authorized — Greater Place',
+  title: 'Not authorized - Greater Place',
   robots: { index: false, follow: false },
 }
 

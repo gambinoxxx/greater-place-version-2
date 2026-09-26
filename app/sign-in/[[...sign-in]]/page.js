@@ -8,7 +8,7 @@ import { isClerkConfigured } from '@/lib/admin-access'
 // for its multi-step flows (/sign-in/factor-one, ...). Signing in returns to /admin; the proxy then
 // checks the email allowlist, so a valid Clerk account alone does not reach the admin area.
 export const metadata = {
-  title: 'Sign in — Greater Place',
+  title: 'Sign in - Greater Place',
   robots: { index: false, follow: false },
 }
 

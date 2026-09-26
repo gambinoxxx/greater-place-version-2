@@ -7,7 +7,7 @@ import AdminSidebar from '@/components/admin/AdminSidebar'
 // re-verifies the admin server-side (defence in depth) and never renders the shell for anyone else.
 // Layouts do not re-run on client-side navigation, so each page also calls getAdminSession() itself.
 export const metadata = {
-  title: 'Admin — Greater Place',
+  title: 'Admin - Greater Place',
   robots: { index: false, follow: false },
 }
 

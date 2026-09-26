@@ -106,7 +106,7 @@ export default function ContactForm({ initialReason = '' }) {
     return (
       <div>
         <Alert ref={alertRef} tabIndex={-1} severity="success" variant="outlined" sx={ALERT_SX}>
-          Thanks — we&apos;ve received your message and will get back to you.
+          Thanks! We&apos;ve received your message and will get back to you.
         </Alert>
         <div className="mt-6">
           <Button variant="outline" onClick={() => setStatus('idle')}>

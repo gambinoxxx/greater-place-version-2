@@ -14,9 +14,9 @@ import { SOCIAL_LINKS } from '@/lib/site'
 // hardcoded. The only database-backed part is the team (TeamMember): the founder strip and the
 // leadership list are both rendered from one query.
 export const metadata = {
-  title: 'Our Story — Greater Place',
+  title: 'Our Story - Greater Place',
   description:
-    'Greater Place began with a simple conviction: that dance could do more than entertain — it could help a young person discover confidence, character and purpose.',
+    'Greater Place began with a simple conviction: that dance could do more than entertain; it could help a young person discover confidence, character and purpose.',
 }
 
 // Team content is Prisma-backed and must stay fresh; this also keeps `next build` independent of the database.
@@ -60,7 +60,7 @@ export default async function OurStoryPage() {
             <RevealOnScroll>
               <div aria-hidden="true" className="mb-6 h-[3px] w-[22px] bg-brand-red" />
               <p className="max-w-3xl text-lg leading-relaxed text-atmos-muted">
-                Greater Place began with a simple conviction: that dance could do more than entertain — it could help a
+                Greater Place began with a simple conviction: that dance could do more than entertain; it could help a
                 young person discover confidence, character and purpose. From a handful of dancers meeting after
                 school, Greater Place has grown into a programme that shares performing arts, mentorship and faith
                 back to the community that shaped it, reaching young people ages 8 to 33 across training, performance
@@ -89,7 +89,7 @@ export default async function OurStoryPage() {
             <SectionHeader label="Our Founder" />
             <RevealOnScroll>
               <p className="mt-8 max-w-2xl leading-relaxed text-atmos-muted">
-                Greater Place was founded on the belief that every young person deserves a place to grow — in skill, in
+                Greater Place was founded on the belief that every young person deserves a place to grow: in skill, in
                 character and in faith. That vision now runs through every instructor, mentor and volunteer who leads a
                 class.
               </p>
@@ -164,7 +164,7 @@ export default async function OurStoryPage() {
             <RevealOnScroll>
               <ImagePlaceholder label="Team group photo placeholder" className="aspect-[2/1] min-h-[220px] w-full" />
               <p className="mt-5 max-w-xl text-sm leading-relaxed text-atmos-muted">
-                Meet the people of Greater Place — from instructors and mentors to volunteers and board members, all
+                Meet the people of Greater Place, from instructors and mentors to volunteers and board members, all
                 working toward the same goal.
               </p>
             </RevealOnScroll>
@@ -182,7 +182,7 @@ export default async function OurStoryPage() {
                 </h2>
                 <p className="mt-6 max-w-md leading-relaxed text-atmos-muted">
                   What started as informal rehearsals in a church hall has grown into a structured pathway serving young
-                  people across the community — still rooted in the same values it started with.
+                  people across the community, still rooted in the same values it started with.
                 </p>
               </RevealOnScroll>
             </div>

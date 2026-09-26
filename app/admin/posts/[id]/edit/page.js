@@ -6,7 +6,7 @@ import { getImageEndpoint } from '@/lib/image-url'
 import { CATEGORY_NAMES } from '@/components/CategoryTag'
 import PostEditor from '@/components/admin/PostEditor'
 
-export const metadata = { title: 'Admin — Edit Post' }
+export const metadata = { title: 'Admin - Edit Post' }
 export const dynamic = 'force-dynamic'
 
 export default async function EditPostPage({ params }) {

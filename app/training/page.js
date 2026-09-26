@@ -13,9 +13,9 @@ import { PATHWAY } from '@/lib/pathway'
 import { SOCIAL_LINKS } from '@/lib/site'
 
 export const metadata = {
-  title: 'Training — The Greater Place Pathway',
+  title: 'Training - The Greater Place Pathway',
   description:
-    "A structured, four-stage progression from a dancer's very first class to a leadership role in the company — every dancer moves through the same stages, at their own pace, building technique, character and confidence along the way.",
+    "A structured, four-stage progression from a dancer's very first class to a leadership role in the company. Every dancer moves through the same stages, at their own pace, building technique, character and confidence along the way.",
 }
 
 const CONTAINER = 'mx-auto w-full max-w-[1280px] px-5 md:px-8 lg:px-12'
@@ -26,12 +26,12 @@ const FAQ = [
   {
     question: 'How long does it take to move between stages?',
     answer:
-      'It depends on the dancer — most spend two to three terms in Discover and Develop before moving on, but progression is based on readiness, not a fixed calendar.',
+      'It depends on the dancer: most spend two to three terms in Discover and Develop before moving on, but progression is based on readiness, not a fixed calendar.',
   },
   {
     question: 'Can an older beginner start in Discover?',
     answer:
-      'Yes. Placement is based on experience, not age — a 25-year-old brand new to dance starts in Discover alongside younger first-timers.',
+      'Yes. Placement is based on experience, not age: a 25-year-old brand new to dance starts in Discover alongside younger first-timers.',
   },
   {
     question: 'Is there an audition to join?',
@@ -63,7 +63,7 @@ export default function TrainingPage() {
           media={<ImagePlaceholder label="Small ensemble, mid-rehearsal" className="aspect-[16/7]" />}
         >
           A structured, four-stage progression from a dancer&apos;s very first class to a leadership role in the
-          company — every dancer moves through the same stages, at their own pace, building technique, character and
+          company. Every dancer moves through the same stages, at their own pace, building technique, character and
           confidence along the way.
         </PageHero>
 
@@ -145,7 +145,7 @@ export default function TrainingPage() {
             </>
           }
         >
-          Enrollment for the 2027 season is open now — reach out and we&apos;ll help place you at the right stage.
+          Enrollment for the 2027 season is open now. Reach out and we&apos;ll help place you at the right stage.
         </CtaBand>
       </main>
       <SiteFooter socialLinks={SOCIAL_LINKS} />

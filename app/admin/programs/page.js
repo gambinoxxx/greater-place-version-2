@@ -11,7 +11,7 @@ import { BTN_RED, CONTENT, FOCUS, HAIR, ICON_BTN, SEGMENT_WRAP, segment } from '
 // Prisma models, shown as tabs. Program and Class have the same four fields (title, slug, description,
 // image) and no relation, so the mockup's "classes linked", age group, level, and schedule are not shown:
 // the schema has nowhere to store them.
-export const metadata = { title: 'Admin — Programs & Classes' }
+export const metadata = { title: 'Admin - Programs & Classes' }
 export const dynamic = 'force-dynamic'
 
 const TABS = {

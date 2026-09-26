@@ -30,7 +30,7 @@ export default function ShareRail({ path, title }) {
   const absoluteUrl = () => new URL(path, window.location.origin).toString()
 
   const shareWhatsApp = () => {
-    window.open(`https://wa.me/?text=${encodeURIComponent(`${title} — ${absoluteUrl()}`)}`, '_blank', 'noopener,noreferrer')
+    window.open(`https://wa.me/?text=${encodeURIComponent(`${title}: ${absoluteUrl()}`)}`, '_blank', 'noopener,noreferrer')
   }
   const shareEmail = () => {
     const body = `Thought you'd like this from Greater Place:\n\n${absoluteUrl()}`

@@ -21,7 +21,7 @@ export async function generateMetadata({ params }) {
   const { slug } = await params
   const post = await getPostBySlug(slug)
   if (!post) return {}
-  return { title: `${post.title} — Greater Place`, description: post.excerpt }
+  return { title: `${post.title} - Greater Place`, description: post.excerpt }
 }
 
 export default async function PostPage({ params }) {

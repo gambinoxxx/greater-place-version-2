@@ -13,9 +13,9 @@ import { buildGeneralRsvpHref, buildGroupHref, buildRsvpHref } from '@/lib/whats
 
 // Copy is from docs/design-references/events.html. Event data comes only from the database.
 export const metadata = {
-  title: 'Events — Greater Place',
+  title: 'Events - Greater Place',
   description:
-    'From intimate community showcases to the Annual Gala — every performance is a chance to see what a season of training builds.',
+    'From intimate community showcases to the Annual Gala: every performance is a chance to see what a season of training builds.',
 }
 
 // Content is Prisma-backed and must stay fresh; this also keeps `next build` independent of the database.
@@ -54,7 +54,7 @@ export default async function EventsPage() {
             </>
           }
         >
-          From intimate community showcases to the Annual Gala — every performance is a chance to see what a season of
+          From intimate community showcases to the Annual Gala: every performance is a chance to see what a season of
           training builds.
         </PageHero>
 
@@ -97,7 +97,7 @@ export default async function EventsPage() {
                       id={event.slug}
                       className="scroll-mt-32 border-t border-atmos-line py-6 font-serif text-2xl md:text-3xl"
                     >
-                      {event.title} —{' '}
+                      {event.title} ·{' '}
                       <time dateTime={new Date(event.startsAt).toISOString()}>{formatYear.format(new Date(event.startsAt))}</time>
                     </li>
                   ))}
@@ -122,7 +122,7 @@ export default async function EventsPage() {
             </>
           }
         >
-          We can hold seats for churches, schools and community groups — just reach out ahead of the date.
+          We can hold seats for churches, schools and community groups. Just reach out ahead of the date.
         </CtaBand>
       </main>
       <SiteFooter socialLinks={SOCIAL_LINKS} />

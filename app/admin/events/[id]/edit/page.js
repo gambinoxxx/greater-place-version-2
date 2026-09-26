@@ -5,7 +5,7 @@ import { isRecordId } from '@/lib/admin-api'
 import { getImageEndpoint } from '@/lib/image-url'
 import EventEditor from '@/components/admin/EventEditor'
 
-export const metadata = { title: 'Admin — Edit Event' }
+export const metadata = { title: 'Admin - Edit Event' }
 export const dynamic = 'force-dynamic'
 
 export default async function EditEventPage({ params }) {

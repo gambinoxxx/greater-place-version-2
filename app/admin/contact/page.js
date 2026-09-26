@@ -8,7 +8,7 @@ import { CONTENT, HAIR, SEGMENT_WRAP, segment } from '@/components/admin/ui'
 
 // Contact inbox (docs/design-references/admin-contact.html): read-only list of ContactSubmission rows,
 // newest first, unread ones highlighted, each markable read / unread. No edit, reply, or delete.
-export const metadata = { title: 'Admin — Contact' }
+export const metadata = { title: 'Admin - Contact' }
 export const dynamic = 'force-dynamic'
 
 const MAX_ROWS = 200

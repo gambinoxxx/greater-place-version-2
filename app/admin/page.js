@@ -10,7 +10,7 @@ import { BTN_RED, CONTENT, FOCUS, PANEL } from '@/components/admin/ui'
 
 // Dashboard (docs/design-references/admin-dashboard.html): post counts, recent posts, and the newest
 // unread contact messages (read-only; the inbox is /admin/contact).
-export const metadata = { title: 'Admin — Dashboard' }
+export const metadata = { title: 'Admin - Dashboard' }
 export const dynamic = 'force-dynamic'
 
 const STAT_ICON = {

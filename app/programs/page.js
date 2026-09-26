@@ -17,9 +17,9 @@ import { SOCIAL_LINKS } from '@/lib/site'
 import { buildEnrollHref } from '@/lib/whatsapp'
 
 export const metadata = {
-  title: 'Programs — Greater Place',
+  title: 'Programs - Greater Place',
   description:
-    'Four pillars run through everything we teach: disciplined training, faith and character, leadership, and wellness — woven into movement rooted in African performing arts.',
+    'Four pillars run through everything we teach: disciplined training, faith and character, leadership, and wellness, woven into movement rooted in African performing arts.',
 }
 
 // Content is Prisma-backed and must stay fresh; this also keeps `next build` independent of the database.
@@ -46,7 +46,7 @@ export default async function ProgramsPage() {
     {
       question: 'Do dancers need prior experience?',
       answer:
-        'No. Stage One — Discover — is built for first-time dancers. Everyone starts there regardless of background and moves through the Pathway at their own pace.',
+        'No. Stage One (Discover) is built for first-time dancers. Everyone starts there regardless of background and moves through the Pathway at their own pace.',
     },
     {
       question: 'Is faith participation required to join?',
@@ -95,7 +95,7 @@ export default async function ProgramsPage() {
           }
         >
           Four pillars run through everything we teach: disciplined training, faith and character, leadership, and
-          wellness — woven into movement rooted in African performing arts.
+          wellness, woven into movement rooted in African performing arts.
         </PageHero>
 
         <section id="pathway" data-theme="light" className={SECTION}>
@@ -104,7 +104,7 @@ export default async function ProgramsPage() {
             <RevealOnScroll>
               <h2 className="mt-8 font-serif text-4xl md:text-5xl">The Greater Place Pathway</h2>
               <p className="mt-6 max-w-2xl text-lg leading-relaxed text-atmos-muted">
-                A structured progression from a first class to a leadership role — every dancer moves through the same
+                A structured progression from a first class to a leadership role. Every dancer moves through the same
                 four stages, at their own pace.
               </p>
               <div className="mt-10 flex flex-wrap gap-4">
@@ -164,7 +164,7 @@ export default async function ProgramsPage() {
             <RevealOnScroll>
               <h2 className="mt-8 font-serif text-4xl md:text-5xl">Movement &amp; Culture</h2>
               <p className="mt-6 max-w-2xl text-lg leading-relaxed text-atmos-muted">
-                Rooted in Igbo musical tradition and church worship alike — a reminder that this is African performing
+                Rooted in Igbo musical tradition and church worship alike, a reminder that this is African performing
                 arts, not an imported form.
               </p>
               {classes.length > 0 ? (
@@ -209,7 +209,7 @@ export default async function ProgramsPage() {
             </>
           }
         >
-          Enrollment for the 2027 season is open now — reach out and we&apos;ll help you find the right stage to begin.
+          Enrollment for the 2027 season is open now. Reach out and we&apos;ll help you find the right stage to begin.
         </CtaBand>
       </main>
       <SiteFooter socialLinks={SOCIAL_LINKS} />

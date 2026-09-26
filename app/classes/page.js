@@ -12,9 +12,9 @@ import { SOCIAL_LINKS } from '@/lib/site'
 
 // No classes mockup exists: the hero copy is the Culture intro from docs/design-references/programs.html.
 export const metadata = {
-  title: 'Classes — Greater Place',
+  title: 'Classes - Greater Place',
   description:
-    'Rooted in Igbo musical tradition and church worship alike — a reminder that this is African performing arts, not an imported form.',
+    'Rooted in Igbo musical tradition and church worship alike, a reminder that this is African performing arts, not an imported form.',
 }
 
 // Content is Prisma-backed and must stay fresh; this also keeps `next build` independent of the database.
@@ -49,7 +49,7 @@ export default async function ClassesPage() {
             </>
           }
         >
-          Rooted in Igbo musical tradition and church worship alike — a reminder that this is African performing arts,
+          Rooted in Igbo musical tradition and church worship alike, a reminder that this is African performing arts,
           not an imported form.
         </PageHero>
 

@@ -10,7 +10,7 @@ import { CONTENT, FOCUS, HAIR, PANEL } from '@/components/admin/ui'
 // Media Library (docs/design-references/admin-media.html): the newest images in the ImageKit account,
 // newest first, with search, upload, and a Copy URL button (the stored value for a post or event image).
 // Read-only listing plus upload; there is no delete here. Search matches file names in the newest 200.
-export const metadata = { title: 'Admin — Media Library' }
+export const metadata = { title: 'Admin - Media Library' }
 export const dynamic = 'force-dynamic'
 
 const PAGE = 40

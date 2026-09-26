@@ -13,7 +13,7 @@ import { BTN_RED, CONTENT, FOCUS, HAIR, ICON_BTN, SEGMENT_WRAP, segment } from '
 
 // Events list (docs/design-references/admin-events.html). Columns are the Event model's real fields;
 // Upcoming / Past is computed from startsAt (there is no status column).
-export const metadata = { title: 'Admin — Events' }
+export const metadata = { title: 'Admin - Events' }
 export const dynamic = 'force-dynamic'
 
 const MAX_ROWS = 200

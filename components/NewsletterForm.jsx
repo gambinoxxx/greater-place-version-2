@@ -80,7 +80,7 @@ export default function NewsletterForm() {
   if (status === 'success') {
     return (
       <p ref={statusRef} tabIndex={-1} role="status" aria-live="polite" className="mt-5 text-sm text-atmos-muted">
-        Thanks for subscribing — you&apos;re on the list.
+        Thanks for subscribing! You&apos;re on the list.
       </p>
     )
   }

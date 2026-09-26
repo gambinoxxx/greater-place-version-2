@@ -15,7 +15,7 @@ import { BTN_RED, CONTENT, FOCUS, HAIR, ICON_BTN, SEGMENT_WRAP, segment } from '
 
 // Blog Posts list (docs/design-references/admin-posts.html). Unlike /blog it shows drafts too.
 // Filters are URL parameters: q (title/excerpt), status (all | published | draft), category.
-export const metadata = { title: 'Admin — Blog Posts' }
+export const metadata = { title: 'Admin - Blog Posts' }
 export const dynamic = 'force-dynamic'
 
 const MAX_ROWS = 200
@@ -106,7 +106,7 @@ export default async function AdminPostsPage({ searchParams }) {
                     <td className="py-3 pr-3"><CategoryTag category={post.category} /></td>
                     <td className="py-3 pr-3"><StatusBadge status={post.isPublished ? 'published' : 'draft'} /></td>
                     <td className="py-3 pr-3 text-[12.5px] text-brand-ivory/[0.55]">{post.authorName}</td>
-                    <td className="py-3 pr-3 text-[12.5px] text-brand-ivory/[0.55]">{post.isPublished ? formatAdminDate(post.publishedAt) : '—'}</td>
+                    <td className="py-3 pr-3 text-[12.5px] text-brand-ivory/[0.55]">{post.isPublished ? formatAdminDate(post.publishedAt) : '-'}</td>
                     <td className="relative py-3 pr-5">
                       <div className="flex gap-1.5">
                         <Link href={`/admin/posts/${post.id}/edit`} aria-label={`Edit post: ${post.title}`} className={ICON_BTN}>

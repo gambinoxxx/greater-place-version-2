@@ -2,7 +2,7 @@ import { requireAdminPage } from '@/lib/admin-page'
 import { getImageEndpoint } from '@/lib/image-url'
 import ProgramEditor from '@/components/admin/ProgramEditor'
 
-export const metadata = { title: 'Admin — New Program or Class' }
+export const metadata = { title: 'Admin - New Program or Class' }
 export const dynamic = 'force-dynamic'
 
 // ?type=program (default) or ?type=class

@@ -74,7 +74,7 @@ export default function StoriesRotator({ stories }) {
             &ldquo;{story.quote}&rdquo;
           </blockquote>
           <p className="mt-4 text-sm text-atmos-muted">
-            <span className="font-semibold text-atmos">{story.name}</span> — {story.role}
+            <span className="font-semibold text-atmos">{story.name}</span> · {story.role}
           </p>
         </div>
         <div className="mt-6">

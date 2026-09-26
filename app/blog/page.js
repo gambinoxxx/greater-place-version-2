@@ -14,8 +14,8 @@ import { SOCIAL_LINKS } from '@/lib/site'
 // Copy is from docs/design-references/blog.html. Filtering is server-side: every request reads
 // `q` and `category` from the URL and queries Prisma; nothing is filtered in the browser.
 export const metadata = {
-  title: 'The Journal — Greater Place',
-  description: 'Notes from the studio, the stage and everywhere in between — written by the people building Greater Place.',
+  title: 'The Journal - Greater Place',
+  description: 'Notes from the studio, the stage and everywhere in between, written by the people building Greater Place.',
 }
 
 const MAX_POSTS = 48
@@ -79,7 +79,7 @@ export default async function BlogPage({ searchParams }) {
             </form>
           }
         >
-          Notes from the studio, the stage and everywhere in between — written by the people building Greater Place.
+          Notes from the studio, the stage and everywhere in between, written by the people building Greater Place.
         </PageHero>
 
         <section data-theme="light" className="pb-20 md:pb-28">
@@ -123,7 +123,7 @@ export default async function BlogPage({ searchParams }) {
             {posts.length === 0 && (
               <p className="mt-12 border border-atmos-line p-8 text-atmos-muted">
                 {filtered
-                  ? 'No articles match your search — try a different keyword or filter.'
+                  ? 'No articles match your search. Try a different keyword or filter.'
                   : 'No articles are listed right now.'}
               </p>
             )}
