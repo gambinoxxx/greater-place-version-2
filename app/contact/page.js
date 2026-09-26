@@ -31,7 +31,7 @@ const FAQ = [
   {
     question: 'What ages can enroll?',
     answer:
-      'Greater Place welcomes young people ages 8 to 33 across all four stages of the pathway — Discover, Develop, Perform and Lead.',
+      'Greater Place welcomes young people ages 8 to 33 across all four stages of the pathway — Discover, Develop, Execute and Lead.',
   },
   {
     question: 'How do I enroll my child?',
@@ -39,9 +39,9 @@ const FAQ = [
       'Message us on WhatsApp or fill out the form above with "Enroll a Dancer" selected as the reason — we\'ll follow up with next steps and available class times.',
   },
   {
-    question: 'Can I book Greater Place for an event?',
+    question: 'How do I book Greater Place for my event?',
     answer:
-      'Yes — select "Partnership" in the form, or email us directly with your event date and details, and our programme team will get back to you.',
+      'Absolutely — choose "Book an Event" as your reason in the form above and include your event date, venue and expected audience size. Our programme team will follow up to confirm availability and next steps.',
   },
   {
     question: 'How can I volunteer or mentor?',
