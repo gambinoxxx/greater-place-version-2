@@ -188,8 +188,7 @@ export default function DonatePage() {
                 <SectionHeader label="Where It Goes" />
                 <h2 className="mt-8 font-serif text-4xl md:text-5xl">Every dollar has a job.</h2>
                 <p className="mt-6 max-w-md text-lg leading-relaxed text-atmos-muted">
-                  We keep overhead low so gifts reach the studio floor, not a back office. Figures below are
-                  illustrative — replace with the real breakdown before this page ships.
+                  We keep overhead low so gifts reach the studio floor, not a back office.
                 </p>
               </div>
               <ul>
