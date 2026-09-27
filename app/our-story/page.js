@@ -73,7 +73,14 @@ export default async function OurStoryPage() {
         {/* The mockup's founder quote is unconfirmed placeholder copy attributed to a placeholder name, so
             no quote text or attribution is shown until a real one is supplied. */}
         <section data-theme="light" className="relative flex min-h-[520px] items-end overflow-hidden md:min-h-[70vh]">
-          <ImagePlaceholder label="Photography placeholder" className="absolute inset-0 border-0" />
+          <div aria-hidden="true" className="absolute inset-0">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/founder.jpg" alt="" className="h-full w-full object-cover" />
+            {/* Scrim: light (not dark) gradient, since this section keeps the page's light theme and dark
+                text. Strongest at the bottom, where the quote sits and where the section blends into the
+                next (also light) one, fading to fully transparent higher up so the photo stays visible. */}
+            <div className="absolute inset-0 bg-gradient-to-t from-brand-ivory via-brand-ivory/70 to-transparent" />
+          </div>
           <div className={`${CONTAINER} relative pb-16 pt-32`}>
             <RevealOnScroll>
               <p className="text-xs font-bold uppercase tracking-[0.2em] text-atmos-muted">Founder quote placeholder</p>
