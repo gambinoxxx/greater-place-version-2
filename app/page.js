@@ -49,7 +49,7 @@ const formatDate = new Intl.DateTimeFormat('en', { day: 'numeric', month: 'short
 const HERO_SLIDES = [
   { type: 'image', src: '/home-hero.jpg' },
   { type: 'image', src: '/home-hero3.jpg' },
-  { type: 'video', src: '/homepage-hero.mp4' },
+  { type: 'video', src: '/homepage-hero-pro.mp4', poster: '/homepage-hero-poster.jpg' },
   { type: 'image', src: '/home-hero2.jpg' },
 ]
 
