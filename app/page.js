@@ -48,7 +48,7 @@ const formatDate = new Intl.DateTimeFormat('en', { day: 'numeric', month: 'short
 // local constant, since (like PATHWAY and CULTURE_ITEMS above) there is no Prisma model for it.
 const HERO_SLIDES = [
   { type: 'image', src: '/home-hero.jpg' },
-  { type: 'image', src: '/home-hero3.png' },
+  { type: 'image', src: '/home-hero3.jpg' },
   { type: 'video', src: '/homepage-hero.mp4' },
   { type: 'image', src: '/home-hero2.jpg' },
 ]
