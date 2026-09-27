@@ -38,9 +38,14 @@ const POSITIONING = [
 const PATHWAY_STAGES = PATHWAY.map((stage) => stage.name)
 
 // Local constant: Culture has no Prisma model (open decision). The only culture-related content
-// in the docs is the class list in docs/implementation-roadmap.md (Phase 4), so those names are
-// used as captions; no descriptions until real copy or a data model exists.
-const CULTURE_ITEMS = ['Ogene', 'Liturgical Dance', 'Praise & Worship', 'Drama & Skits']
+// in the docs is the class list in docs/implementation-roadmap.md (Phase 4), so these are used as
+// captions; no descriptions until real copy or a data model exists.
+const CULTURE_ITEMS = [
+  { name: 'Ogene', image: '/ogene.jpg' },
+  { name: 'Liturgical Dance', image: '/liturgical.jpg' },
+  { name: 'Praise & Worship', image: '/worship.jpg' },
+  { name: 'Drama & Skits', image: '/drama.jpg' },
+]
 
 const formatDate = new Intl.DateTimeFormat('en', { day: 'numeric', month: 'short', year: 'numeric' })
 
@@ -94,7 +99,12 @@ export default async function Home() {
 
         <section id="our-story" data-theme="dark" className="scroll-mt-24">
           <div className="grid lg:grid-cols-2">
-            <ImagePlaceholder label="Our Story photography placeholder" className="min-h-[360px] border-0 lg:min-h-[640px]" />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/ourstory1.jpg"
+              alt=""
+              className="min-h-[360px] w-full border-0 object-cover lg:min-h-[640px]"
+            />
             <RevealOnScroll className="px-5 py-20 md:px-12 md:py-28 lg:px-16">
               <div className="lg:max-w-xl">
                 <SectionHeader label="Our Story" href="/our-story" linkLabel="Read our story" />
@@ -138,7 +148,7 @@ export default async function Home() {
           <div className={CONTAINER}>
             <SectionHeader label="Pathway & Training" accent="gold" href="/training" linkLabel="Explore training" />
             <RevealOnScroll>
-              <h2 className="mt-8 font-serif text-4xl md:text-5xl">Discover, develop, perform, lead.</h2>
+              <h2 className="mt-8 font-serif text-4xl md:text-5xl">Discover, develop, execute, lead.</h2>
               <ol className="mt-12 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
                 {PATHWAY_STAGES.map((stage, index) => (
                   <li key={stage} className="border-t-2 border-brand-gold pt-4">
@@ -193,10 +203,11 @@ export default async function Home() {
               <h2 className="mt-8 font-serif text-4xl md:text-5xl">Movement &amp; culture</h2>
               <ul className="mt-12 grid grid-cols-2 gap-6 lg:grid-cols-4">
                 {CULTURE_ITEMS.map((item) => (
-                  <li key={item}>
+                  <li key={item.name}>
                     <figure>
-                      <ImagePlaceholder label="Photo placeholder" className="aspect-[3/4]" />
-                      <figcaption className="mt-4 font-serif text-2xl">{item}</figcaption>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={item.image} alt="" className="aspect-[3/4] w-full object-cover" />
+                      <figcaption className="mt-4 font-serif text-2xl">{item.name}</figcaption>
                     </figure>
                   </li>
                 ))}
