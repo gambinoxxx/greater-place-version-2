@@ -6,6 +6,7 @@ import RevealOnScroll from '@/components/RevealOnScroll'
 import SectionHeader from '@/components/SectionHeader'
 import PageAtmosphere from '@/components/PageAtmosphere'
 import ImagePlaceholder from '@/components/ImagePlaceholder'
+import HomeHeroMedia from '@/components/HomeHeroMedia'
 import ImageKitImage from '@/components/ImageKitImage'
 import EventCard from '@/components/EventCard'
 import ProgramCard from '@/components/ProgramCard'
@@ -43,6 +44,15 @@ const CULTURE_ITEMS = ['Ogene', 'Liturgical Dance', 'Praise & Worship', 'Drama &
 
 const formatDate = new Intl.DateTimeFormat('en', { day: 'numeric', month: 'short', year: 'numeric' })
 
+// Hero background: cycles through these in order, photos and the one video alike. lib/site.js-style
+// local constant, since (like PATHWAY and CULTURE_ITEMS above) there is no Prisma model for it.
+const HERO_SLIDES = [
+  { type: 'image', src: '/home-hero.jpg' },
+  { type: 'image', src: '/home-hero3.png' },
+  { type: 'video', src: '/homepage-hero.mp4' },
+  { type: 'image', src: '/home-hero2.jpg' },
+]
+
 export default async function Home() {
   const [{ upcoming, past }, programs, team] = await Promise.all([
     getEvents(),
@@ -59,28 +69,26 @@ export default async function Home() {
       <SiteHeader />
       <PageAtmosphere />
       <main id="main" className="text-atmos">
-        <section data-theme="dark">
-          <div className={`${CONTAINER} grid items-center gap-12 pb-20 pt-32 md:pb-28 md:pt-40 lg:grid-cols-12`}>
-            <div className="lg:col-span-7">
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-atmos-muted">
-                Performing arts · Ministry · Youth development
-              </p>
-              <h1 className="mt-6 font-serif text-5xl leading-[1.05] md:text-7xl">
-                A greater place to move, grow &amp; lead.
-              </h1>
-              <p className="mt-6 max-w-xl text-lg leading-relaxed text-atmos-muted">
-                Where movement becomes opportunity.
-              </p>
-              <div className="mt-10 flex flex-wrap gap-4">
-                <Button variant="solidRed" href="/#support">
-                  Get Involved
-                </Button>
-                <Button variant="outline" href="/programs">
-                  Explore programs
-                </Button>
-              </div>
+        <section data-theme="dark" className="relative overflow-hidden">
+          <HomeHeroMedia slides={HERO_SLIDES} />
+          <div className={`${CONTAINER} relative pb-20 pt-32 md:pb-28 md:pt-40`}>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-atmos-muted">
+              Performing arts · Ministry · Youth development
+            </p>
+            <h1 className="mt-6 max-w-4xl break-words font-serif text-5xl leading-[1.05] md:text-7xl">
+              A greater place to move, grow &amp; lead.
+            </h1>
+            <p className="mt-6 max-w-xl text-lg leading-relaxed text-atmos-muted">
+              Where movement becomes opportunity.
+            </p>
+            <div className="mt-10 flex flex-wrap gap-4">
+              <Button variant="solidRed" href="/#support">
+                Get Involved
+              </Button>
+              <Button variant="outline" href="/programs">
+                Explore programs
+              </Button>
             </div>
-            <ImagePlaceholder className="aspect-[4/5] lg:col-span-5" />
           </div>
         </section>
 
