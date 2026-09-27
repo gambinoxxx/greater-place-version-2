@@ -75,7 +75,7 @@ export default async function OurStoryPage() {
         <section data-theme="light" className="relative flex min-h-[520px] items-end overflow-hidden md:min-h-[70vh]">
           <div aria-hidden="true" className="absolute inset-0">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/founder.jpg" alt="" className="h-full w-full object-cover" />
+            <img src="/founder.jpg" alt="" className="h-full w-full object-cover object-[center_15%]" />
             {/* Scrim: light (not dark) gradient, since this section keeps the page's light theme and dark
                 text. Strongest at the bottom, where the quote sits and where the section blends into the
                 next (also light) one, fading to fully transparent higher up so the photo stays visible. */}
