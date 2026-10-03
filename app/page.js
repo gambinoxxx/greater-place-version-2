@@ -15,7 +15,6 @@ import StoriesRotator from '@/components/StoriesRotator'
 import prisma from '@/lib/prisma'
 import { getEvents } from '@/lib/events'
 import { isImageUrl } from '@/lib/image-url'
-import { PATHWAY } from '@/lib/pathway'
 import { SOCIAL_LINKS } from '@/lib/site'
 import { TESTIMONIALS } from '@/lib/testimonials'
 import { buildChatHref, buildRsvpHref } from '@/lib/whatsapp'
@@ -33,9 +32,6 @@ const POSITIONING = [
   'Culture is part of the identity.',
   'Opportunity is the outcome.',
 ]
-
-// Pathway stage names come from lib/pathway.js (local constant; no Prisma model).
-const PATHWAY_STAGES = PATHWAY.map((stage) => stage.name)
 
 // Local constant: Culture has no Prisma model (open decision). The only culture-related content
 // in the docs is the class list in docs/implementation-roadmap.md (Phase 4), so these are used as
@@ -149,16 +145,6 @@ export default async function Home() {
             <SectionHeader label="Pathway & Training" accent="gold" href="/training" linkLabel="Explore training" />
             <RevealOnScroll>
               <h2 className="mt-8 font-serif text-4xl md:text-5xl">Discover, develop, execute, lead.</h2>
-              <ol className="mt-12 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
-                {PATHWAY_STAGES.map((stage, index) => (
-                  <li key={stage} className="border-t-2 border-brand-gold pt-4">
-                    <p className="text-xs font-bold uppercase tracking-[0.2em] text-atmos-muted">
-                      {String(index + 1).padStart(2, '0')}
-                    </p>
-                    <p className="mt-6 font-serif text-3xl md:text-4xl">{stage}</p>
-                  </li>
-                ))}
-              </ol>
               <div className="mt-12">
                 <Button variant="solidRed" href="/training">
                   Explore training
