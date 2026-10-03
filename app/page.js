@@ -39,7 +39,7 @@ const POSITIONING = [
 const CULTURE_ITEMS = [
   { name: 'Ogene', image: '/ogene.jpg' },
   { name: 'Liturgical Dance', image: '/liturgical.jpg' },
-  { name: 'Praise & Worship', image: '/worship.jpg' },
+  { name: 'Outreach', image: '/worship.jpg' },
   { name: 'Drama & Skits', image: '/drama.jpg' },
 ]
 
@@ -74,7 +74,7 @@ export default async function Home() {
           <HomeHeroMedia slides={HERO_SLIDES} />
           <div className={`${CONTAINER} relative pb-20 pt-32 md:pb-28 md:pt-40`}>
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-atmos-muted">
-              Performing arts · Ministry · Youth development
+              Performing arts · Faith · Youth development, social impact
             </p>
             <h1 className="mt-6 max-w-4xl break-words font-serif text-5xl leading-[1.05] md:text-7xl">
               A greater place to move, grow &amp; lead.
@@ -184,9 +184,9 @@ export default async function Home() {
 
         <section id="culture" data-theme="light" className={SECTION}>
           <div className={CONTAINER}>
-            <SectionHeader label="Movement & Culture" accent="purple" href="/classes" linkLabel="Explore classes" />
+            <SectionHeader label="Arts, Faith & Community" accent="purple" href="/classes" linkLabel="Explore classes" />
             <RevealOnScroll>
-              <h2 className="mt-8 font-serif text-4xl md:text-5xl">Movement &amp; culture</h2>
+              <h2 className="mt-8 font-serif text-4xl md:text-5xl">Arts, faith &amp; community</h2>
               <ul className="mt-12 grid grid-cols-2 gap-6 lg:grid-cols-4">
                 {CULTURE_ITEMS.map((item) => (
                   <li key={item.name}>
