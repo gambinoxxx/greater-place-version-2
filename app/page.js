@@ -80,7 +80,7 @@ export default async function Home() {
               A greater place to move, grow &amp; lead.
             </h1>
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-atmos-muted">
-              Where movement becomes opportunity.
+              There&apos;s something great in you at Greater Place, waiting to be discovered.
             </p>
             <div className="mt-10 flex flex-wrap gap-4">
               <Button variant="solidRed" href="/#support">
