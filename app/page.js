@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import Button from '@mui/material/Button'
 import SiteHeader from '@/components/SiteHeader'
 import SiteFooter from '@/components/SiteFooter'
@@ -43,8 +42,6 @@ const CULTURE_ITEMS = [
   { name: 'Drama & Skits', image: '/drama.jpg' },
 ]
 
-const formatDate = new Intl.DateTimeFormat('en', { day: 'numeric', month: 'short', year: 'numeric' })
-
 // Hero background: cycles through these in order, photos and the one video alike. lib/site.js-style
 // local constant, since (like PATHWAY and CULTURE_ITEMS above) there is no Prisma model for it.
 const HERO_SLIDES = [
@@ -55,15 +52,13 @@ const HERO_SLIDES = [
 ]
 
 export default async function Home() {
-  const [{ upcoming, past }, programs, team] = await Promise.all([
+  const [{ upcoming }, programs, team] = await Promise.all([
     getEvents(),
     prisma.program.findMany({ orderBy: { createdAt: 'asc' } }),
     prisma.teamMember.findMany({ orderBy: { createdAt: 'asc' } }),
   ])
 
   const chatHref = buildChatHref()
-  // On Stage: upcoming events first, then the most recent past ones. Every one links to /events#<slug>.
-  const repertory = [...upcoming, ...past].slice(0, 6)
 
   return (
     <>
@@ -233,42 +228,6 @@ export default async function Home() {
               ) : (
                 <p className="mt-12 border border-atmos-line p-8 text-atmos-muted">
                   Team profiles are not listed yet.
-                </p>
-              )}
-            </RevealOnScroll>
-          </div>
-        </section>
-
-        <section id="on-stage" data-theme="dark" className={SECTION}>
-          <div className={CONTAINER}>
-            <SectionHeader label="On Stage" accent="red" href="/events" linkLabel="All events" />
-            <RevealOnScroll>
-              <h2 className="mt-8 font-serif text-4xl md:text-5xl">On stage</h2>
-              {repertory.length > 0 ? (
-                <ul className="mt-12 border-b border-atmos-line">
-                  {repertory.map((event) => (
-                    <li key={event.id} className="border-t border-atmos-line">
-                      <Link
-                        href={`/events#${event.slug}`}
-                        className="group grid gap-2 py-6 md:grid-cols-12 md:items-baseline md:gap-6 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-current"
-                      >
-                        <time
-                          dateTime={new Date(event.startsAt).toISOString()}
-                          className="text-xs font-bold uppercase tracking-[0.16em] text-atmos-muted md:col-span-3"
-                        >
-                          {formatDate.format(new Date(event.startsAt))}
-                        </time>
-                        <span className="font-serif text-2xl underline-offset-4 group-hover:underline md:col-span-6 md:text-3xl">
-                          {event.title}
-                        </span>
-                        <span className="text-sm text-atmos-muted md:col-span-3 md:text-right">{event.location}</span>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <p className="mt-12 border border-atmos-line p-8 text-atmos-muted">
-                  No events are listed right now.
                 </p>
               )}
             </RevealOnScroll>
