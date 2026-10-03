@@ -39,7 +39,7 @@ const POSITIONING = [
 const CULTURE_ITEMS = [
   { name: 'Ogene', image: '/ogene.jpg' },
   { name: 'Liturgical Dance', image: '/liturgical.jpg' },
-  { name: 'Outreach', image: '/worship.jpg' },
+  { name: 'Outreach', image: '/outreach.jpg' },
   { name: 'Drama & Skits', image: '/drama.jpg' },
 ]
 
