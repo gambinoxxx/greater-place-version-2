@@ -19,7 +19,7 @@ import { buildEnrollHref } from '@/lib/whatsapp'
 export const metadata = {
   title: 'Programs - Greater Place',
   description:
-    'Four pillars run through everything we teach: disciplined training, faith and character, leadership, and wellness, woven into movement rooted in African performing arts.',
+    "At Greater Place, we help young people discover what's within them, develop their gifts and abilities, execute with confidence and purpose, and grow into leaders who make an impact.",
 }
 
 // Content is Prisma-backed and must stay fresh; this also keeps `next build` independent of the database.
@@ -81,8 +81,8 @@ export default async function ProgramsPage() {
       <PageAtmosphere hero />
       <main id="main" className="text-atmos">
         <PageHero
-          eyebrow="What We Develop"
-          title="Every dancer builds more than technique."
+          eyebrow="Four Pathways of Growth at Greater Place"
+          title="Discover. Develop. Execute. Lead."
           actions={
             <>
               <Button variant="solidRed" href="/contact">
@@ -94,8 +94,8 @@ export default async function ProgramsPage() {
             </>
           }
         >
-          Four pillars run through everything we teach: disciplined training, faith and character, leadership, and
-          wellness, woven into movement rooted in African performing arts.
+          At Greater Place, we help young people discover what&apos;s within them, develop their gifts and abilities,
+          execute with confidence and purpose, and grow into leaders who make an impact.
         </PageHero>
 
         <section id="pathway" data-theme="light" className={SECTION}>
