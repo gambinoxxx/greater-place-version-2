@@ -7,17 +7,22 @@ import RevealOnScroll from '@/components/RevealOnScroll'
 import SectionHeader from '@/components/SectionHeader'
 import PageHero from '@/components/PageHero'
 import GiveButton from '@/components/GiveButton'
+import SponsorMarquee from '@/components/SponsorMarquee'
+import prisma from '@/lib/prisma'
 import { SOCIAL_LINKS } from '@/lib/site'
 
 // Copy is from docs/design-references/donate.html and is fixed prose, so it is hardcoded (like
 // /contact, /our-story and /get-involved). No payment processor is connected: the "give" buttons
 // expand into an amount card that opens Cash App (components/GiveButton.jsx). The cashtag is a
-// constant, so unlike /get-involved this page reads no env var and stays statically rendered.
+// constant, so this page reads no env var; it is Prisma-backed now (the sponsors marquee), so it
+// is dynamic like every other Prisma-backed page here, not statically rendered.
 export const metadata = {
   title: 'Donate - Greater Place',
   description:
     'Every gift covers something specific: a scholarship spot, a season of training, a stage a young person gets to stand on. Give once, or give monthly.',
 }
+
+export const dynamic = 'force-dynamic'
 
 const CONTAINER = 'mx-auto w-full max-w-[1280px] px-5 md:px-8 lg:px-12'
 const SECTION = 'scroll-mt-24 py-20 md:py-28'
@@ -68,7 +73,9 @@ function GiveCard({ tag, title, description, amounts, children }) {
   )
 }
 
-export default function DonatePage() {
+export default async function DonatePage() {
+  const sponsors = await prisma.sponsor.findMany({ orderBy: { createdAt: 'asc' } })
+
   return (
     <>
       <SiteHeader />
@@ -118,6 +125,17 @@ export default function DonatePage() {
             </RevealOnScroll>
           </div>
         </section>
+
+        {sponsors.length > 0 && (
+          <section data-theme="light" className="py-14 md:py-16">
+            <div className={CONTAINER}>
+              <p className="text-center text-xs font-bold uppercase tracking-[0.2em] text-atmos-muted">Supported by</p>
+              <RevealOnScroll className="mt-8">
+                <SponsorMarquee sponsors={sponsors} />
+              </RevealOnScroll>
+            </div>
+          </section>
+        )}
 
         <section id="give" data-theme="light" className={SECTION}>
           <div className={CONTAINER}>
