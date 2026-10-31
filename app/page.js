@@ -26,13 +26,10 @@ export const dynamic = 'force-dynamic'
 const CONTAINER = 'mx-auto w-full max-w-[1280px] px-5 md:px-8 lg:px-12'
 const SECTION = 'scroll-mt-24 py-20 md:py-28'
 
-// Working positioning from docs/project-overview.md.
-const POSITIONING = [
-  'Dance is the vehicle.',
-  'Empowerment is the purpose.',
-  'Culture is part of the identity.',
-  'Opportunity is the outcome.',
-]
+// Working positioning from docs/project-overview.md, condensed from its original four-line ladder
+// (Dance is the vehicle. / Empowerment is the purpose. / Culture is part of the identity. /
+// Opportunity is the outcome.) into one sentence carrying the same four ideas.
+const POSITIONING = 'Dance is the vehicle for empowerment, culture and opportunity.'
 
 // Local constant: Culture has no Prisma model (open decision). The only culture-related content
 // in the docs is the class list in docs/implementation-roadmap.md (Phase 4), so these are used as
@@ -100,11 +97,7 @@ export default async function Home() {
             <RevealOnScroll className="px-5 py-20 md:px-12 md:py-28 lg:px-16">
               <div className="lg:max-w-xl">
                 <SectionHeader label="Our Story" href="/our-story" linkLabel="Read our story" />
-                <ul className="mt-10 space-y-2 font-serif text-3xl leading-tight md:text-4xl">
-                  {POSITIONING.map((line) => (
-                    <li key={line}>{line}</li>
-                  ))}
-                </ul>
+                <p className="mt-10 font-serif text-3xl leading-tight md:text-4xl">{POSITIONING}</p>
                 <p className="mt-8 leading-relaxed text-atmos-muted">
                   Greater Place is a performing arts, ministry, and youth-development nonprofit serving young people
                   approximately ages 8–33.
@@ -267,6 +260,12 @@ export default async function Home() {
           <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-brand-black/75 lg:hidden" />
           <div aria-hidden="true" className="pointer-events-none absolute inset-0 hidden bg-gradient-to-r from-brand-black/80 via-brand-black/55 to-brand-black/10 lg:block" />
           <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent from-60% to-brand-black" />
+          {/* Top veil: the page atmosphere is still easing from light to dark as this section begins, so
+              a hard cut straight into the dark scrim above reads abruptly. This softens the first quarter
+              of the section back toward the page's own light tone before fully committing to the dark
+              photo, extending that transition rather than cutting it off. Capped well under full opacity
+              (peaks at 70%, not solid) so it never washes out the heading/label text sitting just below it. */}
+          <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-gradient-to-b from-brand-ivory/70 via-brand-ivory/15 via-15% to-transparent to-25%" />
           <div className={`${CONTAINER} relative`}>
             <SectionHeader label="Support Greater Place" />
             <RevealOnScroll>
