@@ -14,6 +14,7 @@ const NAV = [
   { label: 'Media Library', href: '/admin/media', icon: <><rect x="3" y="4" width="18" height="15" rx="1.5" /><circle cx="8.5" cy="9.5" r="1.5" /><path d="M21 15l-5.5-5.5L4 20" /></> },
   { label: 'Events', href: '/admin/events', icon: <><rect x="3" y="4" width="18" height="17" rx="1.5" /><path d="M3 9h18M8 2v4M16 2v4" /></> },
   { label: 'Programs & Classes', href: '/admin/programs', icon: <><rect x="3" y="3" width="7" height="7" rx="1" /><rect x="14" y="3" width="7" height="7" rx="1" /><rect x="3" y="14" width="7" height="7" rx="1" /><rect x="14" y="14" width="7" height="7" rx="1" /></> },
+  { label: 'Sponsors', href: '/admin/sponsors', icon: <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" /> },
   { label: 'Contact', href: '/admin/contact', icon: <><rect x="3" y="5" width="18" height="14" rx="1.5" /><path d="M3.5 6.5l8.5 6.5 8.5-6.5" /></>, badge: true },
 ]
 

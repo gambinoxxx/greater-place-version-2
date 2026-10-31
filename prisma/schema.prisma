@@ -74,3 +74,13 @@ model ContactSubmission {
   isRead    Boolean  @default(false)
   createdAt DateTime @default(now())
 }
+
+// Logos shown in the homepage "Supported by" marquee. Managed from /admin/sponsors.
+model Sponsor {
+  id        String   @id @default(cuid())
+  name      String
+  logo      String
+  website   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

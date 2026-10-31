@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import Button from '@mui/material/Button'
 import SiteHeader from '@/components/SiteHeader'
 import SiteFooter from '@/components/SiteFooter'
@@ -11,12 +12,13 @@ import EventCard from '@/components/EventCard'
 import ProgramCard from '@/components/ProgramCard'
 import EventsCarousel from '@/components/EventsCarousel'
 import StoriesRotator from '@/components/StoriesRotator'
+import SponsorMarquee from '@/components/SponsorMarquee'
 import prisma from '@/lib/prisma'
 import { getEvents } from '@/lib/events'
 import { isImageUrl } from '@/lib/image-url'
 import { SOCIAL_LINKS } from '@/lib/site'
 import { TESTIMONIALS } from '@/lib/testimonials'
-import { buildChatHref, buildRsvpHref } from '@/lib/whatsapp'
+import { buildRsvpHref } from '@/lib/whatsapp'
 
 // Content is Prisma-backed and must stay fresh; this also keeps `next build` independent of the database.
 export const dynamic = 'force-dynamic'
@@ -52,13 +54,12 @@ const HERO_SLIDES = [
 ]
 
 export default async function Home() {
-  const [{ upcoming }, programs, team] = await Promise.all([
+  const [{ upcoming }, programs, team, sponsors] = await Promise.all([
     getEvents(),
     prisma.program.findMany({ orderBy: { createdAt: 'asc' } }),
     prisma.teamMember.findMany({ orderBy: { createdAt: 'asc' } }),
+    prisma.sponsor.findMany({ orderBy: { createdAt: 'asc' } }),
   ])
-
-  const chatHref = buildChatHref()
 
   return (
     <>
@@ -131,6 +132,12 @@ export default async function Home() {
                   </p>
                 )}
               </div>
+              <p className="mt-8 text-sm text-atmos-muted">
+                Want us to dance at your wedding, church service or community event?{' '}
+                <Link href="/contact?reason=Book%20an%20Event" className="underline underline-offset-4 hover:text-atmos">
+                  Book an event →
+                </Link>
+              </p>
             </RevealOnScroll>
           </div>
         </section>
@@ -234,18 +241,33 @@ export default async function Home() {
           </div>
         </section>
 
-        <section id="stories" data-theme="dark" className={SECTION}>
-          <div className={CONTAINER}>
-            <SectionHeader label="Stories of Change" accent="blue" href="/blog" linkLabel="More stories" />
-            <RevealOnScroll>
-              <h2 className="mt-8 font-serif text-4xl md:text-5xl">Real stories, in their own words.</h2>
-              <StoriesRotator stories={TESTIMONIALS} />
-            </RevealOnScroll>
-          </div>
-        </section>
+        {sponsors.length > 0 && (
+          <section id="supporters" data-theme="light" className="scroll-mt-24 py-14 md:py-16">
+            <div className={CONTAINER}>
+              <p className="text-center text-xs font-bold uppercase tracking-[0.2em] text-atmos-muted">Supported by</p>
+              <RevealOnScroll className="mt-8">
+                <SponsorMarquee sponsors={sponsors} />
+              </RevealOnScroll>
+            </div>
+          </section>
+        )}
 
-        <section id="support" data-theme="dark" className={SECTION}>
-          <div className={CONTAINER}>
+        <section id="support" data-theme="dark" className={`${SECTION} relative overflow-hidden`}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/donate.PNG"
+            alt=""
+            loading="lazy"
+            className="pointer-events-none absolute inset-0 h-full w-full object-cover object-[78%_center]"
+          />
+          {/* Scrim: solid dark on phones (the photo is too narrow there to leave room for the text), a
+              left-to-right fade on larger screens (dark over the text, lighter toward the jar on the
+              right), same approach as the Donate page hero. Fades to solid black at the bottom so the
+              section blends into whatever comes after it. */}
+          <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-brand-black/75 lg:hidden" />
+          <div aria-hidden="true" className="pointer-events-none absolute inset-0 hidden bg-gradient-to-r from-brand-black/80 via-brand-black/55 to-brand-black/10 lg:block" />
+          <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent from-60% to-brand-black" />
+          <div className={`${CONTAINER} relative`}>
             <SectionHeader label="Support Greater Place" />
             <RevealOnScroll>
               <h2 className="mt-8 max-w-3xl font-serif text-4xl md:text-5xl">Support Greater Place</h2>
@@ -267,24 +289,12 @@ export default async function Home() {
           </div>
         </section>
 
-        <section data-theme="dark" className={SECTION}>
+        <section id="stories" data-theme="dark" className={SECTION}>
           <div className={CONTAINER}>
-            <SectionHeader label="Contact" href="/contact" linkLabel="Contact page" />
+            <SectionHeader label="Stories of Change" accent="blue" href="/blog" linkLabel="More stories" />
             <RevealOnScroll>
-              <h2 className="mt-8 font-serif text-4xl md:text-5xl">Get in touch</h2>
-              <p className="mt-6 max-w-xl text-lg leading-relaxed text-atmos-muted">
-                Questions about programs, classes, or events? Reach out to the Greater Place team.
-              </p>
-              <div className="mt-10 flex flex-wrap gap-4">
-                <Button variant="solidRed" href="/contact">
-                  Contact us
-                </Button>
-                {chatHref && (
-                  <Button variant="outline" href={chatHref} target="_blank" rel="noopener noreferrer">
-                    Message us on WhatsApp
-                  </Button>
-                )}
-              </div>
+              <h2 className="mt-8 font-serif text-4xl md:text-5xl">Real stories, in their own words.</h2>
+              <StoriesRotator stories={TESTIMONIALS} />
             </RevealOnScroll>
           </div>
         </section>

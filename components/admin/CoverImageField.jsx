@@ -8,7 +8,7 @@ import { BTN_SMALL, FIELD_ERROR, INPUT, LABEL } from '@/components/admin/ui'
 // Image field for the editors: a labelled dropzone ("Drag & drop an image, or browse files") that uploads
 // through Phase 9's useImageUpload (signed by /api/imagekit-auth, straight to ImageKit), plus a URL box
 // for reusing an image copied from the Media Library. Stores the delivered URL in the field.
-export default function CoverImageField({ label = 'Cover Image', value, onChange, error, folder, imageEndpoint, hint = 'JPG, PNG, WebP, GIF or AVIF, up to 10 MB' }) {
+export default function CoverImageField({ label = 'Cover Image', value, onChange, error, folder, imageEndpoint, hint = 'JPG, PNG, WebP, GIF or AVIF, up to 10 MB', contain = false }) {
   const inputRef = useRef(null)
   const [over, setOver] = useState(false)
   const { upload, uploading, progress, error: uploadError } = useImageUpload({ folder, tags: ['admin'] })
@@ -24,7 +24,12 @@ export default function CoverImageField({ label = 'Cover Image', value, onChange
       <span className={LABEL}>{label}</span>
       {value ? (
         <div className="overflow-hidden rounded-lg border border-brand-ivory/[0.14]">
-          <AdminImage src={value} endpoint={imageEndpoint} width={900} className="aspect-[16/9] w-full bg-brand-navyDeep object-cover" />
+          <AdminImage
+            src={value}
+            endpoint={imageEndpoint}
+            width={900}
+            className={`aspect-[16/9] w-full ${contain ? 'bg-brand-ivory object-contain p-6' : 'bg-brand-navyDeep object-cover'}`}
+          />
           <div className="flex items-center justify-between gap-3 border-t border-brand-ivory/[0.14] px-3 py-2">
             <span className="min-w-0 truncate text-xs text-brand-ivory/[0.55]" title={value}>{value}</span>
             <div className="flex shrink-0 gap-2">
