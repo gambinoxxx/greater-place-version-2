@@ -13,9 +13,11 @@ import ProgramCard from '@/components/ProgramCard'
 import EventsCarousel from '@/components/EventsCarousel'
 import StoriesRotator from '@/components/StoriesRotator'
 import SponsorMarquee from '@/components/SponsorMarquee'
+import PathwayStairs from '@/components/PathwayStairs'
 import prisma from '@/lib/prisma'
 import { getEvents } from '@/lib/events'
 import { isImageUrl } from '@/lib/image-url'
+import { PATHWAY } from '@/lib/pathway'
 import { SOCIAL_LINKS } from '@/lib/site'
 import { TESTIMONIALS } from '@/lib/testimonials'
 import { buildRsvpHref } from '@/lib/whatsapp'
@@ -135,17 +137,18 @@ export default async function Home() {
           </div>
         </section>
 
-        <section id="training" data-theme="light" className={SECTION}>
+        <section id="training" data-theme="light" className={`${SECTION} relative overflow-hidden`}>
           <div className={CONTAINER}>
             <SectionHeader label="Pathway & Training" accent="gold" href="/training" linkLabel="Explore training" />
-            <RevealOnScroll>
-              <h2 className="mt-8 font-serif text-4xl md:text-5xl">Discover, develop, execute, lead.</h2>
-              <div className="mt-12">
-                <Button variant="solidRed" href="/training">
-                  Explore training
-                </Button>
-              </div>
-            </RevealOnScroll>
+            <PathwayStairs stages={PATHWAY}>
+              <h2 className="font-serif text-4xl md:text-5xl lg:text-[56px] lg:leading-[1.08]">Discover, develop, perform, lead.</h2>
+              <p className="mt-5 max-w-md text-lg leading-relaxed text-atmos-muted">
+                No audition needed to begin. Every dancer starts at the first step and grows from there.
+              </p>
+              <Link href="/training" className="mt-8 inline-flex items-center border-b-[3px] border-brand-gold bg-brand-navy px-10 py-5 text-sm font-bold uppercase tracking-[0.12em] text-brand-ivory transition-colors hover:bg-brand-gold hover:text-brand-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-black motion-reduce:transition-none">
+                Explore training
+              </Link>
+            </PathwayStairs>
           </div>
         </section>
 

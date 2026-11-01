@@ -101,3 +101,63 @@ html[data-atmosphere] body {
     display: none;
   }
 }
+
+/* Homepage "Pathway & Training" stairs (components/PathwayStairs.jsx).
+   The reveal only applies once JS has armed it, so without JS or with reduced motion everything is visible. */
+.gp-step {
+  background: linear-gradient(180deg, rgba(217, 164, 65, var(--a)), rgba(217, 164, 65, 0) 70%), #101826;
+  transition: transform 0.85s cubic-bezier(0.2, 0.8, 0.2, 1) calc(var(--i) * 0.28s),
+    opacity 0.6s ease calc(var(--i) * 0.28s);
+}
+.gp-sun {
+  transition: opacity 0.9s ease 1.25s, transform 1s cubic-bezier(0.2, 0.8, 0.2, 1) 1.25s;
+}
+.gp-dancer {
+  transition: opacity 0.9s ease 1.55s, transform 1s cubic-bezier(0.2, 0.8, 0.2, 1) 1.55s;
+}
+.gp-stairs[data-armed='true']:not([data-play='true']) .gp-step {
+  transform: translateY(100%);
+}
+.gp-stairs[data-armed='true']:not([data-play='true']) .gp-sun {
+  opacity: 0;
+  transform: scale(0.55);
+}
+.gp-stairs[data-armed='true']:not([data-play='true']) .gp-dancer {
+  opacity: 0;
+  transform: translateY(46px);
+}
+@media (max-width: 1023px) {
+  .gp-stairs[data-armed='true']:not([data-play='true']) .gp-step {
+    transform: translateX(-28px);
+    opacity: 0;
+  }
+  .gp-stairs[data-armed='true']:not([data-play='true']) .gp-dancer {
+    transform: translateY(24px);
+  }
+}
+.gp-mote {
+  opacity: 0;
+  animation: gp-mote-rise var(--dur) linear infinite;
+  animation-delay: calc(var(--wait) * -1);
+}
+.gp-stairs[data-armed='true']:not([data-play='true']) .gp-mote {
+  animation-play-state: paused;
+}
+@keyframes gp-mote-rise {
+  0% { transform: translateY(0); opacity: 0; }
+  12% { opacity: 0.8; }
+  85% { opacity: 0.5; }
+  100% { transform: translateY(-560px); opacity: 0; }
+}
+@media (min-width: 1024px) {
+  .gp-sun { animation: gp-sun-drift 10s ease-in-out 2.6s infinite; }
+}
+@keyframes gp-sun-drift {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(-14px, 12px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gp-step, .gp-sun, .gp-dancer { transition: none; }
+  .gp-sun { animation: none; }
+  .gp-mote { display: none; }
+}
