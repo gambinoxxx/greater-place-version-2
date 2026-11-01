@@ -241,6 +241,17 @@ export default async function Home() {
           </div>
         </section>
 
+        {sponsors.length > 0 && (
+          <section id="supporters" data-theme="light" className="scroll-mt-24 py-14 md:py-16">
+            <div className={CONTAINER}>
+              <p className="text-center text-xs font-bold uppercase tracking-[0.2em] text-atmos-muted">Supported by</p>
+              <RevealOnScroll className="mt-8">
+                <SponsorMarquee sponsors={sponsors} />
+              </RevealOnScroll>
+            </div>
+          </section>
+        )}
+
         <section id="team" data-theme="light" className={SECTION}>
           <div className={CONTAINER}>
             <SectionHeader label="Team" href="/our-story#leadership" linkLabel="Full Team" />
@@ -277,17 +288,6 @@ export default async function Home() {
             </RevealOnScroll>
           </div>
         </section>
-
-        {sponsors.length > 0 && (
-          <section id="supporters" data-theme="light" className="scroll-mt-24 py-14 md:py-16">
-            <div className={CONTAINER}>
-              <p className="text-center text-xs font-bold uppercase tracking-[0.2em] text-atmos-muted">Supported by</p>
-              <RevealOnScroll className="mt-8">
-                <SponsorMarquee sponsors={sponsors} />
-              </RevealOnScroll>
-            </div>
-          </section>
-        )}
 
         <section id="stories" data-theme="dark" className={SECTION}>
           <div className={CONTAINER}>
