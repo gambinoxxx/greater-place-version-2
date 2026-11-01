@@ -200,7 +200,7 @@ export default async function Home() {
           </div>
         </section>
 
-        <section id="support" data-theme="dark" className={`${SECTION} relative overflow-hidden`}>
+        <section id="support" data-theme="light" className={`${SECTION} relative overflow-hidden`}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/donate.PNG"
@@ -208,19 +208,14 @@ export default async function Home() {
             loading="lazy"
             className="pointer-events-none absolute inset-0 h-full w-full object-cover object-[78%_center]"
           />
-          {/* Scrim: solid dark on phones (the photo is too narrow there to leave room for the text), a
-              left-to-right fade on larger screens (dark over the text, lighter toward the jar on the
-              right), same approach as the Donate page hero. Fades to solid black at the bottom so the
-              section blends into whatever comes after it. */}
-          <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-brand-black/75 lg:hidden" />
-          <div aria-hidden="true" className="pointer-events-none absolute inset-0 hidden bg-gradient-to-r from-brand-black/80 via-brand-black/55 to-brand-black/10 lg:block" />
-          <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent from-60% to-brand-black" />
-          {/* Top veil: the page atmosphere is still easing from light to dark as this section begins, so
-              a hard cut straight into the dark scrim above reads abruptly. This softens the first quarter
-              of the section back toward the page's own light tone before fully committing to the dark
-              photo, extending that transition rather than cutting it off. Capped well under full opacity
-              (peaks at 70%, not solid) so it never washes out the heading/label text sitting just below it. */}
-          <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-gradient-to-b from-brand-ivory/70 via-brand-ivory/15 via-15% to-transparent to-25%" />
+          {/* Scrim: light wash, not dark. This section now sits between two light sections (Culture
+              above, Team below), not leading into a dark one, so it reads as white like the rest of the
+              page -- same photo and the same directional logic as before (solid on phones, a
+              left-to-right fade on larger screens so the jar stays visible on the right while the text
+              side has enough wash for the section's own dark-on-light text to read clearly), just ivory
+              instead of black. No bottom fade-to-black needed any more: Team right below is light too. */}
+          <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-brand-ivory/80 lg:hidden" />
+          <div aria-hidden="true" className="pointer-events-none absolute inset-0 hidden bg-gradient-to-r from-brand-ivory/88 via-brand-ivory/60 to-brand-ivory/15 lg:block" />
           <div className={`${CONTAINER} relative`}>
             <SectionHeader label="Support Greater Place" />
             <RevealOnScroll>
@@ -232,7 +227,10 @@ export default async function Home() {
                 <Button variant="solidRed" href="/donate">
                   Donate
                 </Button>
-                <Button variant="solidWhite" href="/get-involved#partner">
+                {/* solidWhite (white fill) is documented as "invisible on ivory" -- it was fine on the
+                    old dark photo treatment, but would all but disappear now that this section is light.
+                    outline adapts to the section's own text color, same as Volunteer right next to it. */}
+                <Button variant="outline" href="/get-involved#partner">
                   Partner With Us
                 </Button>
                 <Button variant="outline" href="/get-involved#volunteer">
