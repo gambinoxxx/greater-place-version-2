@@ -20,13 +20,13 @@ const THEMES = {
   dark: {
     text: 'text-brand-ivory',
     surface: 'bg-brand-black/80 border-brand-ivory/10',
-    pill: 'bg-brand-red text-brand-white hover:bg-brand-redDeep',
+    pill: 'bg-brand-navy text-brand-ivory ring-1 ring-brand-gold hover:bg-brand-gold hover:text-brand-black',
     focus: 'focus-visible:outline-brand-ivory',
   },
   light: {
     text: 'text-brand-black',
     surface: 'bg-brand-ivory/90 border-brand-black/10',
-    pill: 'bg-brand-black text-brand-ivory hover:bg-brand-navy',
+    pill: 'bg-brand-navy text-brand-ivory ring-1 ring-brand-gold hover:bg-brand-gold hover:text-brand-black',
     focus: 'focus-visible:outline-brand-black',
   },
 }
@@ -195,7 +195,7 @@ export default function SiteHeader() {
             <li className="pt-3 sm:hidden">
               <Link
                 href="/#support"
-                className="inline-flex items-center rounded-full bg-brand-red px-5 py-2.5 text-xs font-bold uppercase tracking-[0.16em] text-brand-white hover:bg-brand-redDeep focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-ivory"
+                className="inline-flex items-center rounded-full bg-brand-navy px-5 py-2.5 text-xs font-bold uppercase tracking-[0.16em] text-brand-ivory ring-1 ring-brand-gold hover:bg-brand-gold hover:text-brand-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-ivory"
               >
                 Get Involved
               </Link>

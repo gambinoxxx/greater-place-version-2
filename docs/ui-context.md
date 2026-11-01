@@ -138,7 +138,7 @@ Buttons are MUI `Button` theme variants defined in `lib/theme.js` (`components.M
 
 | `variant` | Treatment | Use |
 |---|---|---|
-| `solidRed` | `error.main` fill, white text, hover `error.dark` | Primary CTA |
+| `solidNavy` (alias `solidRed`) | Navy fill, gold underline, hover gold fill with black text | Primary CTA |
 | `outline` | 1px `currentColor` border, inherited text color, subtle `currentColor` tint on hover | Secondary action; adapts to dark and light sections |
 | `solidWhite` | `primary.main` (white) fill, `brand-black` text, hover ivory | CTA on dark surfaces or photography (invisible on ivory) |
 

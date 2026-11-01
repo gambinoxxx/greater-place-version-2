@@ -145,9 +145,9 @@ export default async function Home() {
               <p className="mt-5 max-w-md text-lg leading-relaxed text-atmos-muted">
                 No audition needed to begin. Every dancer starts at the first step and grows from there.
               </p>
-              <Link href="/training" className="mt-8 inline-flex items-center border-b-[3px] border-brand-gold bg-brand-navy px-10 py-5 text-sm font-bold uppercase tracking-[0.12em] text-brand-ivory transition-colors hover:bg-brand-gold hover:text-brand-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-black motion-reduce:transition-none">
+              <Button variant="solidNavy" href="/training" className="mt-8">
                 Explore training
-              </Link>
+              </Button>
             </PathwayStairs>
           </div>
         </section>
@@ -200,6 +200,49 @@ export default async function Home() {
           </div>
         </section>
 
+        <section id="support" data-theme="dark" className={`${SECTION} relative overflow-hidden`}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/donate.PNG"
+            alt=""
+            loading="lazy"
+            className="pointer-events-none absolute inset-0 h-full w-full object-cover object-[78%_center]"
+          />
+          {/* Scrim: solid dark on phones (the photo is too narrow there to leave room for the text), a
+              left-to-right fade on larger screens (dark over the text, lighter toward the jar on the
+              right), same approach as the Donate page hero. Fades to solid black at the bottom so the
+              section blends into whatever comes after it. */}
+          <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-brand-black/75 lg:hidden" />
+          <div aria-hidden="true" className="pointer-events-none absolute inset-0 hidden bg-gradient-to-r from-brand-black/80 via-brand-black/55 to-brand-black/10 lg:block" />
+          <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent from-60% to-brand-black" />
+          {/* Top veil: the page atmosphere is still easing from light to dark as this section begins, so
+              a hard cut straight into the dark scrim above reads abruptly. This softens the first quarter
+              of the section back toward the page's own light tone before fully committing to the dark
+              photo, extending that transition rather than cutting it off. Capped well under full opacity
+              (peaks at 70%, not solid) so it never washes out the heading/label text sitting just below it. */}
+          <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-gradient-to-b from-brand-ivory/70 via-brand-ivory/15 via-15% to-transparent to-25%" />
+          <div className={`${CONTAINER} relative`}>
+            <SectionHeader label="Support Greater Place" />
+            <RevealOnScroll>
+              <h2 className="mt-8 max-w-3xl font-serif text-4xl md:text-5xl">Support Greater Place</h2>
+              <p className="mt-6 max-w-xl text-lg leading-relaxed text-atmos-muted">
+                Give, partner, or volunteer to help young people move, grow &amp; lead.
+              </p>
+              <div className="mt-10 flex flex-wrap gap-4">
+                <Button variant="solidRed" href="/donate">
+                  Donate
+                </Button>
+                <Button variant="solidWhite" href="/get-involved#partner">
+                  Partner With Us
+                </Button>
+                <Button variant="outline" href="/get-involved#volunteer">
+                  Volunteer
+                </Button>
+              </div>
+            </RevealOnScroll>
+          </div>
+        </section>
+
         <section id="team" data-theme="light" className={SECTION}>
           <div className={CONTAINER}>
             <SectionHeader label="Team" href="/our-story#leadership" linkLabel="Full Team" />
@@ -247,49 +290,6 @@ export default async function Home() {
             </div>
           </section>
         )}
-
-        <section id="support" data-theme="dark" className={`${SECTION} relative overflow-hidden`}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/donate.PNG"
-            alt=""
-            loading="lazy"
-            className="pointer-events-none absolute inset-0 h-full w-full object-cover object-[78%_center]"
-          />
-          {/* Scrim: solid dark on phones (the photo is too narrow there to leave room for the text), a
-              left-to-right fade on larger screens (dark over the text, lighter toward the jar on the
-              right), same approach as the Donate page hero. Fades to solid black at the bottom so the
-              section blends into whatever comes after it. */}
-          <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-brand-black/75 lg:hidden" />
-          <div aria-hidden="true" className="pointer-events-none absolute inset-0 hidden bg-gradient-to-r from-brand-black/80 via-brand-black/55 to-brand-black/10 lg:block" />
-          <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent from-60% to-brand-black" />
-          {/* Top veil: the page atmosphere is still easing from light to dark as this section begins, so
-              a hard cut straight into the dark scrim above reads abruptly. This softens the first quarter
-              of the section back toward the page's own light tone before fully committing to the dark
-              photo, extending that transition rather than cutting it off. Capped well under full opacity
-              (peaks at 70%, not solid) so it never washes out the heading/label text sitting just below it. */}
-          <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-gradient-to-b from-brand-ivory/70 via-brand-ivory/15 via-15% to-transparent to-25%" />
-          <div className={`${CONTAINER} relative`}>
-            <SectionHeader label="Support Greater Place" />
-            <RevealOnScroll>
-              <h2 className="mt-8 max-w-3xl font-serif text-4xl md:text-5xl">Support Greater Place</h2>
-              <p className="mt-6 max-w-xl text-lg leading-relaxed text-atmos-muted">
-                Give, partner, or volunteer to help young people move, grow &amp; lead.
-              </p>
-              <div className="mt-10 flex flex-wrap gap-4">
-                <Button variant="solidRed" href="/donate">
-                  Donate
-                </Button>
-                <Button variant="solidWhite" href="/get-involved#partner">
-                  Partner With Us
-                </Button>
-                <Button variant="outline" href="/get-involved#volunteer">
-                  Volunteer
-                </Button>
-              </div>
-            </RevealOnScroll>
-          </div>
-        </section>
 
         <section id="stories" data-theme="dark" className={SECTION}>
           <div className={CONTAINER}>

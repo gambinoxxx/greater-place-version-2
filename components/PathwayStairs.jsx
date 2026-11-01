@@ -65,11 +65,11 @@ export default function PathwayStairs({ stages, children }) {
         />
       ))}
 
-      <div className="relative z-10 pt-7 lg:absolute lg:left-0 lg:top-10 lg:max-w-[560px] lg:pt-0">{children}</div>
+      <div className="relative z-40 pt-7 lg:absolute lg:left-0 lg:top-10 lg:max-w-[560px] lg:pt-0">{children}</div>
 
       <div
         aria-hidden="true"
-        className="relative z-20 mx-auto -mb-10 mt-3 h-[300px] w-fit lg:absolute lg:bottom-[318px] lg:right-3.5 lg:z-20 lg:m-0 lg:h-[318px]"
+        className="pointer-events-none relative z-20 mx-auto -mb-10 mt-3 h-[300px] w-fit lg:absolute lg:bottom-[318px] lg:right-3.5 lg:z-20 lg:m-0 lg:h-[318px]"
       >
         <div className="gp-sun absolute inset-0 m-auto h-[276px] w-[276px] rounded-full bg-[radial-gradient(circle_at_38%_32%,#F0C468,#D9A441_58%,#C68E2B)] lg:inset-auto lg:-bottom-[72px] lg:-right-2.5 lg:h-[380px] lg:w-[380px]" />
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -83,11 +83,11 @@ export default function PathwayStairs({ stages, children }) {
         />
       </div>
 
-      <ol className="relative z-30 lg:absolute lg:inset-0 lg:grid lg:grid-cols-4 lg:items-end">
+      <ol className="pointer-events-none relative z-30 lg:absolute lg:inset-0 lg:grid lg:grid-cols-4 lg:items-end">
         {stages.map((stage, i) => (
           <li
             key={stage.name}
-            className={`gp-step border-t-[3px] border-brand-gold px-5 py-5 text-brand-ivory max-lg:ml-[calc(var(--i)*7%)] lg:px-6 lg:pb-0 lg:pt-[22px] ${HEIGHTS[i]} lg:shadow-[-1px_0_0_rgba(255,255,255,0.07)]`}
+            className={`gp-step pointer-events-auto border-t-[3px] border-brand-gold px-5 py-5 text-brand-ivory max-lg:ml-[calc(var(--i)*7%)] lg:px-6 lg:pb-0 lg:pt-[22px] ${HEIGHTS[i]} lg:shadow-[-1px_0_0_rgba(255,255,255,0.07)]`}
             style={{ '--i': i, '--a': TINTS[i] }}
           >
             <p className="text-[13px] font-semibold text-brand-gold">Stage {i + 1}</p>
