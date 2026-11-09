@@ -200,44 +200,47 @@ export default async function Home() {
           </div>
         </section>
 
-        <section id="support" data-theme="light" className={`${SECTION} relative overflow-hidden`}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/donate.PNG"
-            alt=""
-            loading="lazy"
-            className="pointer-events-none absolute inset-0 h-full w-full object-cover object-[78%_center]"
-          />
-          {/* Scrim: light wash, not dark. This section now sits between two light sections (Culture
-              above, Team below), not leading into a dark one, so it reads as white like the rest of the
-              page -- same photo and the same directional logic as before (solid on phones, a
-              left-to-right fade on larger screens so the jar stays visible on the right while the text
-              side has enough wash for the section's own dark-on-light text to read clearly), just ivory
-              instead of black. No bottom fade-to-black needed any more: Team right below is light too. */}
-          <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-brand-ivory/80 lg:hidden" />
-          <div aria-hidden="true" className="pointer-events-none absolute inset-0 hidden bg-gradient-to-r from-brand-ivory/88 via-brand-ivory/60 to-brand-ivory/15 lg:block" />
-          <div className={`${CONTAINER} relative`}>
-            <SectionHeader label="Support Greater Place" />
-            <RevealOnScroll>
-              <h2 className="mt-8 max-w-3xl font-serif text-4xl md:text-5xl">Support Greater Place</h2>
-              <p className="mt-6 max-w-xl text-lg leading-relaxed text-atmos-muted">
-                Give, partner, or volunteer to help young people move, grow &amp; lead.
-              </p>
-              <div className="mt-10 flex flex-wrap gap-4">
-                <Button variant="solidRed" href="/donate">
-                  Donate
-                </Button>
-                {/* solidWhite (white fill) is documented as "invisible on ivory" -- it was fine on the
-                    old dark photo treatment, but would all but disappear now that this section is light.
-                    outline adapts to the section's own text color, same as Volunteer right next to it. */}
-                <Button variant="outline" href="/get-involved#partner">
-                  Partner With Us
-                </Button>
-                <Button variant="outline" href="/get-involved#volunteer">
-                  Volunteer
-                </Button>
+        <section id="support" data-theme="light" className={SECTION}>
+          <div className={CONTAINER}>
+            <SectionHeader label="Support Greater Place" href="/donate" linkLabel="Ways to give" />
+            <div className="mt-8 grid items-center gap-12 lg:grid-cols-12 lg:gap-16">
+              <div className="lg:col-span-7">
+                <RevealOnScroll>
+                  <h2 className="font-serif text-4xl leading-tight md:text-5xl">
+                    Invest in the next generation of performers &amp; leaders.
+                  </h2>
+                  <p className="mt-6 max-w-xl text-lg leading-relaxed text-atmos-muted">
+                    Every donation to Greater Place furthers our mission to develop confident, whole young people
+                    through dance, faith, and leadership. It takes a community to raise them.
+                  </p>
+                  <div className="mt-10 flex flex-wrap gap-4">
+                    <Button variant="solidRed" href="/donate">
+                      Donate
+                    </Button>
+                    <Button variant="outline" href="/get-involved#partner">
+                      Partner With Us
+                    </Button>
+                    <Button variant="outline" href="/get-involved#volunteer">
+                      Volunteer
+                    </Button>
+                  </div>
+                </RevealOnScroll>
               </div>
-            </RevealOnScroll>
+
+              <div className="lg:col-span-5">
+                <RevealOnScroll>
+                  <div className="relative aspect-[4/3] w-full overflow-hidden bg-atmos-tint sm:aspect-[16/11] lg:aspect-[4/5]">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src="/donate-where-It-goes.PNG"
+                      alt="Greater Place dancers in rehearsal"
+                      loading="lazy"
+                      className="h-full w-full object-cover object-[78%_center]"
+                    />
+                  </div>
+                </RevealOnScroll>
+              </div>
+            </div>
           </div>
         </section>
 
